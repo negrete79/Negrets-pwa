@@ -1,19 +1,23 @@
 {
-  "name": "NEGRET'S — PDV & Caixa",
+  "name": "NEGRET'S — PDV & Assistência Técnica",
   "short_name": "NEGRET'S",
-  "description": "PDV, Caixa e gestão de licenças NEGRET'S. Criado por Elias Costa NEGRET'S.",
+  "description": "PDV, ordens de serviço com checklist, estoque, financeiro, fiscal e marketplace para assistência técnica. Funciona offline.",
   "lang": "pt-BR",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#080808",
   "theme_color": "#080808",
-  "categories": ["business", "productivity", "finance"],
+  "background_color": "#080808",
+  "categories": ["business", "productivity", "shopping"],
   "icons": [
-    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "./icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "./icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "PDV — Balcão", "short_name": "PDV", "url": "./index.html#pdv" },
+    { "name": "OS — Ordens de Serviço", "short_name": "OS", "url": "./index.html#os" },
+    { "name": "Financeiro", "short_name": "Financeiro", "url": "./index.html#fin" }
   ]
 }
