@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NEGRET'S · Painel Admin</title>
+<meta name="description" content="NEGRET'S — Painel de administração de clientes e licenças. Criado por Elias Costa NEGRET'S.">
+<meta name="theme-color" content="#080808">
+<meta name="robots" content="noindex">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="NEGRET'S ADM">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/png" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<style>
+/* ============================================================
+   NEGRET'S — Painel Admin · CSS 100% puro e embutido
+   Criado por Elias Costa NEGRET'S
+   Cores: preto #080808 · dourado #C9A227 · verde #0F766E
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --ouro:#C9A227;--ouro2:#E0BC4B;--ouro3:#A8871F;
+  --verde:#0F766E;--verde2:#0C5D57;
+  --verm:#DC2626;--ambar:#D97706;--ok:#16A34A;
+  --r:14px;--sombra:0 12px 34px rgba(0,0,0,.4)
+}
+[data-theme="dark"]{--bg:#080808;--card:#131311;--card2:#1B1A16;--txt:#F3EFE3;--txt2:#A79F8C;--borda:#2B2820;--campo:#0C0C0A;--verde-txt:#4ADE80}
+[data-theme="light"]{--bg:#F4F1EA;--card:#FFFFFF;--card2:#F7F4EC;--txt:#1B1910;--txt2:#6F6A5B;--borda:#E3DECF;--campo:#FFFFFF;--verde-txt:#15803D}
+html{-webkit-text-size-adjust:100%}
+body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;transition:background .25s,color .25s}
+.hidden{display:none!important}
+img{max-width:100%}
+button{font-family:inherit;cursor:pointer}
+svg{flex:none}
+
+/* ---------- Cabeçalho do painel ---------- */
+.topo{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg);border-bottom:1px solid var(--borda);flex-wrap:wrap}
+.marca{width:44px;height:44px;flex:none;border-radius:12px;background:linear-gradient(155deg,var(--ouro2),var(--ouro) 55%,var(--ouro3));color:#171307;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;box-shadow:0 3px 12px rgba(201,162,39,.35)}
+.tit{min-width:0;display:flex;flex-direction:column;line-height:1.2}
+.tit .ola{display:flex;align-items:center;gap:7px;font-size:16px}
+.tit .ola b{letter-spacing:.3px}
+.btn-lapis{background:none;border:none;color:var(--txt2);padding:3px;display:flex}
+.btn-lapis:hover{color:var(--ouro)}
+.tit .mail{font-size:11.5px;color:var(--txt2);word-break:break-all}
+.topo .acoes{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.ibtn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:40px;min-width:40px;padding:0 11px;border-radius:11px;border:1px solid var(--borda);background:var(--card);color:var(--txt);font-size:13px;font-weight:700;transition:border-color .15s,color .15s}
+.ibtn:hover{border-color:var(--ouro);color:var(--ouro)}
+.ibtn .bl{white-space:nowrap}
+@media(max-width:760px){.topo .ibtn .bl{display:none}.topo .ibtn{padding:0 9px}}
+@media(max-width:760px){.topo .acoes{margin-left:54px;justify-content:flex-start;width:calc(100% - 54px)}}
+
+/* ---------- Login ---------- */
+.login{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:radial-gradient(900px 520px at 50% -5%,rgba(201,162,39,.14),transparent 60%),var(--bg)}
+.login-card{width:100%;max-width:420px;background:#FFFFFF;color:#1B1910;border-radius:20px;padding:28px 24px 22px;box-shadow:var(--sombra);border:1px solid #E7E2D3}
+.login-card .marca{margin:0 auto 16px;width:60px;height:60px;font-size:31px;border-radius:16px}
+.login-card h1{text-align:center;font-size:19px;letter-spacing:.3px}
+.login-card .sub{text-align:center;color:#6F6A5B;font-size:13.5px;margin:5px 0 22px}
+.login-card .campo{margin-bottom:14px}
+.login-card .campo .ic-esq{color:#8A857A}
+.login-card .inp{background:#F7F5EE;border-color:#E2DCCB;color:#1B1910}
+.login-card .inp:focus{border-color:var(--ouro)}
+.login-card .inp::placeholder{color:#8A857A}
+.login-card .olho{color:#8A857A}
+.login-card .olho:hover{color:var(--ouro)}
+.check{display:flex;align-items:center;gap:9px;font-size:14px;color:#3E3A2E;margin:2px 0 18px;cursor:pointer;font-weight:600}
+.check input{width:17px;height:17px;accent-color:var(--ouro)}
+.erro{background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.45);color:#DC2626;border-radius:10px;padding:10px 12px;font-size:13.5px;margin-bottom:12px}
+.btn-entrar{width:100%;padding:14px;font-size:16px}
+.lnk{display:block;text-align:center;margin-top:15px;color:#6F6A5B;font-size:13.5px;text-decoration:underline;cursor:pointer;background:none;border:none}
+.lnk:hover{color:var(--ouro)}
+.rodape-login{margin-top:20px;color:var(--txt2);font-size:12px;text-align:center}
+@keyframes tremer{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.tremer{animation:tremer .3s}
+
+/* ---------- Botões / campos (base) ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;padding:12px 18px;font-weight:800;font-size:15px;letter-spacing:.3px;transition:filter .15s,transform .05s,border-color .15s,color .15s}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-ouro{background:linear-gradient(180deg,var(--ouro2),var(--ouro));color:#1B1505;box-shadow:0 4px 16px rgba(201,162,39,.28)}
+.btn-ouro:hover{filter:brightness(1.06)}
+.btn-verde{background:var(--verde);color:#fff;box-shadow:0 4px 16px rgba(15,118,110,.3)}
+.btn-verde:hover{background:var(--verde2)}
+.btn-linha{background:transparent;border:1.5px solid var(--borda);color:var(--txt)}
+.btn-linha:hover{border-color:var(--ouro);color:var(--ouro)}
+.btn-perigo{background:transparent;border:1.5px solid rgba(220,38,38,.5);color:#F87171}
+.btn-whats{background:#1FA855;color:#fff}
+.btn-largo{width:100%}
+.rotulo{display:block;font-size:12.5px;font-weight:800;color:var(--txt2);margin:10px 0 6px;text-transform:uppercase;letter-spacing:.6px}
+.campo{position:relative;display:flex;align-items:center}
+.campo>.ic-esq{position:absolute;left:13px;color:var(--txt2);pointer-events:none}
+.campo .inp{padding-left:44px}
+.campo .olho{position:absolute;right:6px;background:none;border:none;color:var(--txt2);padding:8px;display:flex}
+.campo .olho:hover{color:var(--ouro)}
+.inp{width:100%;background:var(--campo);border:1.5px solid var(--borda);border-radius:12px;color:var(--txt);padding:12px 14px;font-size:16px;font-family:inherit;outline:none;transition:border-color .15s}
+.inp:focus{border-color:var(--ouro)}
+.inp::placeholder{color:var(--txt2);opacity:1}
+textarea.inp{resize:vertical;font-size:13px}
+.cod-inp{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:1.5px;font-weight:700}
+
+/* ---------- Métricas ---------- */
+.container{max-width:1180px;margin:0 auto;padding:14px 14px 44px}
+.metricas{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+@media(max-width:519px){.metricas .metric:nth-child(5){grid-column:1/-1}}
+@media(min-width:860px){.metricas{grid-template-columns:repeat(5,1fr)}}
+.metric{background:var(--card);border:1px solid var(--borda);border-radius:var(--r);padding:13px 14px;display:flex;flex-direction:column;gap:5px}
+.metric .mlab{font-size:11px;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px;font-weight:800;display:flex;align-items:center;gap:7px}
+.metric .mlab svg{color:var(--ouro)}
+.metric .mval{font-size:23px;font-weight:800;line-height:1.1}
+.metric .mval.verde{color:var(--verde-txt)}
+.metric .mval.ouro{color:var(--ouro)}
+.metric .mval.ambar{color:#F59E0B}
+.metric .mval.verm{color:#F87171}
+
+/* ---------- Controles ---------- */
+.controles{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.busca{position:relative}
+.busca>.ic-esq{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--txt2);pointer-events:none}
+.busca .inp{padding-left:44px}
+.filtros{display:flex;gap:8px;flex-wrap:wrap}
+.fchip{border:1.5px solid var(--borda);background:var(--card);color:var(--txt2);border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:800;transition:all .15s}
+.fchip:hover{border-color:var(--ouro);color:var(--ouro)}
+.fchip.ativo{background:var(--ouro);border-color:var(--ouro);color:#1B1505}
+.acoes-bar{display:flex;gap:8px;flex-wrap:wrap}
+@media(min-width:920px){.controles{flex-direction:row;align-items:center;flex-wrap:wrap}.busca{flex:1;max-width:380px}.filtros{margin-right:auto}}
+
+/* ---------- Badges ---------- */
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 12px;font-size:11.5px;font-weight:800;white-space:nowrap}
+.b-ativo{background:rgba(22,163,74,.12);color:#22C55E;border:1px solid rgba(22,163,74,.4)}
+.b-pendente{background:rgba(217,119,6,.12);color:#F59E0B;border:1px solid rgba(217,119,6,.4)}
+.b-expirado{background:rgba(220,38,38,.12);color:#F87171;border:1px solid rgba(220,38,38,.4)}
+.b-vitalicio{background:linear-gradient(180deg,#E7C558,#C9A227);color:#241B04;border:1px solid var(--ouro3)}
+.b-excluido{background:rgba(120,113,108,.15);color:var(--txt2);border:1px solid var(--borda)}
+
+/* ---------- Lista (tabela no PC · cards no celular) ---------- */
+.lista{background:var(--card);border:1px solid var(--borda);border-radius:var(--r);overflow:hidden}
+.tabela{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead th{background:var(--card2);color:var(--txt2);text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.6px;padding:12px;border-bottom:1px solid var(--borda);white-space:nowrap}
+tbody td{padding:12px;border-bottom:1px solid var(--borda);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--card2)}
+.td-sub{font-size:11px;color:var(--txt2);margin-top:2px}
+.td-email{color:var(--txt2);word-break:break-all}
+.td-acoes{white-space:nowrap}
+.acao-btn{display:inline-flex;align-items:center;justify-content:center;background:none;border:1px solid var(--borda);border-radius:9px;padding:8px;color:var(--txt2);margin-right:5px;transition:all .15s}
+.acao-btn:hover{color:var(--ouro);border-color:var(--ouro)}
+.acao-btn.perigo:hover{color:#F87171;border-color:#F87171}
+.cards-mob{display:none}
+@media(max-width:767px){
+  .tabela{display:none}
+  .cards-mob{display:block;padding:6px 10px}
+  .ccard{border-bottom:1px solid var(--borda);padding:13px 4px}
+  .ccard:last-child{border-bottom:none}
+  .cc-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+  .cc-top b{font-size:15px}
+  .cc-linha{font-size:12.5px;color:var(--txt2)}
+  .cc-email{word-break:break-all}
+  .cc-rodape{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+  .cc-valor{color:var(--ouro);font-weight:800}
+  .cc-acoes{display:flex;gap:5px}
+}
+.vazio{border:1.5px dashed var(--borda);border-radius:var(--r);padding:36px 18px;text-align:center;color:var(--txt2);font-size:14px;display:flex;flex-direction:column;align-items:center;gap:10px;margin:14px}
+
+/* ---------- Modais ---------- */
+.modal{position:fixed;inset:0;z-index:90;background:rgba(4,4,3,.74);display:flex;align-items:center;justify-content:center;padding:14px}
+.mbox{width:100%;max-width:470px;max-height:92dvh;overflow:auto;background:var(--card);border:1px solid var(--borda);border-radius:18px;padding:18px 18px 20px;box-shadow:var(--sombra);animation:pop .18s}
+@media(min-width:700px){.mbox{max-width:520px}}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}}
+.mhead{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.mhead h3{font-size:17.5px;flex:1;min-width:0;line-height:1.25}
+.mfechar{background:none;border:none;color:var(--txt2);padding:6px;display:flex}
+.mfechar:hover{color:var(--txt)}
+.modal-sub{color:var(--txt2);font-size:14px;margin:-6px 0 14px}
+.m-acoes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+
+/* ---------- Licença (caixas verdes) + códigos ---------- */
+.lic-caixa{border:1.5px solid rgba(22,163,74,.65);background:rgba(22,163,74,.09);border-radius:14px;padding:14px 12px;text-align:center;margin-bottom:10px}
+.lic-caixa .l1{font-weight:800;font-size:15.5px;color:var(--verde-txt);line-height:1.35}
+.lic-ate{font-size:20px;font-weight:800}
+.lic-mail{font-size:13px;color:var(--txt2);margin-top:3px;word-break:break-all}
+.lic-nunca{color:var(--ouro);font-weight:800;text-align:center;font-size:13.5px;margin:2px 0 6px}
+.secao-tit{font-size:13px;font-weight:800;color:var(--txt2);text-transform:uppercase;letter-spacing:.6px;margin:16px 0 10px}
+.cod-linha{display:flex;align-items:center;gap:10px;border:1px solid var(--borda);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.cod-neg{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:1px;color:var(--ouro);font-weight:700}
+.cod-sub{font-size:11.5px;color:var(--txt2);margin-top:2px}
+.cod-linha .badge{margin-left:auto;flex:none}
+.cod-linha .acao-btn{margin-right:0}
+
+/* ---------- Abas ---------- */
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tab{flex:1;padding:11px;border:1.5px solid var(--borda);background:var(--card);color:var(--txt2);border-radius:12px;font-weight:800;font-size:14px;transition:all .15s}
+.tab:hover{border-color:var(--ouro)}
+.tab.ativo{border-color:var(--ouro);color:var(--ouro);background:rgba(201,162,39,.08)}
+
+/* ---------- Toasts ---------- */
+#toasts{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:120;display:flex;flex-direction:column;gap:8px;width:min(92vw,430px);pointer-events:none}
+.toast{background:#1C1A15;color:#F3EFE4;border:1px solid var(--borda);border-left:3px solid var(--ouro);border-radius:12px;padding:12px 14px;font-size:14px;box-shadow:0 8px 30px rgba(0,0,0,.45);animation:tin .25s;transition:opacity .35s,transform .35s;word-break:break-word}
+[data-theme="light"] .toast{background:#26241C}
+.toast.ok{border-left-color:var(--ok)}
+.toast.err{border-left-color:var(--verm)}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}}
+</style>
+</head>
+<body>
+<noscript><p style="padding:20px;text-align:center">O NEGRET'S precisa de JavaScript ativado para funcionar.</p></noscript>
+
+<!-- ================= TELA DE LOGIN ================= -->
+<div class="login" id="loginView">
+  <div class="login-card">
+    <div class="marca">N</div>
+    <h1>NEGRET'S · Painel Admin</h1>
+    <p class="sub">Acesso restrito ao administrador</p>
+    <form id="formLogin" novalidate>
+      <div class="campo">
+        <span class="ic-esq" id="icMail"></span>
+        <input class="inp" id="lEmail" type="email" inputmode="email" placeholder="E-mail" autocomplete="username" value="admin@negrets.com" aria-label="E-mail">
+      </div>
+      <div class="campo">
+        <span class="ic-esq" id="icLock"></span>
+        <input class="inp" id="lSenha" type="password" placeholder="Senha" autocomplete="current-password" aria-label="Senha">
+        <button class="olho" id="olhoBtn" type="button" aria-label="Mostrar ou ocultar senha"></button>
+      </div>
+      <label class="check"><input type="checkbox" id="lLembrar" checked> Lembrar de mim</label>
+      <div class="erro hidden" id="lErro">E-mail ou senha incorretos.</div>
+      <button class="btn btn-ouro btn-entrar" id="btnEntrar" type="submit">Entrar</button>
+    </form>
+    <button class="lnk" id="lnkEsqueci" type="button">Esqueceu a senha?</button>
+  </div>
+  <p class="rodape-login">NEGRET'S • Área restrita • Criado por Elias Costa NEGRET'S</p>
+</div>
+
+<!-- ================= PAINEL ================= -->
+<div class="hidden" id="painelView">
+  <header class="topo">
+    <div class="marca">N</div>
+    <div class="tit">
+      <span class="ola"><b>Olá, <span id="admNome">Elias</span></b><button class="btn-lapis" id="btnNome" title="Editar nome" aria-label="Editar nome"></button></span>
+      <span class="mail" id="admEmail">admin@negrets.com</span>
+    </div>
+    <div class="acoes">
+      <button class="ibtn" id="btnTema" title="Tema claro/escuro" aria-label="Tema"></button>
+      <button class="ibtn" id="btnWhats" title="WhatsApp" aria-label="WhatsApp"><span class="bl">WhatsApp</span></button>
+      <button class="ibtn" id="btnConfig" title="Configurações" aria-label="Configurações"><span class="bl">Configurações</span></button>
+      <button class="ibtn" id="btnInstalar" title="Instalar App" aria-label="Instalar App"><span class="bl">Instalar App</span></button>
+      <button class="ibtn" id="btnSair" title="Sair" aria-label="Sair"><span class="bl">Sair</span></button>
+      <button class="ibtn" id="btnLic" title="Licença" aria-label="Licença"><span class="bl">Licença</span></button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Métricas -->
+    <section class="metricas">
+      <div class="metric"><span class="mlab" id="labM1">Ativos agora</span><b class="mval verde" id="mAtivos">0</b></div>
+      <div class="metric"><span class="mlab" id="labM2">Faturado 30 dias</span><b class="mval ouro" id="mFat">R$ 0,00</b></div>
+      <div class="metric"><span class="mlab" id="labM3">Ativações pagas</span><b class="mval" id="mAtiv">0</b></div>
+      <div class="metric"><span class="mlab" id="labM4">Pendentes</span><b class="mval ambar" id="mPend">0</b></div>
+      <div class="metric"><span class="mlab" id="labM5">Expirados &gt;30 dias</span><b class="mval verm" id="mExp">0</b></div>
+    </section>
+
+    <!-- Controles -->
+    <section class="controles">
+      <div class="busca">
+        <span class="ic-esq" id="icBusca"></span>
+        <input class="inp" id="busca" type="text" placeholder="Buscar por e-mail, nome ou ID..." autocomplete="off" aria-label="Buscar cliente">
+      </div>
+      <div class="filtros" id="filtros">
+        <button class="fchip ativo" data-f="todos" type="button">Todos</button>
+        <button class="fchip" data-f="ativos" type="button">Ativos</button>
+        <button class="fchip" data-f="pendentes" type="button">Pendentes</button>
+        <button class="fchip" data-f="vitalicio" type="button">Vitalício</button>
+        <button class="fchip" data-f="lixeira" type="button">Lixeira</button>
+      </div>
+      <div class="acoes-bar">
+        <button class="btn btn-linha" id="btnAtualizar" type="button"><span class="bl2">Atualizar</span></button>
+        <button class="btn btn-linha" id="btnCSV" type="button"><span class="bl2">Exportar CSV</span></button>
+        <button class="btn btn-ouro" id="btnNovo" type="button">Novo Cliente</button>
+        <button class="btn btn-verde" id="btnPrecos" type="button">Preços / Pix API</button>
+        <button class="btn btn-perigo" id="btnLixeira" type="button">Esvaziar Lixeira</button>
+      </div>
+    </section>
+
+    <!-- Lista -->
+    <section class="lista">
+      <div class="tabela" id="tabela">
+        <table>
+          <thead>
+            <tr><th>Data</th><th>Nome</th><th>E-mail</th><th>Valor</th><th>Status</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="cards-mob" id="cardsMob"></div>
+      <div class="vazio hidden" id="vazioLista">
+        <p id="vazioTxt">Nenhum cliente encontrado.</p>
+        <p>Ajuste a busca ou cadastre em <b>+ Novo Cliente</b>.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ================= MODAL: CLIENTE ================= -->
+<div class="modal hidden" id="mCliente">
+  <div class="mbox">
+    <div class="mhead"><h3 id="clTit">Novo cliente</h3><button class="mfechar" data-fechar="mCliente" aria-label="Fechar"></button></div>
+    <label class="rotulo" for="clNome">Nome</label>
+    <input class="inp" id="clNome" type="text" placeholder="Nome do cliente" maxlength="80" autocomplete="off">
+    <label class="rotulo" for="clEmail">E-mail</label>
+    <input class="inp" id="clEmail" type="email" inputmode="email" placeholder="cliente@email.com" autocomplete="off">
+    <label class="rotulo" for="clPlano">Plano</label>
+    <select class="inp" id="clPlano">
+      <option value="mensal">Mensal — 30 dias</option>
+      <option value="semestral">6 Meses — 180 dias</option>
+      <option value="anual">1 Ano — 365 dias</option>
+      <option value="gratis">Mês Grátis — 30 dias (R$ 0)</option>
+      <option value="vitalicio">👑 PRO MAX • VITALÍCIO</option>
+    </select>
+    <label class="rotulo" for="clValor">Valor pago (R$)</label>
+    <input class="inp" id="clValor" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off">
+    <label class="rotulo" for="clVenc">Vencimento da licença</label>
+    <input class="inp" id="clVenc" type="date">
+    <label class="rotulo">Código de ativação (NEG-XXXX-XXXX)</label>
+    <div class="campo">
+      <input class="inp cod-inp" id="clCod" type="text" readonly aria-label="Código de ativação">
+      <button class="olho" id="clCodCopiar" type="button" title="Copiar código" aria-label="Copiar código"></button>
+      <button class="olho" id="clCodNovo" type="button" title="Gerar novo código" style="right:40px" aria-label="Gerar novo código"></button>
+    </div>
+    <div class="plan-info" id="clInfo" style="margin:12px 0 0"></div>
+    <div class="m-acoes">
+      <button class="btn btn-perigo hidden" id="clExcluir">Excluir</button>
+      <button class="btn btn-ouro" id="clSalvar">Salvar cliente</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL: PREÇOS / PIX API ================= -->
+<div class="modal hidden" id="mPrecos">
+  <div class="mbox">
+    <div class="mhead"><h3>Preços / Pix API</h3><button class="mfechar" data-fechar="mPrecos" aria-label="Fechar"></button></div>
+    <div class="tabs">
+      <button class="tab ativo" id="tabBtnP" type="button">Preços dos planos</button>
+      <button class="tab" id="tabBtnA" type="button">API Pix (Mercado Pago)</button>
+    </div>
+    <div id="painelPrecos">
+      <label class="rotulo" for="prMensal">Mensal — 30 dias (R$)</label>
+      <input class="inp" id="prMensal" type="text" inputmode="decimal" placeholder="0,00">
+      <label class="rotulo" for="prSemestral">6 Meses — 180 dias (R$)</label>
+      <input class="inp" id="prSemestral" type="text" inputmode="decimal" placeholder="0,00">
+      <label class="rotulo" for="prAnual">1 Ano — 365 dias (R$)</label>
+      <input class="inp" id="prAnual" type="text" inputmode="decimal" placeholder="0,00">
+      <label class="rotulo" for="prVitalicio">👑 PRO MAX • VITALÍCIO (R$)</label>
+      <input class="inp" id="prVitalicio" type="text" inputmode="decimal" placeholder="0,00">
+      <label class="rotulo" for="prGratis">Mês Grátis (fixo — R$ 0,00)</label>
+      <input class="inp" id="prGratis" type="text" value="0,00" readonly style="opacity:.6">
+      <button class="btn btn-ouro btn-largo" id="prSalvar" type="button">Salvar preços</button>
+    </div>
+    <div id="painelApi" class="hidden">
+      <p class="modal-sub" style="margin-top:0">Cole abaixo o <b>Access Token de produção</b> do Mercado Pago (Suas integrações → Aplicação → Credenciais). A aplicação precisa ter o <b>Pix habilitado</b>. O token fica salvo apenas neste dispositivo.</p>
+      <textarea class="inp" id="apiToken" rows="4" placeholder="APP-USR-..."></textarea>
+      <div class="m-acoes" style="grid-template-columns:1fr 1.4fr">
+        <button class="btn btn-linha" id="apiTestar" type="button">Testar token</button>
+        <button class="btn btn-ouro" id="apiSalvar" type="button">Salvar token</button>
+      </div>
+      <div class="plan-info hidden" id="apiStatus"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL: CONFIGURAÇÕES ================= -->
+<div class="modal hidden" id="mConfig">
+  <div class="mbox">
+    <div class="mhead"><h3>Configurações</h3><button class="mfechar" data-fechar="mConfig" aria-label="Fechar"></button></div>
+    <label class="rotulo" for="cfNome">Nome do administrador</label>
+    <input class="inp" id="cfNome" type="text" placeholder="Seu nome" maxlength="40">
+    <label class="rotulo" for="cfEmail">E-mail de acesso</label>
+    <input class="inp" id="cfEmail" type="email" inputmode="email" placeholder="admin@negrets.com">
+    <label class="rotulo" for="cfSenha">Nova senha (deixe em branco para manter)</label>
+    <input class="inp" id="cfSenha" type="password" placeholder="••••••••" autocomplete="new-password">
+    <label class="rotulo" for="cfWhats">WhatsApp de suporte (com DDD)</label>
+    <input class="inp" id="cfWhats" type="tel" inputmode="tel" placeholder="5511999999999" autocomplete="off">
+    <button class="btn btn-ouro btn-largo" id="cfSalvar" type="button">Salvar configurações</button>
+  </div>
+</div>
+
+<!-- ================= MODAL: LICENÇA (ADM) ================= -->
+<div class="modal hidden" id="mLicA">
+  <div class="mbox">
+    <div class="mhead"><h3>Licença do NEGRET'S</h3><button class="mfechar" data-fechar="mLicA" aria-label="Fechar"></button></div>
+    <div class="lic-caixa"><div class="l1" id="laBox1">—</div></div>
+    <div class="lic-caixa">
+      <div class="lic-ate" id="laAte">—</div>
+      <div class="lic-mail" id="laEmail">—</div>
+    </div>
+    <div class="lic-nunca hidden" id="laNunca">Não expira nunca</div>
+    <div class="secao-tit">Últimos códigos de ativação gerados</div>
+    <div id="laCodigos"></div>
+  </div>
+</div>
+
+<!-- ================= MODAL: ESQUECEU A SENHA ================= -->
+<div class="modal hidden" id="mAjudaS">
+  <div class="mbox">
+    <div class="mhead"><h3>Recuperar acesso</h3><button class="mfechar" data-fechar="mAjudaS" aria-label="Fechar"></button></div>
+    <ul class="ajuda-lista">
+      <li>O acesso padrão do painel é <b>admin@negrets.com</b> com a senha <b>negrets123</b>.</li>
+      <li>Alterou a senha e esqueceu? Abra as Configurações do navegador do painel, limpe os dados do site e entre novamente com a senha padrão.</li>
+      <li>Precisa de ajuda? Fale com o suporte técnico NEGRET'S pelo WhatsApp.</li>
+    </ul>
+    <button class="btn btn-whats btn-largo hidden" id="asWhats" type="button"></button>
+  </div>
+</div>
+
+<!-- ================= MODAL: EDITAR NOME ================= -->
+<div class="modal hidden" id="mNome">
+  <div class="mbox">
+    <div class="mhead"><h3>Editar seu nome</h3><button class="mfechar" data-fechar="mNome" aria-label="Fechar"></button></div>
+    <label class="rotulo" for="nNome">Nome exibido no painel</label>
+    <input class="inp" id="nNome" type="text" placeholder="Seu nome" maxlength="40">
+    <button class="btn btn-ouro btn-largo" id="nSalvar" type="button">Salvar</button>
+  </div>
+</div>
+
+<!-- ================= MODAL: INSTALAR ================= -->
+<div class="modal hidden" id="mInstall">
+  <div class="mbox">
+    <div class="mhead"><h3>Instalar o NEGRET'S</h3><button class="mfechar" data-fechar="mInstall" aria-label="Fechar"></button></div>
+    <p class="modal-sub" id="installTxt"></p>
+    <button class="btn btn-ouro btn-largo" data-fechar="mInstall">Entendi</button>
+  </div>
+</div>
+
+<!-- ================= MODAL: CONFIRMAR ================= -->
+<div class="modal hidden" id="mConfirm">
+  <div class="mbox">
+    <div class="mhead"><h3 id="qTit">Confirmar</h3></div>
+    <p class="modal-sub" id="qMsg"></p>
+    <div class="m-acoes">
+      <button class="btn btn-linha" id="qNao">Cancelar</button>
+      <button class="btn btn-verde" id="qOk">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+<script>
+(function(){
+'use strict';
+/* ============================================================
+   NEGRET'S — Painel Admin
+   Criado por Elias Costa NEGRET'S
+   Login: admin@negrets.com / negrets123
+   Banco compartilhado com o app (mesma origem):
+   negrets_db · negrets_precos · negrets_pix · negrets_trial_inicio
+   ============================================================ */
+var K={db:'negrets_db',precos:'negrets_precos',pix:'negrets_pix',codigos:'negrets_codigos',trial:'negrets_trial_inicio',lic:'negrets_licenca',cfg:'negrets_config',produtos:'negrets_produtos',vendas:'negrets_vendas',tema:'negrets_tema',device:'negrets_device_id'};
+var DAY=86400000;
+
+/* ---------- Ícones SVG finos ---------- */
+var IC={
+mail:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7.5 8.5 6 8.5-6"/>',
+lock:'<rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>',
+eye:'<path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/>',
+eyeoff:'<path d="M10.7 6a10 10 0 0 1 1.3-.2c6 0 9.5 6.2 9.5 6.2a17.5 17.5 0 0 1-2.8 3.5"/><path d="M6.7 6.9A16.9 16.9 0 0 0 2.5 12S6 18.2 12 18.2a9.6 9.6 0 0 0 4-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M3 3l18 18"/>',
+pencil:'<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+sliders:'<path d="M4 8h9M17.5 8H20M4 16h4.5M13 16h7"/><circle cx="15.2" cy="8" r="2.3"/><circle cx="10.8" cy="16" r="2.3"/>',
+whatsapp:'<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.668-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>',
+download:'<path d="M21 15v3.5A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5V15"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
+logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>',
+shield:'<path d="M12 3l7.5 2.8v5.7c0 4.6-3.1 8.2-7.5 9.5-4.4-1.3-7.5-4.9-7.5-9.5V5.8Z"/><path d="m9 11.6 2.1 2.1 4-4.2"/>',
+sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.8v2.2M12 19v2.2M2.8 12H5M19 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/>',
+moon:'<path d="M20.6 13.8A8.5 8.5 0 0 1 10.2 3.4a8.5 8.5 0 1 0 10.4 10.4Z"/>',
+search:'<circle cx="11" cy="11" r="6.5"/><path d="m20.2 20.2-3.9-3.9"/>',
+refresh:'<path d="M20.4 8A8.5 8.5 0 1 0 21 12.5"/><path d="M21 3.5v5h-5"/>',
+filedown:'<path d="M14 2.5H6.5A2.5 2.5 0 0 0 4 5v14a2.5 2.5 0 0 0 2.5 2.5h11A2.5 2.5 0 0 0 20 19V8.5Z"/><path d="M14 2.5v6h6"/><path d="M12 11.5V17"/><path d="m9.5 14.5 2.5 2.5 2.5-2.5"/>',
+plus:'<path d="M12 5v14M5 12h14"/>',
+tag:'<path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8Z"/><path d="M7 7h.01"/>',
+trash:'<path d="M3 6h18"/><path d="M19 6v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/>',
+restore:'<path d="M1.5 4.5v5.5H7"/><path d="M3.6 15a8.5 8.5 0 1 0 2-9.3L1.5 10"/>',
+x:'<path d="M6 6l12 12M18 6 6 18"/>',
+copy:'<rect x="9" y="9" width="12" height="12" rx="2.2"/><path d="M5.5 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v.5"/>',
+check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+key:'<circle cx="7.8" cy="16.2" r="4.3"/><path d="m11 13 9-9"/><path d="m16 6 2.6 2.6"/>',
+users:'<path d="M16.5 21v-2a4 4 0 0 0-4-4h-5a4 4 0 0 0-4 4v2"/><circle cx="10" cy="8" r="3.5"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/><path d="M15.5 4.6a3.5 3.5 0 0 1 0 6.8"/>',
+banknote:'<rect x="2.5" y="6" width="19" height="12" rx="2.2"/><circle cx="12" cy="12" r="2.7"/><path d="M6 10v.01M18 14v.01"/>',
+clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.4 2"/>',
+alert:'<path d="M10.3 3.9 2 18.4a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9.5v4"/><path d="M12 17h.01"/>'
+};
+function ic(n,s){
+  if(n==='whatsapp'){return '<svg viewBox="0 0 24 24" width="'+(s||18)+'" height="'+(s||18)+'" fill="currentColor" aria-hidden="true">'+IC[n]+'</svg>';}
+  return '<svg viewBox="0 0 24 24" width="'+(s||18)+'" height="'+(s||18)+'" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(IC[n]||'')+'</svg>';
+}
+
+/* ---------- Helpers ---------- */
+function $(s){return document.querySelector(s);}
+function load(k,d){try{var v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){toast('Memória cheia: exporte e limpe registros antigos.','err');}}
+function brl(n){return 'R$ '+Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function pad(n){return (n<10?'0':'')+n;}
+function fmtData(x){var d=x?new Date(x):new Date();return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear();}
+function parseDecimal(s){s=String(s==null?'':s).trim();if(!s)return 0;if(s.indexOf(',')>=0)s=s.replace(/\./g,'').replace(',','.');var n=parseFloat(s);return isNaN(n)?0:n;}
+function fuga(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function cfg(){return Object.assign({},load(K.cfg,{}));}
+function precos(){return Object.assign({mensal:29.90,semestral:149.90,anual:249.90,vitalicio:497.00,gratis:0},load(K.precos,{}));}
+
+/* ---------- Toasts ---------- */
+function toast(msg,tipo){
+  var t=document.createElement('div');
+  t.className='toast '+(tipo||'');
+  t.textContent=msg;
+  $('#toasts').appendChild(t);
+  setTimeout(function(){t.style.opacity='0';t.style.transform='translateY(6px)';},3400);
+  setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},3900);
+}
+
+/* ---------- Modais ---------- */
+function abrirM(id){$('#'+id).classList.remove('hidden');document.body.style.overflow='hidden';}
+function fecharM(id){$('#'+id).classList.add('hidden');document.body.style.overflow='';}
+document.addEventListener('click',function(e){
+  var f=e.target.closest('[data-fechar]');
+  if(f){fecharM(f.getAttribute('data-fechar'));return;}
+  if(e.target.classList&&e.target.classList.contains('modal')){fecharM(e.target.id);}
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    var abertos=document.querySelectorAll('.modal:not(.hidden)');
+    if(abertos.length){fecharM(abertos[abertos.length-1].id);}
+  }
+});
+
+/* ---------- Confirmar ---------- */
+var confirmCb=null;
+function confirmar(tit,msg,cb,perigo){
+  confirmCb=cb;
+  $('#qTit').textContent=tit;
+  $('#qMsg').textContent=msg;
+  $('#qOk').textContent=perigo?'Excluir':'Confirmar';
+  $('#qOk').className='btn '+(perigo?'btn-perigo':'btn-verde');
+  abrirM('mConfirm');
+}
+$('#qOk').addEventListener('click',function(){fecharM('mConfirm');var cb=confirmCb;confirmCb=null;if(cb)cb();});
+$('#qNao').addEventListener('click',function(){fecharM('mConfirm');confirmCb=null;});
+function copiarTexto(txt,aviso){
+  function ok(){toast(aviso||'Copiado!','ok');}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(ok,function(){fb();ok();});
+  }else{fb();ok();}
+  function fb(){
+    var ta=document.createElement('textarea');
+    ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+
+/* ---------- Tema ---------- */
+function aplicarTema(t){
+  document.documentElement.setAttribute('data-theme',t);
+  localStorage.setItem(K.tema,t);
+  $('#btnTema').innerHTML=ic(t==='dark'?'sun':'moon',18);
+}
+$('#btnTema').addEventListener('click',function(){
+  aplicarTema(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+});
+
+/* ============================================================
+   LOGIN — admin@negrets.com / negrets123
+   ============================================================ */
+function admCred(){
+  var c=cfg();
+  return {email:String(c.admin_email||'admin@negrets.com').toLowerCase(),senha:String(c.admin_senha||'negrets123')};
+}
+function sessaoAtiva(){
+  return localStorage.getItem('negrets_admin_sessao')==='1'||sessionStorage.getItem('negrets_admin_sessao')==='1';
+}
+$('#icMail').innerHTML=ic('mail',18);
+$('#icLock').innerHTML=ic('lock',18);
+$('#icBusca').innerHTML=ic('search',18);
+function setOlho(aberto){
+  $('#olhoBtn').innerHTML=ic(aberto?'eye':'eyeoff',20);
+  $('#lSenha').type=aberto?'text':'password';
+}
+setOlho(false);
+$('#olhoBtn').addEventListener('click',function(){
+  setOlho($('#lSenha').type==='password');
+});
+$('#formLogin').addEventListener('submit',function(ev){
+  ev.preventDefault();
+  var email=$('#lEmail').value.trim().toLowerCase();
+  var senha=$('#lSenha').value;
+  var cred=admCred();
+  if(email===cred.email&&senha===cred.senha){
+    $('#lErro').classList.add('hidden');
+    if($('#lLembrar').checked){localStorage.setItem('negrets_admin_sessao','1');}
+    else{sessionStorage.setItem('negrets_admin_sessao','1');}
+    abrirPainel();
+  }else{
+    $('#lErro').classList.remove('hidden');
+    var card=document.querySelector('.login-card');
+    card.classList.remove('tremer');void card.offsetWidth;card.classList.add('tremer');
+  }
+});
+$('#lnkEsqueci').addEventListener('click',function(){
+  var wa=String(cfg().whatsapp||'').replace(/\D/g,'');
+  if(wa){
+    $('#asWhats').classList.remove('hidden');
+    $('#asWhats').innerHTML=ic('whatsapp',18)+' Falar com o suporte técnico';
+    $('#asWhats').onclick=function(){window.open('https://wa.me/'+wa,'_blank');};
+  }
+  abrirM('mAjudaS');
+});
+$('#btnSair').addEventListener('click',function(){
+  localStorage.removeItem('negrets_admin_sessao');
+  sessionStorage.removeItem('negrets_admin_sessao');
+  $('#lSenha').value='';
+  mostrarLogin();
+});
+function mostrarLogin(){
+  $('#painelView').classList.add('hidden');
+  $('#loginView').classList.remove('hidden');
+  document.body.style.overflow='';
+}
+function abrirPainel(){
+  $('#loginView').classList.add('hidden');
+  $('#painelView').classList.remove('hidden');
+  renderAll();
+}
+$('#btnEntrar')&&null;
+
+/* ============================================================
+   PLANOS / LICENÇA (mesmas regras do app)
+   ============================================================ */
+var PLANS={
+  mensal:{label:'Mensal',dias:30},
+  semestral:{label:'6 Meses',dias:180},
+  anual:{label:'1 Ano',dias:365},
+  gratis:{label:'Mês Grátis',dias:30},
+  vitalicio:{label:'👑 PRO MAX • VITALÍCIO',dias:3650,vitalicio:true}
+};
+function trialInicio(){
+  var t=localStorage.getItem(K.trial);
+  if(!t){t=new Date().toISOString();localStorage.setItem(K.trial,t);}
+  return t;
+}
+function estadoLicenca(){
+  var lic=load(K.lic,null);
+  var ini=new Date(trialInicio()).getTime();
+  var agora=Date.now();
+  if(lic&&lic.vitalicio){
+    var at=new Date(lic.ativado_em||agora).getTime();
+    return {tipo:'vitalicio',ok:true,restantes:3650,ate:at+3650*DAY,email:lic.email||''};
+  }
+  var exp=lic&&lic.expira_em?new Date(lic.expira_em).getTime():0;
+  if(exp>agora){
+    return {tipo:'paga',ok:true,restantes:Math.ceil((exp-agora)/DAY),ate:exp,email:(lic&&lic.email)||''};
+  }
+  var restantes=30-Math.floor((agora-ini)/DAY);
+  if(restantes>0){
+    return {tipo:'trial',ok:true,restantes:restantes,ate:ini+30*DAY,email:''};
+  }
+  return {tipo:'expirado',ok:false,restantes:0,ate:ini+30*DAY,email:(lic&&lic.email)||''};
+}
+
+/* ============================================================
+   MÉTRICAS
+   ============================================================ */
+function pixPendenteDe(email){
+  if(!email)return false;
+  var em=String(email).toLowerCase();
+  var agora=Date.now();
+  return load(K.pix,[]).some(function(p){
+    return p.status==='pendente'&&String(p.email||'').toLowerCase()===em&&(agora-new Date(p.criado_em).getTime())<DAY;
+  });
+}
+function statusDe(c){
+  if(c.deleted)return 'excluido';
+  if(c.plano==='vitalicio')return 'vitalicio';
+  var exp=c.expira_em?new Date(c.expira_em).getTime():0;
+  if(exp>Date.now())return 'ativo';
+  if(pixPendenteDe(c.email))return 'pendente';
+  return 'expirado';
+}
+function metricas(){
+  var db=load(K.db,[]).filter(function(c){return !c.deleted;});
+  var ativos=0,pend=0,exp30=0;
+  var agora=Date.now();
+  db.forEach(function(c){
+    var s=statusDe(c);
+    if(s==='ativo'||s==='vitalicio')ativos++;
+    if(s==='pendente')pend++;
+    if(s==='expirado'&&c.expira_em&&(agora-new Date(c.expira_em).getTime())>30*DAY)exp30++;
+  });
+  var fat=0,pagos=0,pendPix=0;
+  load(K.pix,[]).forEach(function(p){
+    if(p.status==='pago'){
+      pagos++;
+      var quando=new Date(p.pago_em||p.criado_em).getTime();
+      if(agora-quando<=30*DAY)fat+=Number(p.valor||0);
+    }else if(p.status==='pendente'&&(agora-new Date(p.criado_em).getTime())<2*DAY){
+      pendPix++;
+    }
+  });
+  var codPagos=0;
+  var cods=load(K.codigos,{});
+  Object.keys(cods).forEach(function(k){
+    var c=cods[k];
+    if(c.usado&&Number(c.valor)>0)codPagos++;
+  });
+  return {ativos:ativos,fat:fat,ativ:pagos+codPagos,pend:pendPix,exp30:exp30};
+}
+function renderMetricas(){
+  var m=metricas();
+  $('#mAtivos').textContent=m.ativos;
+  $('#mFat').textContent=brl(m.fat);
+  $('#mAtiv').textContent=m.ativ;
+  $('#mPend').textContent=m.pend;
+  $('#mExp').textContent=m.exp30;
+  $('#labM1').insertAdjacentHTML('afterbegin',ic('users',14));
+  $('#labM2').insertAdjacentHTML('afterbegin',ic('banknote',14));
+  $('#labM3').insertAdjacentHTML('afterbegin',ic('key',14));
+  $('#labM4').insertAdjacentHTML('afterbegin',ic('clock',14));
+  $('#labM5').insertAdjacentHTML('afterbegin',ic('alert',14));
+}
+
+/* ============================================================
+   LISTA DE CLIENTES — tabela (PC) / cards (celular)
+   ============================================================ */
+var filtro='todos',buscaTxt='';
+var BADGES={
+  ativo:['b-ativo','Ativo'],
+  pendente:['b-pendente','Pendente'],
+  expirado:['b-expirado','Expirado'],
+  vitalicio:['b-vitalicio','👑 PRO MAX • VITALÍCIO'],
+  excluido:['b-excluido','Excluído']
+};
+function badgeHtml(s){
+  var b=BADGES[s]||BADGES.expirado;
+  return '<span class="badge '+b[0]+'">'+b[1]+'</span>';
+}
+function clientesFiltrados(){
+  return load(K.db,[]).filter(function(c){
+    if(filtro==='lixeira'){if(!c.deleted)return false;}
+    else{
+      if(c.deleted)return false;
+      var s=statusDe(c);
+      if(filtro==='ativos'&&!(s==='ativo'||s==='vitalicio'))return false;
+      if(filtro==='pendentes'&&s!=='pendente')return false;
+      if(filtro==='vitalicio'&&s!=='vitalicio')return false;
+    }
+    if(buscaTxt){
+      var q=buscaTxt.toLowerCase();
+      var hay=(String(c.id)+' '+(c.nome||'')+' '+(c.email||'')).toLowerCase();
+      if(hay.indexOf(q)<0)return false;
+    }
+    return true;
+  }).sort(function(a,b){return new Date(b.criado_em||0)-new Date(a.criado_em||0);});
+}
+function acoesHtml(c){
+  var lix=filtro==='lixeira'||c.deleted;
+  if(lix){
+    return '<button class="acao-btn" data-ac="restaurar" data-id="'+c.id+'" title="Restaurar">'+ic('restore',16)+'</button>'
+      +'<button class="acao-btn perigo" data-ac="excluir-forever" data-id="'+c.id+'" title="Excluir definitivo">'+ic('trash',16)+'</button>';
+  }
+  return '<button class="acao-btn" data-ac="editar" data-id="'+c.id+'" title="Editar">'+ic('pencil',16)+'</button>'
+    +'<button class="acao-btn" data-ac="codigo" data-id="'+c.id+'" title="Código">'+ic('key',16)+'</button>'
+    +'<button class="acao-btn perigo" data-ac="excluir" data-id="'+c.id+'" title="Excluir (lixeira)">'+ic('trash',16)+'</button>';
+}
+function renderLista(){
+  var cs=clientesFiltrados();
+  var html='',hcm='';
+  cs.forEach(function(c){
+    var s=statusDe(c);
+    var data=fmtData(c.criado_em);
+    var valor=brl(c.valor);
+    html+='<tr><td>'+data+'</td>'
+      +'<td><b>'+fuga(c.nome||'—')+'</b><div class="td-sub">ID '+c.id+'</div></td>'
+      +'<td class="td-email">'+fuga(c.email||'—')+'</td>'
+      +'<td>'+valor+'</td>'
+      +'<td>'+badgeHtml(s)+'</td>'
+      +'<td class="td-acoes">'+acoesHtml(c)+'</td></tr>';
+    hcm+='<div class="ccard">'
+      +'<div class="cc-top"><b>'+fuga(c.nome||'—')+'</b>'+badgeHtml(s)+'</div>'
+      +'<div class="cc-linha">ID '+c.id+' • '+data+'</div>'
+      +'<div class="cc-linha cc-email">'+fuga(c.email||'—')+'</div>'
+      +'<div class="cc-rodape"><span class="cc-valor">'+valor+'</span><span class="cc-acoes">'+acoesHtml(c)+'</span></div>'
+      +'</div>';
+  });
+  $('#tbody').innerHTML=html;
+  $('#cardsMob').innerHTML=hcm;
+  var vazio=cs.length===0;
+  $('#vazioLista').classList.toggle('hidden',!vazio);
+  $('#tabela').classList.toggle('hidden',vazio);
+  $('#cardsMob').classList.toggle('hidden',vazio);
+  if(vazio){$('#vazioTxt').textContent=filtro==='lixeira'?'A lixeira está vazia.':'Nenhum cliente encontrado.';}
+  var del=load(K.db,[]).some(function(c){return c.deleted;});
+  $('#btnLixeira').disabled=!del;
+}
+function renderHeader(){
+  var c=cfg();
+  $('#admNome').textContent=c.admin_nome||'Elias';
+  $('#admEmail').textContent=c.admin_email||'admin@negrets.com';
+}
+function renderAll(){
+  renderHeader();
+  renderMetricas();
+  renderLista();
+}
+
+/* ============================================================
+   EVENTOS DOS CONTROLES
+   ============================================================ */
+$('#busca').addEventListener('input',function(){buscaTxt=this.value.trim();renderLista();});
+$('#filtros').addEventListener('click',function(e){
+  var b=e.target.closest('.fchip');
+  if(!b)return;
+  filtro=b.getAttribute('data-f');
+  var chips=document.querySelectorAll('#filtros .fchip');
+  for(var i=0;i<chips.length;i++){chips[i].classList.remove('ativo');}
+  b.classList.add('ativo');
+  renderLista();
+});
+$('#btnAtualizar').addEventListener('click',function(){renderAll();toast('Dados atualizados.');});
+$('#btnLixeira').addEventListener('click',function(){
+  var del=load(K.db,[]).filter(function(c){return c.deleted;});
+  if(!del.length){toast('A lixeira está vazia.');return;}
+  confirmar('Esvaziar lixeira','Excluir definitivamente '+del.length+' cliente(s)? Esta ação não pode ser desfeita.',function(){
+    save(K.db,load(K.db,[]).filter(function(c){return !c.deleted;}));
+    renderAll();
+    toast('Lixeira esvaziada.','ok');
+  },true);
+});
+function delegaAcoes(id){
+  document.getElementById(id).addEventListener('click',function(e){
+    var b=e.target.closest('.acao-btn');
+    if(!b)return;
+    acaoCli(b.getAttribute('data-ac'),b.getAttribute('data-id'));
+  });
+}
+delegaAcoes('tbody');
+delegaAcoes('cardsMob');
+function acaoCli(ac,id){
+  var db=load(K.db,[]);
+  var c=db.find(function(x){return String(x.id)===String(id);});
+  if(!c)return;
+  if(ac==='editar'){abrirCliente(c.id);}
+  else if(ac==='codigo'){verCodigo(c,db);}
+  else if(ac==='excluir'){
+    confirmar('Mover para a lixeira','O cliente "'+(c.nome||'')+'" sai da lista e pode ser recuperado na Lixeira.',function(){
+      c.deleted=true;save(K.db,db);renderAll();toast('Cliente movido para a lixeira.');
+    },true);
+  }
+  else if(ac==='restaurar'){
+    c.deleted=false;save(K.db,db);renderAll();toast('Cliente restaurado.','ok');
+  }
+  else if(ac==='excluir-forever'){
+    confirmar('Excluir definitivo','Excluir "'+(c.nome||'')+'" para sempre? Não há como desfazer.',function(){
+      save(K.db,db.filter(function(x){return String(x.id)!==String(id);}));
+      renderAll();toast('Cliente excluído definitivamente.');
+    },true);
+  }
+}
+function verCodigo(c,db){
+  if(c.codigo){
+    confirmar('Código de '+fuga(c.nome||''),c.codigo,function(){copiarTexto(c.codigo,'Código copiado!');});
+    $('#qOk').textContent='Copiar';
+    $('#qOk').className='btn btn-ouro';
+  }else{
+    confirmar('Gerar código','Este cliente ainda não tem código. Gerar um agora?',function(){
+      c.codigo=novoCodigo();
+      registrarCodigo(c);
+      save(K.db,db);
+      renderAll();
+      toast('Código gerado: '+c.codigo,'ok');
+    });
+  }
+}
+
+/* ============================================================
+   CLIENTES — novo / editar / código
+   ============================================================ */
+function novoCodigo(){
+  var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  function r(n){var s='';for(var i=0;i<n;i++)s+=chars[Math.floor(Math.random()*chars.length)];return s;}
+  return 'NEG-'+r(4)+'-'+r(4);
+}
+function registrarCodigo(c){
+  var cods=load(K.codigos,{});
+  cods[c.codigo]={client_id:c.id,email:c.email||'',plano:c.plano||'mensal',dias:(PLANS[c.plano]||PLANS.mensal).dias,valor:Number(c.valor||0),criado_em:new Date().toISOString(),usado:false};
+  save(K.codigos,cods);
+}
+function proximoId(db){var mx=0;db.forEach(function(c){if(c.id>mx)mx=c.id;});return mx+1;}
+var cliEditId=null;
+function dataParaInput(iso){
+  var d=iso?new Date(iso):new Date();
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+}
+function abrirCliente(id){
+  var db=load(K.db,[]);
+  var c=id?db.find(function(x){return String(x.id)===String(id);}):null;
+  cliEditId=id||null;
+  if(c){
+    $('#clTit').textContent='Editar cliente';
+    $('#clNome').value=c.nome||'';
+    $('#clEmail').value=c.email||'';
+    $('#clPlano').value=c.plano||'mensal';
+    $('#clValor').value=Number(c.valor||0).toFixed(2).replace('.',',');
+    $('#clVenc').value=c.expira_em?dataParaInput(c.expira_em):'';
+    $('#clVenc').disabled=c.plano==='vitalicio';
+    $('#clCod').value=c.codigo||'';
+    $('#clExcluir').classList.remove('hidden');
+  }else{
+    $('#clTit').textContent='Novo cliente';
+    $('#clNome').value='';$('#clEmail').value='';
+    $('#clPlano').value='mensal';
+    $('#clValor').value=Number(precos().mensal||0).toFixed(2).replace('.',',');
+    $('#clVenc').value=dataParaInput(new Date(Date.now()+30*DAY));
+    $('#clVenc').disabled=false;
+    $('#clCod').value=novoCodigo();
+    $('#clExcluir').classList.add('hidden');
+  }
+  renderCliInfo();
+  abrirM('mCliente');
+}
+function renderCliInfo(){
+  var db=load(K.db,[]);
+  var c=cliEditId?db.find(function(x){return String(x.id)===String(cliEditId);}):null;
+  var plano=$('#clPlano').value;
+  var pl=PLANS[plano]||PLANS.mensal;
+  var venc=$('#clVenc').value;
+  var txt;
+  if(pl.vitalicio){
+    txt='👑 PRO MAX • VITALÍCIO — licença que não expira nunca.';
+  }else if(venc){
+    var rest=Math.ceil((new Date(venc+'T12:00:00').getTime()-Date.now())/DAY);
+    txt=pl.label+' • '+(rest>0?rest+' dias restantes (até '+fmtData(venc+'T12:00:00')+')':'vencido')+(c?' • Status atual: '+(BADGES[statusDe(c)]||['','?'])[1]:'');
+  }else{
+    txt=pl.label+' • defina o vencimento da licença.';
+  }
+  $('#clInfo').textContent=txt;
+}
+$('#clPlano').addEventListener('change',function(){
+  var p=PLANS[this.value]||PLANS.mensal;
+  $('#clValor').value=Number(precos()[this.value==='gratis'?'gratis':this.value]||0).toFixed(2).replace('.',',');
+  if(p.vitalicio){
+    $('#clVenc').value='';
+    $('#clVenc').disabled=true;
+  }else{
+    $('#clVenc').disabled=false;
+    $('#clVenc').value=dataParaInput(new Date(Date.now()+p.dias*DAY));
+  }
+  renderCliInfo();
+});
+$('#clVenc').addEventListener('change',renderCliInfo);
+$('#clCodCopiar').innerHTML=ic('copy',18);
+$('#clCodNovo').innerHTML=ic('refresh',18);
+$('#clCodCopiar').addEventListener('click',function(){
+  var v=$('#clCod').value.trim();
+  if(v)copiarTexto(v,'Código copiado!');
+});
+$('#clCodNovo').addEventListener('click',function(){$('#clCod').value=novoCodigo();});
+$('#btnNome').innerHTML=ic('pencil',15);
+$('#btnNome').addEventListener('click',function(){
+  $('#nNome').value=cfg().admin_nome||'Elias';
+  abrirM('mNome');
+});
+$('#nSalvar').addEventListener('click',function(){
+  var c=cfg();
+  c.admin_nome=$('#nNome').value.trim()||'Elias';
+  save(K.cfg,c);
+  fecharM('mNome');
+  renderHeader();
+  toast('Nome atualizado.','ok');
+});
+$('#clExcluir').addEventListener('click',function(){
+  var db=load(K.db,[]);
+  var c=db.find(function(x){return String(x.id)===String(cliEditId);});
+  if(!c)return;
+  confirmar('Mover para a lixeira','O cliente "'+(c.nome||'')+'" sai da lista e pode ser recuperado na Lixeira.',function(){
+    c.deleted=true;save(K.db,db);fecharM('mCliente');renderAll();toast('Cliente movido para a lixeira.');
+  },true);
+});
+$('#clSalvar').addEventListener('click',function(){
+  var nome=$('#clNome').value.trim();
+  var email=$('#clEmail').value.trim().toLowerCase();
+  var plano=$('#clPlano').value;
+  var valor=parseDecimal($('#clValor').value);
+  var venc=$('#clVenc').value;
+  var codigo=$('#clCod').value.trim().toUpperCase();
+  if(!nome){toast('Informe o nome do cliente.','err');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Informe um e-mail válido.','err');return;}
+  if(valor<0){toast('Valor inválido.','err');return;}
+  if(!/^NEG-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(codigo)){toast('Código inválido. Use o formato NEG-XXXX-XXXX.','err');return;}
+  var db=load(K.db,[]);
+  var expira=plano==='vitalicio'?null:(venc?new Date(venc+'T12:00:00').toISOString():null);
+  var codigoAnterior=null;
+  if(cliEditId){
+    var c=db.find(function(x){return String(x.id)===String(cliEditId);});
+    if(!c){toast('Cliente não encontrado.','err');return;}
+    codigoAnterior=c.codigo||null;
+    c.nome=nome;c.email=email;c.plano=plano;c.valor=valor;c.expira_em=expira;c.codigo=codigo;
+    save(K.db,db);
+  }else{
+    var novo={id:proximoId(db),nome:nome,email:email,plano:plano,valor:valor,criado_em:new Date().toISOString(),expira_em:expira,codigo:codigo,ativado_em:null,deleted:false};
+    db.push(novo);save(K.db,db);
+    cliEditId=novo.id;
+  }
+  /* Registra o código lendo o estado MAIS RECENTE (evita sobrescrever) */
+  var cods=load(K.codigos,{});
+  if(codigoAnterior&&codigoAnterior!==codigo&&cods[codigoAnterior]){
+    cods[codigoAnterior].usado=true;cods[codigoAnterior].motivo='substituido';
+  }
+  if(!cods[codigo]||!cods[codigo].usado){
+    cods[codigo]={client_id:cliEditId,email:email,plano:plano,dias:(PLANS[plano]||PLANS.mensal).dias,valor:valor,criado_em:(cods[codigo]&&cods[codigo].criado_em)||new Date().toISOString(),usado:false};
+  }
+  save(K.codigos,cods);
+  fecharM('mCliente');
+  renderAll();
+  toast('Cliente salvo! Código: '+codigo,'ok');
+});
+$('#btnNovo').addEventListener('click',function(){abrirCliente(null);});
+
+/* ============================================================
+   EXPORTAR CSV
+   ============================================================ */
+$('#btnCSV').addEventListener('click',function(){
+  var cs=clientesFiltrados();
+  if(!cs.length){toast('Nada para exportar com esse filtro.');return;}
+  var linhas=['ID;Data;Nome;E-mail;Plano;Valor;Status;Vencimento;Codigo'];
+  cs.forEach(function(c){
+    var s=statusDe(c);
+    var st=s==='vitalicio'?'PRO MAX VITALICIO':s.toUpperCase();
+    var pl=PLANS[c.plano]||{label:c.plano||''};
+    linhas.push([
+      c.id,
+      fmtData(c.criado_em),
+      String(c.nome||'').replace(/;/g,','),
+      c.email||'',
+      String(pl.label).replace('👑 PRO MAX • ','').replace(/;/g,','),
+      Number(c.valor||0).toFixed(2).replace('.',','),
+      st,
+      c.expira_em?fmtData(c.expira_em):'',
+      c.codigo||''
+    ].join(';'));
+  });
+  var blob=new Blob(['\ufeff'+linhas.join('\r\n')],{type:'text/csv;charset=utf-8'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='negrets-clientes.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  toast('CSV exportado.','ok');
+});
+
+/* ============================================================
+   PREÇOS / PIX API
+   ============================================================ */
+$('#tabBtnP').addEventListener('click',function(){trocaTab(true);});
+$('#tabBtnA').addEventListener('click',function(){trocaTab(false);});
+function trocaTab(precosTab){
+  $('#tabBtnP').classList.toggle('ativo',precosTab);
+  $('#tabBtnA').classList.toggle('ativo',!precosTab);
+  $('#painelPrecos').classList.toggle('hidden',!precosTab);
+  $('#painelApi').classList.toggle('hidden',precosTab);
+}
+$('#btnPrecos').addEventListener('click',function(){
+  var p=precos();
+  $('#prMensal').value=Number(p.mensal).toFixed(2).replace('.',',');
+  $('#prSemestral').value=Number(p.semestral).toFixed(2).replace('.',',');
+  $('#prAnual').value=Number(p.anual).toFixed(2).replace('.',',');
+  $('#prVitalicio').value=Number(p.vitalicio).toFixed(2).replace('.',',');
+  $('#apiToken').value=String(cfg().mp_token||'');
+  $('#apiStatus').classList.add('hidden');
+  trocaTab(true);
+  abrirM('mPrecos');
+});
+$('#prSalvar').addEventListener('click',function(){
+  var m=parseDecimal($('#prMensal').value);
+  var s=parseDecimal($('#prSemestral').value);
+  var a=parseDecimal($('#prAnual').value);
+  var v=parseDecimal($('#prVitalicio').value);
+  if(m<=0||s<=0||a<=0||v<=0){toast('Preencha os 4 preços com valores maiores que zero.','err');return;}
+  save(K.precos,{mensal:m,semestral:s,anual:a,vitalicio:v,gratis:0});
+  toast('Preços salvos. O app do cliente já usa os novos valores.','ok');
+});
+$('#apiSalvar').addEventListener('click',function(){
+  var c=cfg();
+  c.mp_token=$('#apiToken').value.trim();
+  save(K.cfg,c);
+  toast('Token da API Pix salvo neste dispositivo.','ok');
+});
+$('#apiTestar').addEventListener('click',function(){
+  var token=$('#apiToken').value.trim();
+  var st=$('#apiStatus');
+  st.classList.remove('hidden');
+  if(!token){st.className='plan-info';st.textContent='Cole o token primeiro.';return;}
+  st.className='plan-info';
+  st.textContent='Testando token…';
+  fetch('https://api.mercadopago.com/users/me',{headers:{'Authorization':'Bearer '+token}})
+    .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
+    .then(function(res){
+      if(res.ok){
+        st.className='plan-info';
+        st.textContent='Token válido — '+String(res.d.nickname||res.d.email||'conta Mercado Pago')+'. O Pix automático está pronto.';
+      }else{
+        st.className='plan-info';
+        st.textContent='Token recusado pelo Mercado Pago ('+(res.d.message||res.d.error||'erro')+'). Gere um novo token de produção.';
+      }
+    })
+    .catch(function(){
+      st.className='plan-info';
+      st.textContent='Sem conexão com o Mercado Pago. Verifique a internet e tente de novo.';
+    });
+});
+
+/* ============================================================
+   CONFIGURAÇÕES · WHATSAPP · LICENÇA (ADM)
+   ============================================================ */
+$('#btnConfig').addEventListener('click',function(){
+  var c=cfg();
+  $('#cfNome').value=c.admin_nome||'Elias';
+  $('#cfEmail').value=c.admin_email||'admin@negrets.com';
+  $('#cfSenha').value='';
+  $('#cfWhats').value=c.whatsapp||'';
+  abrirM('mConfig');
+});
+$('#cfSalvar').addEventListener('click',function(){
+  var c=cfg();
+  c.admin_nome=$('#cfNome').value.trim()||'Elias';
+  var novoEmail=$('#cfEmail').value.trim().toLowerCase();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(novoEmail)){toast('Informe um e-mail de acesso válido.','err');return;}
+  c.admin_email=novoEmail;
+  var novaSenha=$('#cfSenha').value;
+  if(novaSenha){
+    if(novaSenha.length<6){toast('A nova senha precisa ter pelo menos 6 caracteres.','err');return;}
+    c.admin_senha=novaSenha;
+  }
+  c.whatsapp=$('#cfWhats').value.replace(/\D/g,'');
+  save(K.cfg,c);
+  fecharM('mConfig');
+  renderHeader();
+  toast('Configurações salvas.','ok');
+});
+$('#btnWhats').innerHTML=ic('whatsapp',18);
+$('#btnWhats').addEventListener('click',function(){
+  var wa=String(cfg().whatsapp||'').replace(/\D/g,'');
+  if(wa){window.open('https://wa.me/'+wa,'_blank');}
+  else{toast('Configure o WhatsApp de suporte nas Configurações.');abrirConfigClick();}
+  function abrirConfigClick(){var c=cfg();$('#cfNome').value=c.admin_nome||'Elias';$('#cfEmail').value=c.admin_email||'admin@negrets.com';$('#cfSenha').value='';$('#cfWhats').value=c.whatsapp||'';abrirM('mConfig');}
+});
+$('#btnLic').addEventListener('click',function(){
+  renderLicAdm();
+  abrirM('mLicA');
+});
+function renderLicAdm(){
+  var e=estadoLicenca();
+  $('#laNunca').classList.add('hidden');
+  if(e.tipo==='vitalicio'){
+    $('#laBox1').textContent='👑 VOCÊ É UM USUÁRIO PRO MAX • VITALÍCIO';
+    $('#laNunca').classList.remove('hidden');
+    $('#laAte').textContent='Licença ativa — 3650 dias restantes, até '+fmtData(e.ate);
+    $('#laEmail').textContent=e.email||'—';
+  }else if(e.tipo==='paga'){
+    $('#laBox1').textContent='Licença ativa — '+e.restantes+' dias restantes, até '+fmtData(e.ate);
+    $('#laAte').textContent='Ativo até '+fmtData(e.ate);
+    $('#laEmail').textContent=e.email||'—';
+  }else if(e.tipo==='trial'){
+    $('#laBox1').textContent='Teste Grátis — '+e.restantes+' dias restantes';
+    $('#laAte').textContent='Ativo até '+fmtData(e.ate);
+    $('#laEmail').textContent='—';
+  }else{
+    $('#laBox1').textContent='Teste encerrado neste dispositivo — escolha um plano no app do cliente';
+    $('#laAte').textContent='Encerrado em '+fmtData(e.ate);
+    $('#laEmail').textContent=e.email||'—';
+  }
+  var cods=load(K.codigos,{});
+  var chaves=Object.keys(cods).sort(function(a,b){return new Date(cods[b].criado_em||0)-new Date(cods[a].criado_em||0);}).slice(0,12);
+  var html='';
+  if(!chaves.length){
+    html='<div class="cod-linha"><span class="cod-sub">Nenhum código gerado ainda. Os códigos são criados em + Novo Cliente.</span></div>';
+  }else{
+    chaves.forEach(function(k){
+      var c=cods[k];
+      var pl=PLANS[c.plano]||{label:c.plano||''};
+      html+='<div class="cod-linha"><div><span class="cod-neg">'+k+'</span>'
+        +'<div class="cod-sub">'+String(pl.label).replace('👑 PRO MAX • ','')+' • '+brl(c.valor)+' • '+fmtData(c.criado_em)+'</div></div>'
+        +'<span class="badge '+(c.usado?'b-excluido':'b-ativo')+'">'+(c.usado?'Usado':'Disponível')+'</span>'
+        +'<button class="acao-btn" data-codcopy="'+k+'" title="Copiar">'+ic('copy',16)+'</button>'
+        +'</div>';
+    });
+  }
+  $('#laCodigos').innerHTML=html;
+}
+$('#laCodigos').addEventListener('click',function(e){
+  var b=e.target.closest('[data-codcopy]');
+  if(b)copiarTexto(b.getAttribute('data-codcopy'),'Código copiado!');
+});
+
+/* ============================================================
+   INSTALAR APP (PWA)
+   ============================================================ */
+var deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;});
+$('#btnInstalar').addEventListener('click',function(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(){deferredPrompt=null;});
+  }else{
+    var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    $('#installTxt').textContent=ios
+      ?'No iPhone/iPad: toque no botão Compartilhar na barra do Safari e depois em "Adicionar à Tela de Início".'
+      :'No Chrome/Edge: abra o menu do navegador (⋮) e escolha "Instalar app" ou "Adicionar à tela inicial". O painel abrirá como aplicativo próprio.';
+    abrirM('mInstall');
+  }
+});
+
+/* ============================================================
+   INICIALIZAÇÃO
+   ============================================================ */
+function registrarSW(){
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',function(){
+      navigator.serviceWorker.register('./sw.js').catch(function(){});
+    });
+  }
+}
+window.addEventListener('storage',function(ev){
+  if(ev.key&&ev.key.indexOf('negrets_')===0){renderAll();}
+});
+document.querySelectorAll('.mfechar').forEach(function(b){b.innerHTML=ic('x',20);});
+$('#btnAtualizar').insertAdjacentHTML('afterbegin',ic('refresh',16));
+$('#btnCSV').insertAdjacentHTML('afterbegin',ic('filedown',16));
+$('#btnNovo').insertAdjacentHTML('afterbegin',ic('plus',16));
+$('#btnPrecos').insertAdjacentHTML('afterbegin',ic('tag',16));
+$('#btnLixeira').insertAdjacentHTML('afterbegin',ic('trash',16));
+$('#btnSair').insertAdjacentHTML('afterbegin',ic('logout',18));
+$('#btnConfig').insertAdjacentHTML('afterbegin',ic('sliders',18));
+$('#btnInstalar').insertAdjacentHTML('afterbegin',ic('download',18));
+$('#btnLic').insertAdjacentHTML('afterbegin',ic('shield',18));
+$('#vazioLista').insertAdjacentHTML('afterbegin',ic('users',34));
+
+aplicarTema(localStorage.getItem(K.tema)||'dark');
+trialInicio();
+if(sessaoAtiva()){abrirPainel();}else{
+  $('#lEmail').value=admCred().email;
+  mostrarLogin();
+}
+registrarSW();
+})();
+</script>
+</body>
+</html>

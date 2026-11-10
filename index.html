@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NEGRET'S — PDV &amp; Caixa</title>
+<meta name="description" content="NEGRET'S — Sistema de PDV e Caixa. Criado por Elias Costa NEGRET'S.">
+<meta name="theme-color" content="#080808">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="NEGRET'S">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/png" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<style>
+/* ============================================================
+   NEGRET'S — CSS 100% puro e embutido (abre sem internet)
+   Criado por Elias Costa NEGRET'S
+   Cores: preto #080808 · dourado #C9A227 · verde #0F766E
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --ouro:#C9A227;--ouro2:#E0BC4B;--ouro3:#A8871F;
+  --verde:#0F766E;--verde2:#0C5D57;
+  --verm:#DC2626;--ambar:#D97706;--ok:#16A34A;
+  --r:14px;--sombra:0 12px 34px rgba(0,0,0,.4)
+}
+[data-theme="dark"]{--bg:#080808;--card:#131311;--card2:#1B1A16;--txt:#F3EFE3;--txt2:#A79F8C;--borda:#2B2820;--campo:#0C0C0A;--verde-txt:#4ADE80}
+[data-theme="light"]{--bg:#F4F1EA;--card:#FFFFFF;--card2:#F7F4EC;--txt:#1B1910;--txt2:#6F6A5B;--borda:#E3DECF;--campo:#FFFFFF;--verde-txt:#15803D}
+html{-webkit-text-size-adjust:100%}
+body{min-height:100vh;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;transition:background .25s,color .25s}
+.hidden{display:none!important}
+img{max-width:100%}
+button{font-family:inherit;cursor:pointer}
+svg{flex:none}
+
+/* ---------- Cabeçalho ---------- */
+.topo{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg);border-bottom:1px solid var(--borda)}
+.marca{width:44px;height:44px;flex:none;border-radius:12px;background:linear-gradient(155deg,var(--ouro2),var(--ouro) 55%,var(--ouro3));color:#171307;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;box-shadow:0 3px 12px rgba(201,162,39,.35)}
+.tit{min-width:0;display:flex;flex-direction:column;line-height:1.15}
+.tit b{font-size:16px;letter-spacing:.5px}
+.tit span{font-size:11.5px;color:var(--txt2)}
+.topo .acoes{margin-left:auto;display:flex;gap:8px;align-items:center}
+.ibtn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:40px;min-width:40px;padding:0 11px;border-radius:11px;border:1px solid var(--borda);background:var(--card);color:var(--txt);font-size:13px;font-weight:700;transition:border-color .15s,color .15s}
+.ibtn:hover{border-color:var(--ouro);color:var(--ouro)}
+.ibtn .bl{white-space:nowrap}
+@media(max-width:430px){.topo .ibtn .bl{display:none}.topo .ibtn{padding:0 9px}}
+
+/* ---------- Chips ---------- */
+.chip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--borda);background:var(--card);color:var(--txt2);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:800;transition:border-color .15s,color .15s}
+.chip:hover{border-color:var(--ouro);color:var(--ouro)}
+.chip.ouro{color:var(--ouro);border-color:rgba(201,162,39,.55);background:rgba(201,162,39,.08)}
+.chip.verde{color:var(--verde-txt);border-color:rgba(22,163,74,.45);background:rgba(22,163,74,.08)}
+.chip.ambar{color:#F59E0B;border-color:rgba(217,119,6,.45);background:rgba(217,119,6,.08)}
+
+/* ---------- Botões ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;padding:13px 18px;font-weight:800;font-size:15px;letter-spacing:.3px;transition:filter .15s,transform .05s,border-color .15s,color .15s}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn-ouro{background:linear-gradient(180deg,var(--ouro2),var(--ouro));color:#1B1505;box-shadow:0 4px 16px rgba(201,162,39,.28)}
+.btn-ouro:hover{filter:brightness(1.06)}
+.btn-verde{background:var(--verde);color:#fff;box-shadow:0 4px 16px rgba(15,118,110,.3)}
+.btn-verde:hover{background:var(--verde2)}
+.btn-linha{background:transparent;border:1.5px solid var(--borda);color:var(--txt)}
+.btn-linha:hover{border-color:var(--ouro);color:var(--ouro)}
+.btn-perigo{background:transparent;border:1.5px solid rgba(220,38,38,.5);color:#F87171}
+.btn-perigo:hover{border-color:var(--verm)}
+.btn-whats{background:#1FA855;color:#fff}
+.btn-largo{width:100%}
+
+/* ---------- Campos ---------- */
+.rotulo{display:block;font-size:12.5px;font-weight:800;color:var(--txt2);margin:10px 0 6px;text-transform:uppercase;letter-spacing:.6px}
+.campo{position:relative;display:flex;align-items:center;margin-bottom:12px}
+.campo>.ic-esq{position:absolute;left:13px;color:var(--txt2);pointer-events:none}
+.campo .inp{padding-left:44px}
+.campo .olho{position:absolute;right:6px;background:none;border:none;color:var(--txt2);padding:8px;display:flex}
+.campo .olho:hover{color:var(--ouro)}
+.inp{width:100%;background:var(--campo);border:1.5px solid var(--borda);border-radius:12px;color:var(--txt);padding:12px 14px;font-size:16px;font-family:inherit;outline:none;transition:border-color .15s}
+.inp:focus{border-color:var(--ouro)}
+.inp::placeholder{color:var(--txt2);opacity:1}
+textarea.inp{resize:vertical}
+.cod-inp{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:2px;text-transform:uppercase;font-weight:700;text-align:center}
+.erro{background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.45);color:#F87171;border-radius:10px;padding:10px 12px;font-size:13.5px;margin-bottom:12px}
+[data-theme="light"] .erro{color:#DC2626}
+
+/* ---------- Área do PDV ---------- */
+.container{max-width:1180px;margin:0 auto;padding:14px 14px 44px}
+.barra{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:2px 0 16px}
+.barra .empurra{margin-left:auto}
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px}
+@media(min-width:700px){.grade{grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:16px}}
+.pcard{background:var(--card);border:1px solid var(--borda);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .12s,border-color .15s;display:flex;flex-direction:column}
+.pcard:active{transform:scale(.98)}
+.pcard:hover{border-color:var(--ouro)}
+.pfoto{aspect-ratio:1/1;background:var(--card2);display:flex;align-items:center;justify-content:center;color:var(--txt2)}
+.pfoto img{width:100%;height:100%;object-fit:cover;display:block}
+.pinfo{padding:10px 11px 12px;display:flex;flex-direction:column;gap:3px}
+.pnome{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ppreco{color:var(--ouro);font-weight:800;font-size:15.5px}
+.pestoque{font-size:11.5px;color:var(--txt2)}
+.pcard.esgotado{opacity:.55;cursor:not-allowed}
+.vazio{border:1.5px dashed var(--borda);border-radius:var(--r);padding:36px 18px;text-align:center;color:var(--txt2);font-size:14px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.rodape-app{text-align:center;color:var(--txt2);font-size:12px;padding:18px 0 4px}
+
+/* ---------- Modais ---------- */
+.modal{position:fixed;inset:0;z-index:90;background:rgba(4,4,3,.74);display:flex;align-items:center;justify-content:center;padding:14px}
+.mbox{width:100%;max-width:470px;max-height:92dvh;overflow:auto;background:var(--card);border:1px solid var(--borda);border-radius:18px;padding:18px 18px 20px;box-shadow:var(--sombra);animation:pop .18s}
+@media(min-width:700px){.mbox{max-width:520px}}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}}
+.mhead{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.mhead h3{font-size:17.5px;flex:1;min-width:0;line-height:1.25}
+.mfechar{background:none;border:none;color:var(--txt2);padding:6px;display:flex}
+.mfechar:hover{color:var(--txt)}
+.modal-sub{color:var(--txt2);font-size:14px;margin:-6px 0 14px}
+.m-acoes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+
+/* ---------- Venda ---------- */
+.venda-topo{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.v-foto{width:88px;height:88px;flex:none;border-radius:14px;overflow:hidden;background:var(--card2);display:flex;align-items:center;justify-content:center;color:var(--txt2)}
+.v-foto img{width:100%;height:100%;object-fit:cover;display:block}
+.v-info{min-width:0}
+.v-info h3{font-size:17px;line-height:1.25}
+.v-preco{color:var(--ouro);font-weight:800;font-size:18px;margin-top:2px}
+.v-estq{font-size:12.5px;color:var(--txt2);margin-top:2px}
+.qtd-linha{display:flex;align-items:center;gap:10px;margin:6px 0 4px}
+.qtd-btn{width:48px;height:48px;flex:none;border-radius:12px;border:1.5px solid var(--borda);background:var(--card2);color:var(--txt);display:flex;align-items:center;justify-content:center}
+.qtd-btn:hover{border-color:var(--ouro);color:var(--ouro)}
+.qtd-inp{max-width:110px;text-align:center;font-weight:800;font-size:20px}
+.total-linha{display:flex;align-items:center;justify-content:space-between;border-top:1.5px dashed var(--borda);margin-top:12px;padding-top:14px;font-size:16px;color:var(--txt2);font-weight:700}
+.total-linha b{color:var(--ouro);font-size:23px}
+
+/* ---------- Produto ---------- */
+.foto-picker{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1.5px dashed var(--borda);border-radius:14px;min-height:120px;background:var(--card2);cursor:pointer;color:var(--txt2);font-size:13.5px;font-weight:700;margin-bottom:6px;overflow:hidden;position:relative}
+.foto-picker:hover{border-color:var(--ouro)}
+.foto-picker img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ---------- Licença (caixas verdes) ---------- */
+.lic-caixa{border:1.5px solid rgba(22,163,74,.65);background:rgba(22,163,74,.09);border-radius:14px;padding:14px 12px;text-align:center;margin-bottom:10px}
+.lic-caixa .l1{font-weight:800;font-size:15.5px;color:var(--verde-txt);line-height:1.35}
+.lic-ate{font-size:20px;font-weight:800}
+.lic-mail{font-size:13px;color:var(--txt2);margin-top:3px;word-break:break-all}
+.lic-nunca{color:var(--ouro);font-weight:800;text-align:center;font-size:13.5px;margin:2px 0 6px}
+.lic-ajuda{display:block;text-align:center;color:var(--txt2);font-size:13.5px;margin:12px 0 2px;text-decoration:underline}
+.lic-ajuda:hover{color:var(--ouro)}
+.lic-acoes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+
+/* ---------- Planos ---------- */
+.plano{display:flex;align-items:center;gap:12px;border:1.5px solid var(--borda);border-radius:14px;padding:13px 14px;margin-bottom:10px;cursor:pointer;transition:border-color .15s,background .15s}
+.plano:hover{border-color:var(--ouro)}
+.plano input{accent-color:var(--ouro);width:18px;height:18px;flex:none}
+.plano .pn{flex:1;min-width:0}
+.plano .pn b{display:block;font-size:15px}
+.plano .pn span{font-size:12px;color:var(--txt2)}
+.plano .pv{font-weight:800;color:var(--ouro);font-size:15.5px;white-space:nowrap}
+.plano.sel{border-color:var(--ouro);background:rgba(201,162,39,.07)}
+.plano.vit{border-color:rgba(201,162,39,.55);background:linear-gradient(180deg,rgba(201,162,39,.12),rgba(201,162,39,.04))}
+.plano.vit .pn b{color:var(--ouro)}
+.plan-info{border:1px solid var(--borda);border-radius:12px;padding:11px 13px;font-size:14px;color:var(--txt2);margin:12px 0 10px;text-align:center;min-height:44px;display:flex;align-items:center;justify-content:center}
+.pix-nota{text-align:center;color:var(--txt2);font-size:12px;margin-top:10px}
+
+/* ---------- Pix ---------- */
+.pix-qr{width:230px;height:230px;margin:4px auto 12px;background:#fff;border-radius:14px;padding:10px;display:block}
+.pix-resumo{text-align:center;font-weight:800;font-size:16px;color:var(--ouro);margin-bottom:6px}
+.pix-copia{display:flex;gap:8px;align-items:stretch;margin-bottom:12px}
+.pix-copia textarea{flex:1;font-size:11px;font-family:ui-monospace,Menlo,Consolas,monospace;min-height:66px}
+.pix-status{border:1px solid var(--borda);border-radius:12px;padding:12px;font-size:14px;color:var(--txt2);display:flex;align-items:center;gap:9px;justify-content:center;text-align:center}
+.pix-status.ok{border-color:rgba(22,163,74,.6);background:rgba(22,163,74,.09);color:var(--verde-txt);font-weight:800}
+.pix-status.err{border-color:rgba(220,38,38,.5);color:#F87171}
+.spin{width:16px;height:16px;border:2px solid var(--borda);border-top-color:var(--ouro);border-radius:50%;animation:girar .8s linear infinite;flex:none}
+@keyframes girar{to{transform:rotate(360deg)}}
+
+/* ---------- Ajuda ---------- */
+.ajuda-lista{list-style:none;margin-bottom:6px}
+.ajuda-lista li{border-left:3px solid var(--ouro);background:var(--card2);border-radius:0 10px 10px 0;padding:9px 12px;font-size:13.5px;color:var(--txt2);margin-bottom:8px}
+
+/* ---------- Tela travada ---------- */
+.lock{position:fixed;inset:0;z-index:70;background:radial-gradient(1100px 560px at 50% -8%,rgba(201,162,39,.15),transparent 60%),var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:8px}
+.lock .marca{width:76px;height:76px;font-size:38px;border-radius:20px}
+.lock h1{letter-spacing:2px;font-size:27px;margin-top:14px}
+.lock-sub{color:var(--txt2);font-size:12.5px;letter-spacing:1px;margin-bottom:16px}
+.lock-msg{color:var(--txt2);font-size:17px;margin-bottom:20px;max-width:440px;font-weight:600}
+.lock .btn{width:min(340px,100%)}
+.lock .btn+.btn{margin-top:10px}
+.lock-rodape{margin-top:30px;color:var(--txt2);font-size:12px}
+
+/* ---------- Toasts ---------- */
+#toasts{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:120;display:flex;flex-direction:column;gap:8px;width:min(92vw,430px);pointer-events:none}
+.toast{background:#1C1A15;color:#F3EFE4;border:1px solid var(--borda);border-left:3px solid var(--ouro);border-radius:12px;padding:12px 14px;font-size:14px;box-shadow:0 8px 30px rgba(0,0,0,.45);animation:tin .25s;transition:opacity .35s,transform .35s;word-break:break-word}
+[data-theme="light"] .toast{background:#26241C}
+.toast.ok{border-left-color:var(--ok)}
+.toast.err{border-left-color:var(--verm)}
+@keyframes tin{from{opacity:0;transform:translateY(8px)}}
+</style>
+</head>
+<body>
+<noscript><p style="padding:20px;text-align:center">O NEGRET'S precisa de JavaScript ativado para funcionar.</p></noscript>
+
+<!-- ================= CABEÇALHO ================= -->
+<header class="topo">
+  <div class="marca">N</div>
+  <div class="tit"><b>NEGRET'S</b><span>PDV · Caixa</span></div>
+  <div class="acoes">
+    <button class="ibtn" id="btnLic" title="Licença do NEGRET'S" aria-label="Licença"><span class="bl">Licença</span></button>
+    <button class="ibtn" id="btnInstalar" title="Instalar App" aria-label="Instalar App"><span class="bl">Instalar App</span></button>
+    <button class="ibtn" id="btnTema" title="Tema claro/escuro" aria-label="Tema"></button>
+  </div>
+</header>
+
+<!-- ================= APP (PDV) ================= -->
+<div id="app">
+  <main class="container">
+    <div class="barra">
+      <button class="chip ambar" id="chipLic" title="Abrir licença">Licença</button>
+      <span class="chip" id="chipHoje">Vendas hoje: R$ 0,00</span>
+      <button class="btn btn-ouro empurra" id="btnNovoProd"></button>
+    </div>
+    <section class="grade" id="grade"></section>
+    <div class="vazio" id="vazioProd">
+      <h3>Nenhum produto cadastrado</h3>
+      <p>Toque em <b>+ Produto</b> para cadastrar o primeiro item do seu caixa.</p>
+    </div>
+  </main>
+  <footer class="rodape-app">NEGRET'S • Criado por Elias Costa NEGRET'S</footer>
+</div>
+
+<!-- ================= TELA TRAVADA (teste acabou) ================= -->
+<div class="lock hidden" id="lock">
+  <div class="marca">N</div>
+  <h1>NEGRET'S</h1>
+  <div class="lock-sub">PDV · CAIXA</div>
+  <p class="lock-msg" id="lockMsg">Seu teste grátis acabou.<br>Escolha um plano para continuar</p>
+  <button class="btn btn-verde" id="lockPix"></button>
+  <button class="btn btn-linha" id="lockCodigo"></button>
+  <p class="lock-rodape">NEGRET'S • Criado por Elias Costa NEGRET'S</p>
+</div>
+
+<!-- ================= MODAL: VENDA ================= -->
+<div class="modal hidden" id="mVenda">
+  <div class="mbox">
+    <div class="mhead"><h3>Vender produto</h3><button class="mfechar" data-fechar="mVenda" aria-label="Fechar"></button></div>
+    <div class="venda-topo">
+      <div class="v-foto" id="vFoto"></div>
+      <div class="v-info">
+        <h3 id="vNome">—</h3>
+        <div class="v-preco" id="vPrecoUnit">R$ 0,00</div>
+        <div class="v-estq" id="vEstoque">Estoque: 0</div>
+      </div>
+    </div>
+    <label class="rotulo" for="vQtd">Quantidade</label>
+    <div class="qtd-linha">
+      <button class="qtd-btn" id="vMenos" type="button" aria-label="Diminuir"></button>
+      <input class="inp qtd-inp" id="vQtd" type="text" inputmode="numeric" pattern="[0-9]*" value="1" maxlength="5" autocomplete="off" aria-label="Quantidade">
+      <button class="qtd-btn" id="vMais" type="button" aria-label="Aumentar"></button>
+    </div>
+    <div class="total-linha"><span>Total</span><b id="vTotal">R$ 0,00</b></div>
+    <div class="erro hidden" id="vErro"></div>
+    <div class="m-acoes">
+      <button class="btn btn-linha" id="vCancelar">Cancelar</button>
+      <button class="btn btn-verde" id="vFinalizar">FINALIZAR VENDA</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL: PRODUTO ================= -->
+<div class="modal hidden" id="mProduto">
+  <div class="mbox">
+    <div class="mhead"><h3 id="pTit">Novo produto</h3><button class="mfechar" data-fechar="mProduto" aria-label="Fechar"></button></div>
+    <label class="foto-picker" for="pFotoFile">
+      <input type="file" id="pFotoFile" accept="image/*" class="hidden">
+      <img id="pFotoPrev" class="hidden" alt="Foto do produto">
+      <span id="pFotoHint">Enviar foto do produto</span>
+    </label>
+    <label class="rotulo" for="pNome">Nome do produto</label>
+    <input class="inp" id="pNome" type="text" placeholder="Ex.: Coca-Cola Lata 350ml" maxlength="60" autocomplete="off">
+    <label class="rotulo" for="pPreco">Preço de venda (R$)</label>
+    <input class="inp" id="pPreco" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off">
+    <label class="rotulo" for="pEstoque">Estoque</label>
+    <input class="inp" id="pEstoque" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="0" maxlength="7" autocomplete="off">
+    <div class="m-acoes">
+      <button class="btn btn-perigo hidden" id="pExcluir">Excluir</button>
+      <button class="btn btn-ouro" id="pSalvar">Salvar produto</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL: LICENÇA ================= -->
+<div class="modal hidden" id="mLic">
+  <div class="mbox">
+    <div class="mhead"><h3 id="licTit">Licença do NEGRET'S</h3><button class="mfechar" data-fechar="mLic" aria-label="Fechar"></button></div>
+    <div class="lic-caixa"><div class="l1" id="licBox1">—</div></div>
+    <div class="lic-caixa">
+      <div class="lic-ate" id="licAte">—</div>
+      <div class="lic-mail" id="licEmail">—</div>
+    </div>
+    <div class="lic-nunca hidden" id="licNunca">Não expira nunca</div>
+    <a href="#" class="lic-ajuda" id="licAjuda">Paguei e não ativou? Clique aqui / Ajuda</a>
+    <div class="lic-acoes">
+      <button class="btn btn-verde" id="licPix"></button>
+      <button class="btn btn-linha" id="licCod"></button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL: PLANOS ================= -->
+<div class="modal hidden" id="mPlanos">
+  <div class="mbox">
+    <div class="mhead"><h3>Escolha um plano</h3><button class="mfechar" data-fechar="mPlanos" aria-label="Fechar"></button></div>
+    <div id="planosLista"></div>
+    <div class="plan-info" id="planSelInfo">Selecione um plano para continuar.</div>
+    <button class="btn btn-verde btn-largo" id="planBtn" disabled></button>
+    <p class="pix-nota">Pagamento via Mercado Pago • Ativação automática em segundos</p>
+  </div>
+</div>
+
+<!-- ================= MODAL: PIX ================= -->
+<div class="modal hidden" id="mPix">
+  <div class="mbox">
+    <div class="mhead"><h3>Pagamento Pix</h3><button class="mfechar" data-fechar="mPix" aria-label="Fechar"></button></div>
+    <div class="pix-resumo" id="pixResumo">—</div>
+    <img class="pix-qr hidden" id="pixQr" alt="QR Code Pix">
+    <label class="rotulo" for="pixCopia">Pix copia e cola</label>
+    <div class="pix-copia">
+      <textarea class="inp" id="pixCopia" rows="3" readonly></textarea>
+      <button class="btn btn-ouro" id="pixCopiar" type="button"></button>
+    </div>
+    <div class="pix-status" id="pixStatus"><span class="spin"></span> Aguardando pagamento — verificação automática a cada 15 s</div>
+  </div>
+</div>
+
+<!-- ================= MODAL: CÓDIGO ================= -->
+<div class="modal hidden" id="mCodigo">
+  <div class="mbox">
+    <div class="mhead"><h3>Ativar com código</h3><button class="mfechar" data-fechar="mCodigo" aria-label="Fechar"></button></div>
+    <p class="modal-sub">Digite o código recebido do suporte NEGRET'S no formato NEG-XXXX-XXXX.</p>
+    <input class="inp cod-inp" id="codInput" type="text" placeholder="NEG-XXXX-XXXX" maxlength="13" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Código de ativação">
+    <label class="rotulo" for="codEmail">Seu e-mail (opcional)</label>
+    <input class="inp" id="codEmail" type="email" inputmode="email" placeholder="voce@email.com" autocomplete="email">
+    <div class="erro hidden" id="codErro"></div>
+    <button class="btn btn-ouro btn-largo" id="codBtn">ATIVAR COM CÓDIGO</button>
+  </div>
+</div>
+
+<!-- ================= MODAL: AJUDA ================= -->
+<div class="modal hidden" id="mAjuda">
+  <div class="mbox">
+    <div class="mhead"><h3>Paguei e não ativou?</h3><button class="mfechar" data-fechar="mAjuda" aria-label="Fechar"></button></div>
+    <ul class="ajuda-lista">
+      <li>1. O Pix pode levar alguns segundos para o Mercado Pago confirmar. A checagem roda sozinha a cada 15 segundos.</li>
+      <li>2. Toque em <b>Verificar agora</b> para checar o pagamento imediatamente.</li>
+      <li>3. Se ativou por código, confira o formato NEG-XXXX-XXXX e se o código já não foi usado.</li>
+      <li>4. Continua com problema? Fale com o suporte NEGRET'S no WhatsApp.</li>
+    </ul>
+    <div class="m-acoes">
+      <button class="btn btn-verde" id="ajVerificar"></button>
+      <button class="btn btn-linha" id="ajCodigo"></button>
+    </div>
+    <button class="btn btn-whats btn-largo hidden" id="ajWhats" style="margin-top:10px"></button>
+  </div>
+</div>
+
+<!-- ================= MODAL: INSTALAR ================= -->
+<div class="modal hidden" id="mInstall">
+  <div class="mbox">
+    <div class="mhead"><h3>Instalar o NEGRET'S</h3><button class="mfechar" data-fechar="mInstall" aria-label="Fechar"></button></div>
+    <p class="modal-sub" id="installTxt"></p>
+    <button class="btn btn-ouro btn-largo" data-fechar="mInstall">Entendi</button>
+  </div>
+</div>
+
+<!-- ================= MODAL: CONFIRMAR ================= -->
+<div class="modal hidden" id="mConfirm">
+  <div class="mbox">
+    <div class="mhead"><h3 id="cTit">Confirmar</h3></div>
+    <p class="modal-sub" id="cMsg"></p>
+    <div class="m-acoes">
+      <button class="btn btn-linha" id="cNao">Cancelar</button>
+      <button class="btn btn-verde" id="cOk">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+<script>
+(function(){
+'use strict';
+/* ============================================================
+   NEGRET'S — App do Cliente (PDV/Caixa)
+   Criado por Elias Costa NEGRET'S
+   Banco local compartilhado com o Painel ADM (mesma origem):
+   negrets_db · negrets_precos · negrets_pix · negrets_trial_inicio
+   ============================================================ */
+var K={db:'negrets_db',precos:'negrets_precos',pix:'negrets_pix',codigos:'negrets_codigos',trial:'negrets_trial_inicio',lic:'negrets_licenca',cfg:'negrets_config',produtos:'negrets_produtos',vendas:'negrets_vendas',tema:'negrets_tema',device:'negrets_device_id'};
+var DAY=86400000;
+
+/* ---------- Ícones SVG finos (profissionais, sem emoji) ---------- */
+var IC={
+plus:'<path d="M12 5v14M5 12h14"/>',
+minus:'<path d="M5 12h14"/>',
+x:'<path d="M6 6l12 12M18 6 6 18"/>',
+check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+copy:'<rect x="9" y="9" width="12" height="12" rx="2.2"/><path d="M5.5 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v.5"/>',
+trash:'<path d="M3 6h18"/><path d="M19 6v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/>',
+edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+shield:'<path d="M12 3l7.5 2.8v5.7c0 4.6-3.1 8.2-7.5 9.5-4.4-1.3-7.5-4.9-7.5-9.5V5.8Z"/><path d="m9 11.6 2.1 2.1 4-4.2"/>',
+sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.8v2.2M12 19v2.2M2.8 12H5M19 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/>',
+moon:'<path d="M20.6 13.8A8.5 8.5 0 0 1 10.2 3.4a8.5 8.5 0 1 0 10.4 10.4Z"/>',
+download:'<path d="M21 15v3.5A2.5 2.5 0 0 1 18.5 21h-13A2.5 2.5 0 0 1 3 18.5V15"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
+qrcode:'<rect x="3" y="3" width="7.5" height="7.5" rx="1.2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.2"/><path d="M13.5 13.5h3.2v3.2h-3.2z"/><path d="M20.7 13.8v.01M13.8 20.7v.01M20.7 20.7v.01M17 17h3.7v3.7"/>',
+key:'<circle cx="7.8" cy="16.2" r="4.3"/><path d="m11 13 9-9"/><path d="m16 6 2.6 2.6"/>',
+box:'<path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>',
+image:'<rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="m21 15.5-5-5L5.5 21"/>',
+cart:'<circle cx="9" cy="20" r="1.6"/><circle cx="17.3" cy="20" r="1.6"/><path d="M3 3.5h2.2l2.5 11h10.7l2-7.5H6.4"/>',
+refresh:'<path d="M20.4 8A8.5 8.5 0 1 0 21 12.5"/><path d="M21 3.5v5h-5"/>',
+whatsapp:'<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.668-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>'
+};
+function ic(n,s){
+  if(n==='whatsapp'){return '<svg viewBox="0 0 24 24" width="'+(s||18)+'" height="'+(s||18)+'" fill="currentColor" aria-hidden="true">'+IC[n]+'</svg>';}
+  return '<svg viewBox="0 0 24 24" width="'+(s||18)+'" height="'+(s||18)+'" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(IC[n]||'')+'</svg>';
+}
+
+/* ---------- Helpers ---------- */
+function $(s){return document.querySelector(s);}
+function load(k,d){try{var v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){toast('Memória cheia: remova fotos antigas de produtos.','err');}}
+function deviceId(){var d=localStorage.getItem(K.device);if(!d){d='DEV-'+Math.random().toString(36).substring(2,8).toUpperCase();localStorage.setItem(K.device,d);}return d;}
+function brl(n){return 'R$ '+Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function pad(n){return (n<10?'0':'')+n;}
+function fmtData(x){var d=x?new Date(x):new Date();return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear();}
+function parseDecimal(s){s=String(s==null?'':s).trim();if(!s)return 0;if(s.indexOf(',')>=0)s=s.replace(/\./g,'').replace(',','.');var n=parseFloat(s);return isNaN(n)?0:n;}
+function fuga(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function uid(){return 'NEG-'+Date.now().toString(36)+'-'+Math.random().toString(36).substring(2,10);}
+
+/* ---------- Planos e configuração ---------- */
+var PLANS={
+  mensal:{label:'Mensal',dias:30,preco:'mensal'},
+  semestral:{label:'6 Meses',dias:180,preco:'semestral'},
+  anual:{label:'1 Ano',dias:365,preco:'anual'},
+  gratis:{label:'Mês Grátis',dias:30,preco:'gratis'},
+  vitalicio:{label:'👑 PRO MAX • VITALÍCIO',dias:3650,preco:'vitalicio',vitalicio:true}
+};
+var PRECOS_PADRAO={mensal:29.90,semestral:149.90,anual:249.90,vitalicio:497.00,gratis:0};
+function precos(){return Object.assign({},PRECOS_PADRAO,load(K.precos,{}));}
+function cfg(){return Object.assign({},load(K.cfg,{}));}
+function mpToken(){return String(cfg().mp_token||'').trim();}
+
+/* ---------- Toasts ---------- */
+function toast(msg,tipo){
+  var t=document.createElement('div');
+  t.className='toast '+(tipo||'');
+  t.textContent=msg;
+  $('#toasts').appendChild(t);
+  setTimeout(function(){t.style.opacity='0';t.style.transform='translateY(6px)';},3400);
+  setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},3900);
+}
+
+/* ---------- Modais ---------- */
+function abrirM(id){$('#'+id).classList.remove('hidden');document.body.style.overflow='hidden';}
+function fecharM(id){$('#'+id).classList.add('hidden');document.body.style.overflow='';}
+document.addEventListener('click',function(e){
+  var f=e.target.closest('[data-fechar]');
+  if(f){fecharM(f.getAttribute('data-fechar'));return;}
+  if(e.target.classList&&e.target.classList.contains('modal')){fecharM(e.target.id);}
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    var abertos=document.querySelectorAll('.modal:not(.hidden)');
+    if(abertos.length){fecharM(abertos[abertos.length-1].id);}
+  }
+});
+
+/* ---------- Confirmar ---------- */
+var confirmCb=null;
+function confirmar(tit,msg,cb,perigo){
+  confirmCb=cb;
+  $('#cTit').textContent=tit;
+  $('#cMsg').textContent=msg;
+  $('#cOk').textContent=perigo?'Excluir':'Confirmar';
+  $('#cOk').className='btn '+(perigo?'btn-perigo':'btn-verde');
+  abrirM('mConfirm');
+}
+$('#cOk').addEventListener('click',function(){fecharM('mConfirm');var cb=confirmCb;confirmCb=null;if(cb)cb();});
+$('#cNao').addEventListener('click',function(){fecharM('mConfirm');confirmCb=null;});
+
+/* ---------- Tema ---------- */
+function aplicarTema(t){
+  document.documentElement.setAttribute('data-theme',t);
+  localStorage.setItem(K.tema,t);
+  $('#btnTema').innerHTML=ic(t==='dark'?'sun':'moon',18);
+}
+$('#btnTema').addEventListener('click',function(){
+  aplicarTema(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+});
+
+/* ============================================================
+   LICENÇA — REGRA TRAVADA
+   Trial: 30 dias grátis desde o 1º acesso (negrets_trial_inicio)
+   Mensal +30 · 6 Meses +180 · 1 Ano +365
+   Vitalício = 👑 PRO MAX = 3650 dias e NUNCA mais trava
+   ============================================================ */
+function trialInicio(){
+  var t=localStorage.getItem(K.trial);
+  if(!t){t=new Date().toISOString();localStorage.setItem(K.trial,t);}
+  return t;
+}
+function estadoLicenca(){
+  var lic=load(K.lic,null);
+  var ini=new Date(trialInicio()).getTime();
+  var agora=Date.now();
+  if(lic&&lic.vitalicio){
+    var at=new Date(lic.ativado_em||agora).getTime();
+    return {tipo:'vitalicio',ok:true,restantes:3650,ate:at+3650*DAY,email:lic.email||''};
+  }
+  var exp=lic&&lic.expira_em?new Date(lic.expira_em).getTime():0;
+  if(exp>agora){
+    return {tipo:'paga',ok:true,restantes:Math.ceil((exp-agora)/DAY),ate:exp,email:(lic&&lic.email)||''};
+  }
+  var restantes=30-Math.floor((agora-ini)/DAY);
+  if(restantes>0){
+    return {tipo:'trial',ok:true,restantes:restantes,ate:ini+30*DAY,email:''};
+  }
+  return {tipo:'expirado',ok:false,restantes:0,ate:ini+30*DAY,email:(lic&&lic.email)||''};
+}
+function renderChip(){
+  var e=estadoLicenca();var c=$('#chipLic');
+  c.classList.remove('ouro','verde','ambar');
+  if(e.tipo==='vitalicio'){c.classList.add('ouro');c.textContent='👑 PRO MAX • VITALÍCIO';}
+  else if(e.tipo==='paga'){c.classList.add('verde');c.textContent='Licença ativa • '+e.restantes+' dias';}
+  else if(e.tipo==='trial'){c.classList.add('ambar');c.textContent='Teste Grátis • '+e.restantes+' dias';}
+  else{c.textContent='Teste encerrado';}
+}
+function renderLicModal(){
+  var e=estadoLicenca();var tit=$('#licTit');
+  $('#licNunca').classList.add('hidden');
+  if(e.tipo==='vitalicio'){
+    tit.textContent='👑 VOCÊ É UM USUÁRIO PRO MAX • VITALÍCIO';
+    $('#licBox1').textContent='Licença ativa — 3650 dias restantes, até '+fmtData(e.ate);
+    $('#licNunca').classList.remove('hidden');
+    $('#licPix').classList.add('hidden');
+  }else if(e.tipo==='paga'){
+    tit.textContent="Licença do NEGRET'S";
+    $('#licBox1').textContent='Licença ativa — '+e.restantes+' dias restantes, até '+fmtData(e.ate);
+    $('#licPix').classList.remove('hidden');
+  }else if(e.tipo==='trial'){
+    tit.textContent="Licença do NEGRET'S";
+    $('#licBox1').textContent='Teste Grátis — '+e.restantes+' dias restantes';
+    $('#licPix').classList.remove('hidden');
+  }else{
+    tit.textContent="Licença do NEGRET'S";
+    $('#licBox1').textContent='Seu teste grátis acabou — escolha um plano para continuar';
+    $('#licPix').classList.remove('hidden');
+  }
+  $('#licAte').textContent=e.ok?'Ativo até '+fmtData(e.ate):'Encerrado em '+fmtData(e.ate);
+  $('#licEmail').textContent=e.email||'—';
+}
+function renderLock(){
+  var e=estadoLicenca();
+  if(e.ok){
+    $('#lock').classList.add('hidden');
+    $('#app').classList.remove('hidden');
+    return;
+  }
+  $('#lockMsg').innerHTML=load(K.lic,null)
+    ?'Sua licença expirou.<br>Escolha um plano para continuar'
+    :'Seu teste grátis acabou.<br>Escolha um plano para continuar';
+  $('#lock').classList.remove('hidden');
+  $('#app').classList.add('hidden');
+}
+$('#btnLic').addEventListener('click',function(){renderLicModal();abrirM('mLic');});
+$('#chipLic').addEventListener('click',function(){renderLicModal();abrirM('mLic');});
+$('#licAjuda').addEventListener('click',function(ev){ev.preventDefault();abrirM('mAjuda');});
+$('#licPix').addEventListener('click',function(){fecharM('mLic');abrirPlanos();});
+$('#licCod').addEventListener('click',function(){fecharM('mLic');abrirCodigo();});
+$('#lockPix').addEventListener('click',function(){abrirPlanos();});
+$('#lockCodigo').addEventListener('click',function(){abrirCodigo();});
+
+/* ============================================================
+   PLANOS + PIX AUTOMÁTICO (API Mercado Pago, checagem 15s)
+   ============================================================ */
+var planoSel=null;
+function abrirPlanos(){
+  montarPlanos();
+  planoSel=null;
+  $('#planBtn').disabled=true;
+  $('#planSelInfo').textContent='Selecione um plano para continuar.';
+  abrirM('mPlanos');
+}
+function montarPlanos(){
+  var p=precos();var html='';
+  var ordem=['mensal','semestral','anual','gratis','vitalicio'];
+  ordem.forEach(function(k){
+    var pl=PLANS[k];var v=p[pl.preco];
+    if(k==='vitalicio'){
+      html+='<label class="plano vit"><input type="radio" name="plano" value="vitalicio"><div class="pn"><b>👑 PRO MAX • VITALÍCIO</b><span>Não expira nunca • Acesso para sempre</span></div><div class="pv">'+brl(v)+'</div></label>';
+    }else if(k==='gratis'){
+      html+='<label class="plano"><input type="radio" name="plano" value="gratis"><div class="pn"><b>Mês Grátis</b><span>30 dias • Liberado pelo suporte com código</span></div><div class="pv">R$ 0,00</div></label>';
+    }else{
+      html+='<label class="plano"><input type="radio" name="plano" value="'+k+'"><div class="pn"><b>'+pl.label+'</b><span>'+pl.dias+' dias de licença</span></div><div class="pv">'+brl(v)+'</div></label>';
+    }
+  });
+  $('#planosLista').innerHTML=html;
+}
+$('#planosLista').addEventListener('change',function(e){
+  var r=e.target.closest('input[type="radio"]');
+  if(!r)return;
+  planoSel=r.value;
+  var cards=document.querySelectorAll('#planosLista .plano');
+  for(var i=0;i<cards.length;i++){cards[i].classList.remove('sel');}
+  r.closest('.plano').classList.add('sel');
+  if(planoSel==='gratis'){
+    $('#planSelInfo').textContent='O Mês Grátis é liberado pelo suporte com um código de ativação.';
+    $('#planBtn').disabled=false;
+    $('#planBtn').innerHTML=ic('key',18)+' USAR CÓDIGO DE ATIVAÇÃO';
+  }else{
+    var v=Number(precos()[PLANS[planoSel].preco]);
+    var extra=planoSel==='vitalicio'?' • Acesso vitalício':' • '+PLANS[planoSel].dias+' dias';
+    $('#planSelInfo').textContent=PLANS[planoSel].label+extra+' — '+brl(v);
+    $('#planBtn').disabled=false;
+    $('#planBtn').innerHTML=ic('qrcode',18)+' GERAR PIX DE '+brl(v);
+  }
+});
+$('#planBtn').addEventListener('click',function(){
+  if(!planoSel)return;
+  if(planoSel==='gratis'){fecharM('mPlanos');abrirCodigo();return;}
+  gerarPix(planoSel);
+});
+
+function gerarPix(planoKey){
+  var token=mpToken();
+  if(!token){toast("Configure o token da API Pix no Painel ADM → Preços / Pix API.",'err');return;}
+  var pl=PLANS[planoKey];
+  var v=Number(precos()[pl.preco]);
+  var lic=load(K.lic,null);
+  var btn=$('#planBtn');
+  var rotulo=btn.innerHTML;
+  btn.disabled=true;btn.innerHTML='Gerando Pix…';
+  fetch('https://api.mercadopago.com/v1/payments',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token,'X-Idempotency-Key':uid()},
+    body:JSON.stringify({
+      transaction_amount:v,
+      description:"NEGRET'S — Licença "+pl.label.replace('👑 PRO MAX • ','PRO MAX • '),
+      payment_method_id:'pix',
+      external_reference:deviceId(),
+      payer:(lic&&lic.email)?{email:lic.email}:undefined
+    })
+  }).then(function(resp){
+    return resp.json().then(function(data){
+      if(!resp.ok){throw new Error(data.message||('Erro '+resp.status));}
+      var poi=data.point_of_interaction&&data.point_of_interaction.transaction_data;
+      if(!poi||!poi.qr_code){throw new Error('Resposta do Mercado Pago sem QR Code.');}
+      var rec={id:String(data.id),device:deviceId(),email:(lic&&lic.email)||'',plano:planoKey,valor:v,status:'pendente',criado_em:new Date().toISOString(),copia:poi.qr_code};
+      var pixs=load(K.pix,[]);pixs.push(rec);save(K.pix,pixs);
+      fecharM('mPlanos');
+      renderPixModal(rec,poi.qr_code_base64||'');
+      abrirM('mPix');
+      verificarPendentes(false);
+    });
+  }).catch(function(err){
+    toast('Falha ao gerar Pix: '+err.message,'err');
+    btn.disabled=false;btn.innerHTML=rotulo;
+  });
+}
+function renderPixModal(rec,qrB64){
+  var nome=PLANS[rec.plano]?PLANS[rec.plano].label.replace('👑 PRO MAX • ','PRO MAX • '):rec.plano;
+  $('#pixResumo').textContent=nome+' • '+brl(rec.valor);
+  if(qrB64){
+    $('#pixQr').src='data:image/png;base64,'+qrB64;
+    $('#pixQr').classList.remove('hidden');
+  }else{
+    $('#pixQr').classList.add('hidden');
+  }
+  $('#pixCopia').value=rec.copia||'';
+  pixStatus('aguardando','');
+}
+function pixStatus(estado,msg){
+  var s=$('#pixStatus');
+  if(estado==='ok'){
+    s.className='pix-status ok';
+    s.innerHTML=ic('check',18)+' '+msg;
+  }else if(estado==='err'){
+    s.className='pix-status err';
+    s.textContent=msg;
+  }else{
+    s.className='pix-status';
+    s.innerHTML='<span class="spin"></span> '+(msg||'Aguardando pagamento — verificação automática a cada 15 s');
+  }
+}
+$('#pixCopiar').addEventListener('click',function(){
+  var txt=$('#pixCopia').value||'';
+  if(!txt)return;
+  function ok(){toast('Código Pix copiado! Cole no app do seu banco.','ok');}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(ok,function(){copiarFallback(txt);ok();});
+  }else{copiarFallback(txt);ok();}
+});
+function copiarFallback(txt){
+  var ta=document.createElement('textarea');
+  ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta);
+}
+
+/* Verificação automática a cada 15 segundos */
+var pollTimer=null;
+function iniciarPolling(){
+  if(pollTimer)return;
+  pollTimer=setInterval(function(){if(document.visibilityState==='visible')verificarPendentes(false);},15000);
+}
+function verificarPendentes(manual){
+  var token=mpToken();
+  if(!token){
+    if(manual)toast("Sem token da API Pix configurado no Painel ADM → Preços / Pix API.",'err');
+    return Promise.resolve();
+  }
+  var pixs=load(K.pix,[]);
+  var meus=pixs.filter(function(p){return p.device===deviceId()&&p.status==='pendente';});
+  if(!meus.length){
+    if(manual)toast('Nenhum pagamento pendente para verificar.');
+    return Promise.resolve();
+  }
+  var cadeia=Promise.resolve();
+  var mudou=false;
+  meus.forEach(function(p){
+    cadeia=cadeia.then(function(){
+      return fetch('https://api.mercadopago.com/v1/payments/'+encodeURIComponent(p.id),{
+        headers:{'Authorization':'Bearer '+token}
+      }).then(function(r){
+        if(!r.ok)return null;
+        return r.json();
+      }).then(function(d){
+        if(!d)return;
+        if(d.status==='approved'){p.status='pago';p.pago_em=new Date().toISOString();mudou=true;aplicarPagamento(p);}
+        else if(d.status==='cancelled'||d.status==='rejected'||d.status==='expired'){p.status='expirado';mudou=true;}
+      }).catch(function(){});
+    });
+  });
+  return cadeia.then(function(){
+    if(mudou)save(K.pix,pixs);
+    if(manual){
+      var pagos=pixs.filter(function(p){return p.device===deviceId()&&p.status==='pago';}).length;
+      toast(pagos?'Pagamento confirmado! Licença ativada.':'Nenhum pagamento aprovado ainda.');
+      renderChip();renderLock();
+    }
+  });
+}
+function aplicarPagamento(p){
+  var agora=new Date();
+  var lic=load(K.lic,null);
+  var pl=PLANS[p.plano]||PLANS.mensal;
+  if(pl.vitalicio){
+    lic={vitalicio:true,plano:'vitalicio',email:p.email||'',ativado_em:agora.toISOString()};
+  }else{
+    var base=lic&&lic.expira_em?new Date(lic.expira_em).getTime():0;
+    var fimTrial=new Date(trialInicio()).getTime()+30*DAY;
+    var partida=Math.max(agora.getTime(),base,fimTrial);
+    lic={vitalicio:false,plano:p.plano,expira_em:new Date(partida+pl.dias*DAY).toISOString(),email:p.email||(lic&&lic.email)||'',ativado_em:agora.toISOString()};
+  }
+  save(K.lic,lic);
+  /* Espelha no cadastro do Painel ADM (negrets_db) */
+  var db=load(K.db,[]);var achou=false;
+  for(var i=0;i<db.length;i++){
+    var c=db[i];
+    if((c.email||'').toLowerCase()===String(p.email||'').toLowerCase()){
+      achou=true;
+      c.plano=p.plano;c.valor=p.valor;
+      c.expira_em=lic.expira_em||null;
+      c.status='ativo';c.ativado_em=lic.ativado_em;
+    }
+  }
+  if(!achou&&p.email){
+    var mx=0;db.forEach(function(x){if(x.id>mx)mx=x.id;});
+    db.push({id:mx+1,nome:String(p.email).split('@')[0]||'Cliente',email:p.email,plano:p.plano,valor:p.valor,criado_em:agora.toISOString(),expira_em:lic.expira_em||null,codigo:'',ativado_em:lic.ativado_em,deleted:false});
+  }
+  save(K.db,db);
+  renderChip();renderLock();
+  if(!$('#mPix').classList.contains('hidden')){
+    pixStatus('ok','Pagamento aprovado! Licença ativada com sucesso.');
+    setTimeout(function(){fecharM('mPix');renderLicModal();abrirM('mLic');},2200);
+  }
+  toast('Pagamento aprovado! Licença ativada com sucesso.','ok');
+}
+
+/* ============================================================
+   ATIVAÇÃO POR CÓDIGO — NEG-XXXX-XXXX
+   ============================================================ */
+function abrirCodigo(){
+  $('#codInput').value='';
+  $('#codEmail').value='';
+  $('#codErro').classList.add('hidden');
+  abrirM('mCodigo');
+  setTimeout(function(){$('#codInput').focus();},90);
+}
+$('#codInput').addEventListener('input',function(){
+  var limpo=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').substring(0,11);
+  var out=limpo;
+  if(limpo.length>3&&limpo.length<=7){out=limpo.slice(0,3)+'-'+limpo.slice(3);}
+  else if(limpo.length>7){out=limpo.slice(0,3)+'-'+limpo.slice(3,7)+'-'+limpo.slice(7,11);}
+  this.value=out;
+});
+$('#codBtn').addEventListener('click',function(){
+  var code=$('#codInput').value.trim().toUpperCase();
+  var email=$('#codEmail').value.trim();
+  var erro=$('#codErro');
+  erro.classList.add('hidden');
+  if(!/^NEG-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)){
+    erro.textContent='Formato inválido. Use NEG-XXXX-XXXX.';
+    erro.classList.remove('hidden');return;
+  }
+  var cods=load(K.codigos,{});
+  var c=cods[code];
+  if(!c){
+    erro.textContent="Código não encontrado. Confira com o suporte NEGRET'S.";
+    erro.classList.remove('hidden');return;
+  }
+  if(c.usado){
+    erro.textContent='Este código já foi utilizado.';
+    erro.classList.remove('hidden');return;
+  }
+  var agora=new Date();
+  var lic=load(K.lic,null);
+  if(c.plano==='vitalicio'){
+    lic={vitalicio:true,plano:'vitalicio',email:email||c.email||'',codigo:code,ativado_em:agora.toISOString()};
+  }else{
+    var base=lic&&lic.expira_em?new Date(lic.expira_em).getTime():0;
+    var fimTrial=new Date(trialInicio()).getTime()+30*DAY;
+    var partida=Math.max(agora.getTime(),base,fimTrial);
+    lic={vitalicio:false,plano:c.plano,expira_em:new Date(partida+(c.dias||30)*DAY).toISOString(),email:email||c.email||'',codigo:code,ativado_em:agora.toISOString()};
+  }
+  save(K.lic,lic);
+  c.usado=true;c.usado_em=agora.toISOString();c.device=deviceId();
+  cods[code]=c;save(K.codigos,cods);
+  var db=load(K.db,[]);
+  for(var i=0;i<db.length;i++){
+    var cli=db[i];
+    if(cli.id===c.client_id){
+      cli.status='ativo';cli.ativado_em=lic.ativado_em;
+      if(c.plano==='vitalicio'){cli.plano='vitalicio';cli.expira_em=null;}
+      else{cli.expira_em=lic.expira_em;}
+      break;
+    }
+  }
+  save(K.db,db);
+  fecharM('mCodigo');
+  renderChip();renderLock();renderLicModal();abrirM('mLic');
+  toast('Licença ativada com sucesso!','ok');
+});
+
+/* ---------- Ajuda "Paguei e não ativou?" ---------- */
+$('#ajVerificar').addEventListener('click',function(){verificarPendentes(true);});
+$('#ajCodigo').addEventListener('click',function(){fecharM('mAjuda');abrirCodigo();});
+var waNum=String(cfg().whatsapp||'').replace(/\D/g,'');
+if(waNum){
+  $('#ajWhats').classList.remove('hidden');
+  $('#ajWhats').innerHTML=ic('whatsapp',18)+' Falar com o suporte no WhatsApp';
+  $('#ajWhats').addEventListener('click',function(){window.open('https://wa.me/'+waNum,'_blank');});
+}
+
+/* ============================================================
+   PRODUTOS DO PDV
+   ============================================================ */
+var PRODUTOS_PADRAO=[
+  {id:1,nome:'Coca-Cola Lata 350ml',preco:6,estoque:24,foto:''},
+  {id:2,nome:'Pão Francês (unidade)',preco:1,estoque:100,foto:''},
+  {id:3,nome:'Café Expresso',preco:4.5,estoque:50,foto:''}
+];
+function produtos(){
+  var p=load(K.produtos,null);
+  if(p===null){p=PRODUTOS_PADRAO;save(K.produtos,p);}
+  return p;
+}
+function renderGrid(){
+  var ps=produtos().slice().sort(function(a,b){return String(a.nome).localeCompare(String(b.nome),'pt-BR');});
+  var html='';
+  ps.forEach(function(p){
+    var sem=Number(p.estoque)<=0;
+    html+='<article class="pcard'+(sem?' esgotado':'')+'" data-id="'+p.id+'">'
+      +'<div class="pfoto">'+(p.foto?'<img src="'+p.foto+'" alt="'+fuga(p.nome)+'">':ic('box',34))+'</div>'
+      +'<div class="pinfo"><div class="pnome">'+fuga(p.nome)+'</div>'
+      +'<div class="ppreco">'+brl(p.preco)+'</div>'
+      +'<div class="pestoque">'+(sem?'Esgotado':'Estoque: '+p.estoque)+'</div></div></article>';
+  });
+  $('#grade').innerHTML=html;
+  $('#vazioProd').classList.toggle('hidden',ps.length>0);
+}
+$('#grade').addEventListener('click',function(e){
+  var card=e.target.closest('.pcard');
+  if(!card)return;
+  var p=produtos().find(function(x){return String(x.id)===card.getAttribute('data-id');});
+  if(!p)return;
+  if(Number(p.estoque)<=0){toast('Produto esgotado.','err');return;}
+  abrirVenda(p.id);
+});
+
+/* ---------- Venda ---------- */
+var vendaProd=null;
+function abrirVenda(id){
+  vendaProd=produtos().find(function(x){return String(x.id)===String(id);});
+  if(!vendaProd)return;
+  $('#vFoto').innerHTML=vendaProd.foto?'<img src="'+vendaProd.foto+'" alt="">':ic('box',40);
+  $('#vNome').textContent=vendaProd.nome;
+  $('#vPrecoUnit').textContent=brl(vendaProd.preco);
+  $('#vEstoque').textContent='Estoque disponível: '+vendaProd.estoque;
+  $('#vQtd').value='1';
+  $('#vErro').classList.add('hidden');
+  atualizaTotal();
+  abrirM('mVenda');
+}
+function qtdAtual(){
+  var q=parseInt(String($('#vQtd').value).replace(/\D/g,''),10);
+  return isNaN(q)?0:q;
+}
+function atualizaTotal(){
+  var q=qtdAtual();
+  $('#vTotal').textContent=brl(q*(vendaProd?Number(vendaProd.preco):0));
+}
+$('#vQtd').addEventListener('input',function(){
+  this.value=this.value.replace(/\D/g,'').substring(0,5);
+  atualizaTotal();
+});
+$('#vMenos').addEventListener('click',function(){
+  if(!vendaProd)return;
+  $('#vQtd').value=Math.max(1,qtdAtual()-1);
+  atualizaTotal();
+});
+$('#vMais').addEventListener('click',function(){
+  if(!vendaProd)return;
+  $('#vQtd').value=Math.min(Number(vendaProd.estoque),qtdAtual()+1);
+  atualizaTotal();
+});
+$('#vCancelar').addEventListener('click',function(){fecharM('mVenda');});
+$('#vFinalizar').addEventListener('click',function(){
+  if(!vendaProd)return;
+  var q=qtdAtual();
+  var erro=$('#vErro');
+  erro.classList.add('hidden');
+  if(q<1){erro.textContent='Informe a quantidade.';erro.classList.remove('hidden');return;}
+  if(q>Number(vendaProd.estoque)){
+    erro.textContent='Estoque insuficiente. Disponível: '+vendaProd.estoque;
+    erro.classList.remove('hidden');return;
+  }
+  var ps=produtos();
+  var p=ps.find(function(x){return String(x.id)===String(vendaProd.id);});
+  p.estoque=Number(p.estoque)-q;
+  save(K.produtos,ps);
+  var total=q*Number(p.preco);
+  var vs=load(K.vendas,[]);
+  vs.push({quando:new Date().toISOString(),total:total,itens:[{nome:p.nome,qtd:q,preco:p.preco}]});
+  save(K.vendas,vs);
+  fecharM('mVenda');
+  renderGrid();chipHoje();
+  toast('Venda concluída — '+brl(total),'ok');
+});
+function chipHoje(){
+  var vs=load(K.vendas,[]);
+  var hoje=new Date();var soma=0;
+  vs.forEach(function(v){
+    var d=new Date(v.quando);
+    if(d.getDate()===hoje.getDate()&&d.getMonth()===hoje.getMonth()&&d.getFullYear()===hoje.getFullYear())soma+=Number(v.total||0);
+  });
+  $('#chipHoje').textContent='Vendas hoje: '+brl(soma);
+}
+
+/* ---------- Cadastro/edição de produto ---------- */
+var prodEditId=null,prodFoto='';
+function abrirProduto(id){
+  prodEditId=id||null;
+  if(id){
+    var p=produtos().find(function(x){return String(x.id)===String(id);});
+    $('#pTit').textContent='Editar produto';
+    $('#pNome').value=p.nome;
+    $('#pPreco').value=Number(p.preco).toFixed(2).replace('.',',');
+    $('#pEstoque').value=p.estoque;
+    prodFoto=p.foto||'';
+    $('#pExcluir').classList.remove('hidden');
+  }else{
+    $('#pTit').textContent='Novo produto';
+    $('#pNome').value='';$('#pPreco').value='';$('#pEstoque').value='';
+    prodFoto='';
+    $('#pExcluir').classList.add('hidden');
+  }
+  renderFotoPrev();
+  abrirM('mProduto');
+}
+function renderFotoPrev(){
+  if(prodFoto){
+    $('#pFotoPrev').src=prodFoto;
+    $('#pFotoPrev').classList.remove('hidden');
+    $('#pFotoHint').classList.add('hidden');
+  }else{
+    $('#pFotoPrev').classList.add('hidden');
+    $('#pFotoHint').classList.remove('hidden');
+  }
+}
+$('#pFotoFile').addEventListener('change',function(){
+  var f=this.files&&this.files[0];
+  if(!f)return;
+  lerFoto(f,function(dataUrl){prodFoto=dataUrl;renderFotoPrev();});
+});
+function lerFoto(file,cb){
+  var r=new FileReader();
+  r.onload=function(){
+    var img=new Image();
+    img.onload=function(){
+      var max=420;
+      var s=Math.min(1,max/Math.max(img.width,img.height));
+      var w=Math.max(1,Math.round(img.width*s));
+      var h=Math.max(1,Math.round(img.height*s));
+      var cv=document.createElement('canvas');
+      cv.width=w;cv.height=h;
+      cv.getContext('2d').drawImage(img,0,0,w,h);
+      cb(cv.toDataURL('image/jpeg',0.72));
+    };
+    img.src=r.result;
+  };
+  r.readAsDataURL(file);
+}
+$('#pSalvar').addEventListener('click',function(){
+  var nome=$('#pNome').value.trim();
+  var preco=parseDecimal($('#pPreco').value);
+  var est=parseInt($('#pEstoque').value.replace(/\D/g,''),10);
+  if(isNaN(est)||est<0)est=0;
+  if(!nome){toast('Informe o nome do produto.','err');return;}
+  if(!(preco>0)){toast('Informe um preço válido (ex.: 6,50).','err');return;}
+  var ps=produtos();
+  if(prodEditId){
+    var p=ps.find(function(x){return String(x.id)===String(prodEditId);});
+    if(p){p.nome=nome;p.preco=preco;p.estoque=est;p.foto=prodFoto;}
+  }else{
+    var mx=0;ps.forEach(function(x){if(x.id>mx)mx=x.id;});
+    ps.push({id:mx+1,nome:nome,preco:preco,estoque:est,foto:prodFoto});
+  }
+  save(K.produtos,ps);
+  fecharM('mProduto');
+  renderGrid();
+  toast('Produto salvo com sucesso.','ok');
+});
+$('#pExcluir').addEventListener('click',function(){
+  confirmar('Excluir produto','Remover este produto da lista do PDV?',function(){
+    var ps=produtos().filter(function(x){return String(x.id)!==String(prodEditId);});
+    save(K.produtos,ps);
+    fecharM('mProduto');
+    renderGrid();
+    toast('Produto excluído.','ok');
+  },true);
+});
+$('#btnNovoProd').innerHTML=ic('plus',18)+' Produto';
+$('#btnNovoProd').addEventListener('click',function(){abrirProduto(null);});
+$('#vMenos').innerHTML=ic('minus',18);
+$('#vMais').innerHTML=ic('plus',18);
+$('#vFoto').innerHTML='';
+document.querySelectorAll('.mfechar').forEach(function(b){b.innerHTML=ic('x',20);});
+$('#pixCopiar').innerHTML=ic('copy',16)+' Copiar';
+$('#licPix').innerHTML=ic('qrcode',18)+' GERAR PIX';
+$('#licCod').innerHTML=ic('key',18)+' JÁ TENHO CÓDIGO';
+$('#lockPix').innerHTML=ic('qrcode',18)+' GERAR PIX';
+$('#lockCodigo').innerHTML=ic('key',18)+' JÁ TENHO CÓDIGO';
+$('#ajVerificar').innerHTML=ic('refresh',18)+' Verificar agora';
+$('#ajCodigo').innerHTML=ic('key',18)+' Tenho código';
+$('#btnLic').insertAdjacentHTML('afterbegin',ic('shield',18));
+$('#btnInstalar').insertAdjacentHTML('afterbegin',ic('download',18));
+$('#vazioProd').insertAdjacentHTML('afterbegin',ic('box',40));
+
+/* ============================================================
+   INSTALAR APP (PWA)
+   ============================================================ */
+var deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;});
+$('#btnInstalar').addEventListener('click',function(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(){deferredPrompt=null;});
+  }else{
+    var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+    $('#installTxt').textContent=ios
+      ?'No iPhone/iPad: toque no botão Compartilhar na barra do Safari e depois em "Adicionar à Tela de Início".'
+      :'No Chrome/Edge: abra o menu do navegador (⋮) e escolha "Instalar app" ou "Adicionar à tela inicial". O NEGRET\'S abrirá como um aplicativo próprio, sem barra de navegador.';
+    abrirM('mInstall');
+  }
+});
+
+/* ============================================================
+   INICIALIZAÇÃO
+   ============================================================ */
+function registrarSW(){
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',function(){
+      navigator.serviceWorker.register('./sw.js').catch(function(){});
+    });
+  }
+}
+window.addEventListener('storage',function(ev){
+  if(ev.key===K.produtos||ev.key===K.lic||ev.key===K.precos){
+    renderChip();renderGrid();chipHoje();renderLock();
+  }
+});
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='visible')verificarPendentes(false);
+});
+
+aplicarTema(localStorage.getItem(K.tema)||'dark');
+trialInicio();              /* 30 dias grátis guardados no 1º acesso */
+renderChip();
+renderGrid();
+chipHoje();
+renderLock();               /* trava o PDV se o teste acabou */
+if(!localStorage.getItem('negrets_ja_abriu')){
+  localStorage.setItem('negrets_ja_abriu','1');
+  renderLicModal();abrirM('mLic');
+}else{
+  var st=estadoLicenca();
+  if(st.ok&&st.tipo==='trial'&&st.restantes<=5&&!sessionStorage.getItem('negrets_aviso_lic')){
+    sessionStorage.setItem('negrets_aviso_lic','1');
+    renderLicModal();abrirM('mLic');
+  }
+}
+iniciarPolling();           /* checagem Pix a cada 15 s */
+verificarPendentes(false);
+registrarSW();
+})();
+</script>
+</body>
+</html>
