@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#080808">
+<meta name="description" content="NEGRET'S — Acompanhe seu serviço em tempo real">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="NEGRET'S Rastreio">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<title>NEGRET'S — Rastreio da OS</title>
+<style>
+:root{
+  --bg:#080808; --panel:#131316; --panel2:#1a1b1f; --line:#26272c;
+  --gold:#C9A227; --gold2:#E7C14F; --green:#16A34A; --mut:#9CA3AF; --txt:#F4F4F5;
+}
+*{ box-sizing:border-box; max-width:100%; margin:0; padding:0; }
+body{ background:var(--bg); color:var(--txt); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+  font-size:15px; overflow-x:hidden; width:100%; padding-bottom:40px; -webkit-tap-highlight-color:transparent; }
+.hidden{ display:none !important; }
+.container{ width:calc(100% - 32px); margin:16px auto; max-width:560px; }
+header{ position:sticky; top:0; z-index:50; background:var(--bg); border-bottom:1px solid var(--line);
+  display:flex; align-items:center; gap:10px; padding:14px 16px; }
+.logoN{ width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg,var(--gold),#8f7016);
+  color:#080808; font-weight:800; font-size:21px; display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+.logoT{ font-weight:800; letter-spacing:1.5px; font-size:16px; color:var(--gold2); }
+.card{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px; margin-bottom:14px; min-width:0; }
+.in{ width:100%; background:#0d0e10; color:#fff; border:1px solid var(--line); border-radius:12px;
+  padding:13px; font-size:16px; outline:none; min-height:48px; }
+.in:focus{ border-color:var(--gold); }
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  background:var(--panel2); color:var(--txt); border:1px solid var(--line); border-radius:12px;
+  padding:12px 14px; font-size:14px; font-weight:700; min-height:46px; cursor:pointer; text-decoration:none; }
+.btn:active{ transform:scale(.97); }
+.btn.gold{ background:linear-gradient(135deg,var(--gold),#9c7d1c); color:#080808; border-color:var(--gold2); }
+.btn.teal{ background:#0F766E; color:#fff; border-color:#0d9488; }
+.btn.big{ width:100%; }
+.btn-row{ display:flex; flex-wrap:wrap; gap:8px; }
+.btn-row .btn{ flex:1 1 45%; min-width:140px; }
+.hero{ text-align:center; padding:8px 0 2px; }
+.hero .osc{ font-size:13px; color:var(--mut); letter-spacing:1px; }
+.hero .stt{ display:inline-block; margin-top:8px; border-radius:999px; padding:8px 18px; font-weight:800; font-size:15px; color:#fff; max-width:100%; word-break:break-word; }
+.linha{ display:flex; gap:8px; flex-wrap:wrap; padding:7px 0; border-bottom:1px dashed var(--line); align-items:baseline; }
+.linha:last-child{ border-bottom:none; }
+.linha .k{ color:var(--mut); font-size:12.5px; min-width:96px; }
+.linha .v{ font-weight:700; font-size:14px; word-break:break-word; flex:1; }
+.linha .v.money{ color:var(--gold2); font-variant-numeric:tabular-nums; white-space:nowrap; }
+.tl{ list-style:none; margin-top:6px; }
+.tl li{ display:flex; gap:12px; padding:0 0 20px; position:relative; min-width:0; }
+.tl li::before{ content:''; position:absolute; left:21px; top:34px; bottom:0; width:2px; background:var(--line); }
+.tl li:last-child::before{ display:none; }
+.tl .ico{ width:44px; height:44px; min-width:44px; border-radius:50%; background:var(--panel2); border:1px solid var(--line);
+  display:flex; align-items:center; justify-content:center; font-size:19px; z-index:1; }
+.tl .tit{ font-weight:700; font-size:14px; line-height:1.3; }
+.tl .sub{ font-size:12px; color:var(--mut); margin-top:2px; }
+.tl li.done .ico{ background:#14532d; border-color:#166534; }
+.tl li.now .ico{ border-width:3px; animation:pulse 1.4s infinite; }
+.tl li.now .tit{ font-size:15px; }
+.tl li.pend{ opacity:.45; }
+@keyframes pulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(255,255,255,.12);} 50%{ box-shadow:0 0 0 7px rgba(255,255,255,0);} }
+.nota{ font-size:11.5px; color:var(--mut); margin-top:10px; text-align:center; }
+.erro{ text-align:center; color:var(--mut); padding:30px 10px; }
+footer{ text-align:center; color:var(--mut); font-size:11.5px; margin-top:20px; }
+#cam video{ width:100%; border-radius:12px; background:#000; }
+</style>
+</head>
+<body>
+<header>
+  <span class="logoN">N</span><span class="logoT">NEGRET'S</span>
+  <span style="margin-left:auto; color:var(--mut); font-size:12px">RASTREIO</span>
+</header>
+
+<div class="container">
+  <div class="card" id="busca-card">
+    <h2 style="font-size:15px; color:var(--gold2); margin-bottom:10px">Acompanhe seu serviço</h2>
+    <p style="color:var(--mut); font-size:13px; margin-bottom:12px">Digite o código da OS, seu CPF ou telefone:</p>
+    <div style="display:flex; gap:8px; flex-wrap:wrap">
+      <input class="in" id="in-busca" type="search" placeholder="OS-2026-0002 ou CPF ou telefone" style="flex:1 1 180px">
+      <button class="btn gold" id="btn-buscar" style="flex:0 0 auto">Consultar</button>
+    </div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn" id="btn-cam">QR consulta (câmera)</button>
+    </div>
+    <div id="cam" class="hidden" style="margin-top:10px">
+      <video id="cam-video" autoplay playsinline muted></video>
+      <button class="btn big" id="btn-cam-stop" style="margin-top:8px">Fechar câmera</button>
+      <p class="nota">Aponte para o QR da sua OS. Se a câmera não abrir, digite o código acima.</p>
+    </div>
+  </div>
+
+  <div id="resultado" class="hidden"></div>
+
+  <div class="card hidden" id="nao-encontrado">
+    <div class="erro">OS não encontrada.<br>Verifique o código com a loja.</div>
+  </div>
+</div>
+
+<footer>NEGRET'S — Acompanhamento do serviço • dados atualizados em tempo real</footer>
+<script>
+/* ================= NEGRETS CORE (compartilhado - sem CDN, offline) ================= */
+'use strict';
+(function(G){
+/* ---------- Helpers NS ---------- */
+var K = {
+  db:'negrets_db', cfg:'negrets_config', lic:'negrets_licenca', users:'negrets_usuarios',
+  pixReq:'negrets_pix_solicitacoes', ajuda:'negrets_ajuda_solicitacoes',
+  precos:'negrets_precos', codigos:'negrets_codigos', trial:'negrets_trial_inicio',
+  hist:'negrets_hist_admin', sup:'negrets_suporte', backup:'negrets_backup_auto'
+};
+var NS = {
+  K: K,
+  load: function(k, d){ try{ var v = localStorage.getItem(k); return v ? JSON.parse(v) : (d===undefined?null:d); }catch(e){ return d===undefined?null:d; } },
+  save: function(k, v){ localStorage.setItem(k, JSON.stringify(v)); },
+  uid: function(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); },
+  today: function(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); },
+  nowISO: function(){ return new Date().toISOString(); },
+  addDays: function(iso, n){ var d=new Date(iso+'T12:00:00'); d.setDate(d.getDate()+n); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); },
+  diffDays: function(aISO, bISO){ var a=new Date(aISO+'T12:00:00'), b=new Date(bISO+'T12:00:00'); return Math.round((b-a)/86400000); },
+  fmtDate: function(iso){ if(!iso) return '—'; var p=String(iso).split('-'); if(p.length<3) return iso; return p[2]+'/'+p[1]+'/'+p[0]; },
+  fmtMoney: function(v){ return (Number(v)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); },
+  fmtNum: function(v){ return (Number(v)||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); },
+  fmtDT: function(dt){ if(!dt) return '—'; var d=new Date(dt); return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); },
+  esc: function(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); },
+  toast: function(msg, type){
+    var t = document.getElementById('toast'); if(!t) return;
+    t.textContent = msg;
+    t.className = 'toast show' + (type==='err' ? ' err' : type==='warn' ? ' warn' : '');
+    clearTimeout(NS._tt); NS._tt = setTimeout(function(){ t.className='toast hidden'; }, 2800);
+  },
+  copyText: function(txt){
+    var done=function(){ NS.toast('Copiado!'); };
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done).catch(function(){ NS.fallbackCopy(txt); done(); }); }
+    else { NS.fallbackCopy(txt); done(); }
+  },
+  fallbackCopy: function(txt){ var ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta); },
+  waLink: function(num, text){ return 'https://wa.me/' + String(num||'').replace(/\D/g,'') + '?text=' + encodeURIComponent(text||''); },
+  supportWA: function(){ var s = NS.load(K.sup, null); return (s && s.wa) ? s.wa : '5511999999999'; },
+  shareText: function(title, text, url){
+    if(navigator.share){ navigator.share({title:title, text:text, url:url}).catch(function(){}); }
+    else { NS.copyText((text?text+'\n':'')+(url||'')); }
+  },
+  downloadFile: function(name, content, mime){
+    var blob = new Blob([content], {type: mime||'application/octet-stream'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); document.body.removeChild(a); }, 400);
+  },
+  imgFileToDataUrl: function(file, cb, max){
+    max = max || 800;
+    var fr = new FileReader();
+    fr.onload = function(){
+      var img = new Image();
+      img.onload = function(){
+        var w=img.width, h=img.height, sc=Math.min(1, max/Math.max(w,h));
+        var c=document.createElement('canvas'); c.width=Math.round(w*sc); c.height=Math.round(h*sc);
+        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+        cb(c.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = function(){ cb(fr.result); };
+      img.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  },
+  openM: function(id){ var m=document.getElementById(id); if(m) m.classList.remove('hidden'); },
+  closeM: function(id){ var m=document.getElementById(id); if(m) m.classList.add('hidden'); },
+  bindModals: function(root){
+    document.querySelectorAll('.modal').forEach(function(m){
+      if(m._bound) return; m._bound = true;
+      m.addEventListener('click', function(e){ if(e.target === m) m.classList.add('hidden'); });
+      m.querySelectorAll('[data-close]').forEach(function(b){
+        if(b.tagName === 'BUTTON' && !b.innerHTML.trim()) b.innerHTML = svg('x', 18);
+        b.addEventListener('click', function(){ m.classList.add('hidden'); });
+      });
+    });
+  },
+  confirm: function(msg, cb, danger){
+    var m = document.getElementById('m-confirm'); if(!m){ if(confirm(msg)) cb(); return; }
+    document.getElementById('confirm-msg').textContent = msg;
+    var ok = document.getElementById('confirm-ok');
+    ok.textContent = 'Confirmar';
+    ok.onclick = function(){ m.classList.add('hidden'); cb(); };
+    NS.openM('m-confirm');
+  }
+};
+G.NS = NS; G.K = K;
+
+/* ---------- Ícones SVG (linha fina, sem emoji — exceto 👑 Vitalício que é regra da marca) ---------- */
+var IC = {
+  home:'<path d="M4 11.5 12 4.5l8 7"/><path d="M6 10.5V20h12v-9.5"/>',
+  cart:'<circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 4h2.2l2.4 11.5h9.8L20 7H6"/>',
+  box:'<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4"/><path d="M12 12v8"/>',
+  receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
+  menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  minus:'<path d="M6 12h12"/>',
+  search:'<circle cx="10.5" cy="10.5" r="6"/><path d="M15.5 15.5 20 20"/>',
+  camera:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7l1.5-2.5h3L15 7"/><circle cx="12" cy="13.5" r="3.5"/>',
+  image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M4 18l5-5 4 4 3-3 4 4"/>',
+  qr:'<rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/>',
+  print:'<path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 14h10v6H7z"/>',
+  pen:'<path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19z"/><path d="M13.5 6.5l3 3"/>',
+  wa:'<path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.7-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c.6 3 3.5 5.9 6.5 6.5l1-2-2.2-1-1 .8a7.3 7.3 0 0 1-2.1-2.1l.8-1-1-2.2z"/>',
+  trash:'<path d="M4 7h16M9 7V4h6v3M6.5 7l1 13h9l1-13"/>',
+  edit:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M9 5V3h6v2"/>',
+  cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+  chart:'<path d="M4 20h16"/><path d="M7 16v-5M12 16V6M17 16v-8"/>',
+  truck:'<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/>',
+  globe:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c-5 5-5 12 0 17M12 3.5c5 5 5 12 0 17"/>',
+  doc:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',
+  tag:'<path d="M4 12 12 4h8v8l-8 8z"/><circle cx="16" cy="8" r="1.4"/>',
+  help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.6 2.6 0 1 1 3.4 2.5c-.7.3-.9.8-.9 1.7"/><circle cx="12" cy="17" r=".6"/>',
+  lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  check:'<path d="M5 12.5 10 17.5 19 7"/>',
+  share:'<circle cx="6" cy="12" r="2.4"/><circle cx="17" cy="6" r="2.4"/><circle cx="17" cy="18" r="2.4"/><path d="M8.2 10.8 14.8 7.2M8.2 13.2l6.6 3.6"/>',
+  link:'<path d="M10 14a4 4 0 0 1 0-5.6l2.4-2.4a4 4 0 0 1 5.6 5.6L16.5 13"/><path d="M14 10a4 4 0 0 1 0 5.6l-2.4 2.4a4 4 0 0 1-5.6-5.6L7.5 11"/>',
+  down:'<path d="M12 4v12M6.5 10.5 12 16l5.5-5.5"/><path d="M5 20h14"/>',
+  up:'<path d="M12 20V8M6.5 13.5 12 8l5.5 5.5"/><path d="M5 4h14"/>',
+  gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 4v2.2M12 17.8V20M4 12h2.2M17.8 12H20M6.3 6.3l1.6 1.6M16.1 16.1l1.6 1.6M17.7 6.3l-1.6 1.6M7.9 16.1l-1.6 1.6"/>',
+  users:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9.5" r="2.4"/><path d="M16 14.6c2.2.2 3.9 1.7 4.4 4.4"/>',
+  money:'<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6.5 9.5h.01M17.5 14.5h.01"/>',
+  wrench:'<path d="M14.5 6.5a4 4 0 0 1 5 5L9 22l-4-1-1-4L14.5 6.5z"/><path d="M13 8l3 3"/>',
+  phone:'<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 17h4"/>',
+  crown:'<path d="M4 17 3 7l5 3.5L12 4l4 6.5L21 7l-1 10z"/><path d="M5 20h14"/>',
+  star:'<path d="M12 4l2.4 5 5.6.6-4.2 3.8 1.2 5.6L12 16l-5 3 1.2-5.6L4 9.6 9.6 9z"/>',
+  eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/>',
+  bell:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2.5H4.5z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  install:'<path d="M12 3v10M8 9l4 4 4-4"/><rect x="4" y="16" width="16" height="5" rx="1.5"/>',
+  logout:'<path d="M9 4H5v16h4"/><path d="M13 12h8M17.5 8.5 21 12l-3.5 3.5"/>',
+  back:'<path d="M14 6l-6 6 6 6"/>',
+  filter:'<path d="M4 6h16M7 12h10M10 18h4"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/>'
+};
+function svg(name, size){
+  return '<svg viewBox="0 0 24 24" width="'+(size||22)+'" height="'+(size||22)+'" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(IC[name]||'')+'</svg>';
+}
+G.icon = svg;
+
+/* ---------- QR CODE (gerador completo, byte mode, EC L/M, máscara automática) ---------- */
+var ECL_FB = [1,0,3,2]; /* format bits por nível (L,M,Q,H) */
+var ECC = [
+  [-1,7,10,15,20,26,18,20,24,30,18,20,24,26,30,22,24,28,30,28,28,28,28,30,30,26,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30],
+  [-1,10,16,26,18,24,16,18,22,22,26,30,22,22,24,24,28,28,26,26,26,26,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28]
+];
+var NB = [
+  [-1,1,1,1,1,1,2,2,2,2,4,4,4,4,4,6,6,6,6,7,8,8,9,10,12,12,12,13,14,15,16,17,18,19,19,20,21,22,24,25,26],
+  [-1,1,1,1,2,2,4,4,4,5,5,5,8,9,9,10,10,11,13,14,16,17,18,19,19,20,21,22,24,25,26,27,28,29,30,31,32,33,34,35,36]
+];
+function rawModules(v){
+  var r=(16*v+128)*v+64;
+  if(v>=2){ var na=Math.floor(v/7)+2; r-=(25*na-10)*na-55; if(v>=7) r-=36; }
+  return r;
+}
+function dataCodewords(v,e){ return Math.floor(rawModules(v)/8) - ECC[e][v]*NB[e][v]; }
+function alignPos(v){
+  if(v===1) return [];
+  var na=Math.floor(v/7)+2;
+  var step=(v===32)?26:Math.floor((v*4+na*2+1)/(na*2-2))*2;
+  var res=new Array(na), pos=v*4+10;
+  for(var i=0;i<na;i++){ res[na-1-i]=pos; pos-=step; }
+  res[0]=6;
+  return res;
+}
+var GF_EXP = new Uint8Array(512), GF_LOG = new Uint8Array(256);
+(function(){
+  var x=1;
+  for(var i=0;i<255;i++){ GF_EXP[i]=x; GF_LOG[x]=i; x<<=1; if(x & 0x100) x^=0x11D; }
+  for(var j=255;j<512;j++) GF_EXP[j]=GF_EXP[j-255];
+})();
+function gfMul(a,b){
+  if(a===0 || b===0) return 0;
+  return GF_EXP[GF_LOG[a] + GF_LOG[b]];
+}
+function rsDivisor(degree){
+  var result=new Array(degree).fill(0);
+  result[degree-1]=1;
+  var root=1;
+  for(var i=0;i<degree;i++){
+    for(var j=0;j<degree;j++){
+      result[j]=gfMul(result[j],root);
+      if(j+1<degree) result[j]^=result[j+1];
+    }
+    root=gfMul(root,0x02);
+  }
+  return result;
+}
+function rsRemainder(data,divisor){
+  var result=new Array(divisor.length).fill(0);
+  for(var d=0; d<data.length; d++){
+    var b=data[d];
+    var factor=b^result.shift();
+    result.push(0);
+    for(var i=0;i<divisor.length;i++) result[i]^=gfMul(divisor[i],factor);
+  }
+  return result;
+}
+function maskBit(m,x,y){
+  switch(m){
+    case 0: return (y+x)%2===0;
+    case 1: return y%2===0;
+    case 2: return x%3===0;
+    case 3: return (y+x)%3===0;
+    case 4: return (Math.floor(y/2)+Math.floor(x/3))%2===0;
+    case 5: return (y*x)%2+(y*x)%3===0;
+    case 6: return ((y*x)%2+(y*x)%3)%2===0;
+    case 7: return ((y+x)%2+(y*x)%3)%2===0;
+  }
+  return false;
+}
+var QR = {
+  make: function(text, ecLevel){
+    ecLevel = ecLevel||0; /* 0=L 1=M */
+    var data = Array.from(new TextEncoder().encode(String(text)));
+    var ver=-1, cci=0;
+    for(var v=1; v<=40; v++){
+      cci = v<10 ? 8 : 16;
+      var need = Math.ceil((4+cci+data.length*8)/8);
+      if(need <= dataCodewords(v, ecLevel)){ ver=v; break; }
+    }
+    if(ver<0) throw new Error('QR: dados muito grandes');
+    var bits=[], bitLen=0;
+    function app(val, n){ for(var i=n-1;i>=0;i--){ bits.push((val>>>i)&1); bitLen++; } }
+    app(4,4); app(data.length, cci);
+    for(var i0=0;i0<data.length;i0++) app(data[i0],8);
+    var cap = dataCodewords(ver,ecLevel)*8;
+    app(0, Math.min(4, cap-bitLen));
+    while(bitLen%8) bits.push(0);
+    var totalData=dataCodewords(ver,ecLevel);
+    var bytes=new Uint8Array(totalData);
+    for(var i1=0;i1<totalData;i1++){ var b=0; for(var j=0;j<8;j++) b=(b<<1)|(bits[i1*8+j]||0); bytes[i1]=b; }
+    for(var i2=Math.ceil(bitLen/8), p=0; i2<totalData; i2++, p^=1) bytes[i2]=p?0x11:0xEC;
+    /* RS + interleave */
+    var numBlocks=NB[ecLevel][ver], blockEcc=ECC[ecLevel][ver];
+    var rawCW=Math.floor(rawModules(ver)/8);
+    var numShort=numBlocks-(rawCW%numBlocks);
+    var shortLen=Math.floor(rawCW/numBlocks);
+    var S=shortLen-blockEcc;
+    var blocks=[], off=0;
+    for(var bi=0;bi<numBlocks;bi++){
+      var datLen=S+(bi<numShort?0:1);
+      var dat=Array.prototype.slice.call(bytes.slice(off,off+datLen)); off+=datLen;
+      blocks.push({dat:dat, ec:rsRemainder(dat, rsDivisor(blockEcc))});
+    }
+    var result=new Uint8Array(rawCW), k=0;
+    for(var ii=0; ii<=S; ii++){
+      for(var bj=0; bj<numBlocks; bj++){
+        if(ii!==S || bj>=numShort) result[k++]=blocks[bj].dat[ii];
+      }
+    }
+    for(var ei=0; ei<blockEcc; ei++){
+      for(var ej=0; ej<numBlocks; ej++) result[k++]=blocks[ej].ec[ei];
+    }
+    /* matriz */
+    var size=ver*4+17;
+    var mod=[], fn=[];
+    for(var r=0;r<size;r++){ mod.push(new Array(size).fill(false)); fn.push(new Array(size).fill(false)); }
+    function setFn(x,y,vv){ mod[y][x]=vv; fn[y][x]=true; }
+    function drawFinder(cx,cy){
+      for(var dy=-4;dy<=4;dy++)for(var dx=-4;dx<=4;dx++){
+        var d=Math.max(Math.abs(dx),Math.abs(dy)), x=cx+dx, y=cy+dy;
+        if(x>=0&&x<size&&y>=0&&y<size) setFn(x,y,d!==2&&d!==4);
+      }
+    }
+    for(var t=0;t<size;t++){ setFn(6,t,t%2===0); setFn(t,6,t%2===0); }
+    drawFinder(3,3); drawFinder(size-4,3); drawFinder(3,size-4);
+    var ap=alignPos(ver), nap=ap.length;
+    for(var ai=0;ai<nap;ai++)for(var aj=0;aj<nap;aj++){
+      if((ai===0&&aj===0)||(ai===0&&aj===nap-1)||(ai===nap-1&&aj===0)) continue;
+      for(var dy2=-2;dy2<=2;dy2++)for(var dx2=-2;dx2<=2;dx2++) setFn(ap[aj]+dx2, ap[ai]+dy2, Math.max(Math.abs(dx2),Math.abs(dy2))!==1);
+    }
+    if(ver>=7){
+      var rem=ver;
+      for(var v7=0;v7<12;v7++) rem=(rem<<1)^((rem>>>11)*0x1F25);
+      var vbits=(ver<<12)|rem;
+      for(var vi=0;vi<18;vi++){
+        var bit=((vbits>>>vi)&1)!==0;
+        var a=size-11+vi%3, vb=Math.floor(vi/3);
+        setFn(a,vb,bit); setFn(vb,a,bit);
+      }
+    }
+    for(var ri=0;ri<=8;ri++){ if(ri!==6){ setFn(8,ri,false); setFn(ri,8,false); } }
+    for(var rj=0;rj<8;rj++){ setFn(size-1-rj,8,false); setFn(8,size-1-rj,false); }
+    setFn(8,size-8,true);
+    function placeData(mask){
+      var i=0;
+      for(var right=size-1; right>=1; right-=2){
+        if(right===6) right=5;
+        for(var vert=0; vert<size; vert++){
+          for(var j=0;j<2;j++){
+            var x=right-j;
+            var upward=((right+1)&2)===0;
+            var y=upward?size-1-vert:vert;
+            if(!fn[y][x]){
+              var vv=false;
+              if(i<result.length*8){ vv=((result[i>>>3]>>>(7-(i&7)))&1)===1; i++; }
+              if(maskBit(mask,x,y)) vv=!vv;
+              mod[y][x]=vv;
+            }
+          }
+        }
+      }
+    }
+    function drawFormat(mask){
+      var fd=ECL_FB[ecLevel]<<3|mask;
+      var remf=fd;
+      for(var i=0;i<10;i++) remf=(remf<<1)^((remf>>>9)*0x537);
+      var fbits=(fd<<10|remf)^0x5412;
+      function gb(n){ return ((fbits>>>n)&1)!==0; }
+      for(var i2=0;i2<=5;i2++) setFn(8,i2,gb(i2));
+      setFn(8,7,gb(6)); setFn(8,8,gb(7)); setFn(7,8,gb(8));
+      for(var i3=9;i3<15;i3++) setFn(14-i3,8,gb(i3));
+      for(var i4=0;i4<8;i4++) setFn(size-1-i4,8,gb(i4));
+      for(var i5=8;i5<15;i5++) setFn(8,size-15+i5,gb(i5));
+      setFn(8,size-8,true);
+    }
+    var N1=3,N2=3,N3=40,N4=10;
+    function penAdd(cur,hist){ if(hist[0]===0) cur+=size; hist.unshift(cur); hist.pop(); }
+    function penCount(hist){
+      var n=hist[1];
+      var core=n>0 && hist[2]===n && hist[3]===n*3 && hist[4]===n && hist[5]===n;
+      return (core&&hist[0]>=n*4&&hist[6]>=n?1:0)+(core&&hist[6]>=n*4&&hist[0]>=n?1:0);
+    }
+    function penTerm(runColor,runLen,hist){
+      if(runColor){ penAdd(runLen,hist); runLen=0; }
+      runLen+=size;
+      penAdd(runLen,hist);
+      return penCount(hist);
+    }
+    function penalty(){
+      var res=0;
+      for(var o=0;o<2;o++){
+        for(var y=0;y<size;y++){
+          var runColor=false, runLen=0;
+          var hist=new Array(7).fill(0);
+          for(var x=0;x<size;x++){
+            var c = o===0 ? mod[y][x] : mod[x][y];
+            if(c===runColor){ runLen++; if(runLen===5) res+=N1; else if(runLen>5) res++; }
+            else { penAdd(runLen,hist); if(!runColor) res+=penCount(hist)*N3; runColor=c; runLen=1; }
+          }
+          res+=penTerm(runColor,runLen,hist)*N3;
+        }
+      }
+      for(var y2=0;y2<size-1;y2++)for(var x2=0;x2<size-1;x2++){
+        var cc=mod[y2][x2];
+        if(cc===mod[y2][x2+1] && cc===mod[y2+1][x2] && cc===mod[y2+1][x2+1]) res+=N2;
+      }
+      var dark=0;
+      for(var y3=0;y3<size;y3++)for(var x3=0;x3<size;x3++) if(mod[y3][x3]) dark++;
+      var total=size*size;
+      var kk=(Math.abs(dark*20-total*10)+total-1)/(total-1)-1;
+      res+=Math.abs(Math.round(kk))*N4;
+      return res;
+    }
+    var best=0, bestPen=Infinity;
+    for(var m=0;m<8;m++){
+      for(var y4=0;y4<size;y4++)for(var x4=0;x4<size;x4++) if(!fn[y4][x4]) mod[y4][x4]=false;
+      placeData(m); drawFormat(m);
+      var pp=penalty();
+      if(pp<bestPen){ bestPen=pp; best=m; }
+    }
+    for(var y5=0;y5<size;y5++)for(var x5=0;x5<size;x5++) if(!fn[y5][x5]) mod[y5][x5]=false;
+    placeData(best); drawFormat(best);
+    return { size:size, version:ver, mask:best, get:function(y,x){ return mod[y][x]; } };
+  },
+  draw: function(canvas, text, px, ecLevel){
+    var q=this.make(text, ecLevel||0);
+    var quiet=4, total=q.size+quiet*2;
+    px=px||420;
+    var s=Math.max(3, Math.floor(px/total));
+    canvas.width=canvas.height=total*s;
+    var ctx=canvas.getContext('2d');
+    ctx.fillStyle='#FFFFFF'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#000000';
+    for(var y=0;y<q.size;y++)for(var x=0;x<q.size;x++){
+      if(q.get(y,x)) ctx.fillRect((quiet+x)*s,(quiet+y)*s,s,s);
+    }
+    return q;
+  }
+};
+G.QR = QR;
+G._rsDivisor = rsDivisor; G._rsRemainder = rsRemainder; G._dataCodewords = dataCodewords; G._gfMul = gfMul;
+
+/* ---------- PIX Copia e Cola (EMV BR Code + CRC16-CCITT) ---------- */
+function crc16(str){
+  var crc=0xFFFF;
+  for(var i=0;i<str.length;i++){
+    crc^=str.charCodeAt(i)<<8;
+    for(var j=0;j<8;j++){
+      crc=(crc&0x8000)?((crc<<1)^0x1021):(crc<<1);
+      crc&=0xFFFF;
+    }
+  }
+  var s=crc.toString(16).toUpperCase();
+  while(s.length<4) s='0'+s;
+  return s;
+}
+function pixPayload(o){
+  function clean(s){ return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-z0-9 ]/g,'').trim().toUpperCase(); }
+  function f(id,v){ v=String(v); var len=String(v.length); while(len.length<2) len='0'+len; return id+len+v; }
+  var key=String(o.key||'').trim();
+  var mai=f('00','br.gov.bcb.pix')+f('01',key);
+  var p=[];
+  p.push(f('00','01'));
+  p.push(f('01','12'));
+  p.push(f('26',mai));
+  p.push(f('52','0000'));
+  p.push(f('53','986'));
+  if(o.amount) p.push(f('54',Number(o.amount).toFixed(2)));
+  p.push(f('58','BR'));
+  p.push(f('59', clean(o.name).slice(0,25)||'NEGRETS'));
+  p.push(f('60', clean(o.city).slice(0,15)||'SAO PAULO'));
+  var txid=String(o.txid||'').replace(/[^A-Za-z0-9]/g,'').slice(0,25);
+  p.push(f('62', f('05', txid||'NEG')));
+  var payload=p.join('')+'6304';
+  payload+=crc16(payload);
+  return payload;
+}
+G.crc16 = crc16; G.pixPayload = pixPayload;
+
+/* ---------- Dados demo (apenas se localStorage vazio) ---------- */
+function seedCore(){
+  if(!NS.load(K.precos, null)) NS.save(K.precos, {mensal:49.90, semestral:249.90, anual:399.90, vitalicio:997.00});
+  if(!NS.load(K.sup, null)) NS.save(K.sup, {wa:'5511999999999'});
+  if(!NS.load(K.codigos, null)) NS.save(K.codigos, [{codigo:'NEG-DEMO-2026', plano:'Mensal', dias:30, vitalicio:false, usado:false, usadoPor:'', usadoEm:''}]);
+  if(!NS.load(K.users, null)){
+    var t=NS.today();
+    NS.save(K.users, [
+      {id:NS.uid(), nome:'Onegretth', whatsapp:'(11) 99999-0001', email:'onegretth@gmail.com', plano:'Vitalício', vitalicio:true, status:'ATIVO', vencimento:'2036-11-07', pausadoEm:'', canceladoEm:'', deletado:false, deletedEm:'', criado:t, historico:['👑 Plano Vitalício ativado - PRO MAX • VITALÍCIO em '+NS.fmtDate(t)+' por ADM']},
+      {id:NS.uid(), nome:'Cliente João', whatsapp:'(11) 98888-7777', email:'joao@lojaojoao.com', plano:'Mensal', vitalicio:false, status:'ATIVO', vencimento:NS.addDays(t,20), pausadoEm:'', canceladoEm:'', deletado:false, deletedEm:'', criado:t, historico:['Plano Mensal ativado em '+NS.fmtDate(t)+' por ADM']},
+      {id:NS.uid(), nome:'Eliascell Assistência', whatsapp:'(11) 97777-6666', email:'elias@eliascell.com', plano:'Mensal', vitalicio:false, status:'ATIVO', vencimento:NS.addDays(t,12), pausadoEm:'', canceladoEm:'', deletado:false, deletedEm:'', criado:t, historico:['Plano Mensal ativado em '+NS.fmtDate(t)+' por ADM']},
+      {id:NS.uid(), nome:'Mila Boutique', whatsapp:'(21) 96666-5555', email:'mila@milaboutique.com', plano:'6 Meses', vitalicio:false, status:'PAUSADO', vencimento:NS.addDays(t,40), pausadoEm:new Date(Date.now()-2*86400000).toISOString(), canceladoEm:'', deletado:false, deletedEm:'', criado:t, historico:['Sistema pausado por ADM em '+NS.fmtDate(t)]},
+      {id:NS.uid(), nome:'Auto Peças VP', whatsapp:'(31) 95555-4444', email:'vp@autopecasvp.com', plano:'Mensal', vitalicio:false, status:'ATIVO', vencimento:NS.addDays(t,-3), pausadoEm:'', canceladoEm:'', deletado:false, deletedEm:'', criado:t, historico:['Plano Mensal ativado em '+NS.fmtDate(t)+' por ADM']},
+      {id:NS.uid(), nome:'Studio Bella', whatsapp:'(41) 94444-3333', email:'bella@studiobella.com', plano:'Mensal', vitalicio:false, status:'CANCELADO', vencimento:NS.addDays(t,10), pausadoEm:'', canceladoEm:new Date(Date.now()-5*86400000).toISOString(), deletado:false, deletedEm:'', criado:t, historico:['Acesso cancelado por ADM em '+NS.fmtDate(t)+' - dados guardados por 30 dias']}
+    ]);
+  }
+}
+G.seedCore = seedCore;
+
+/* ---------- Status OS ---------- */
+var OS_STATUS = ['Entrada','Em análise','Aguardando peça','Pronto','Entregue'];
+var OS_COLOR  = { 'Entrada':'#2563EB', 'Em análise':'#CA8A04', 'Aguardando peça':'#EA580C', 'Pronto':'#16A34A', 'Entregue':'#6B7280' };
+var OS_LABEL  = { 'Entrada':'ENTRADA NA BANCADA', 'Em análise':'EM ANÁLISE', 'Aguardando peça':'AGUARDANDO PEÇA', 'Pronto':'PRONTO PARA RETIRADA', 'Entregue':'ENTREGUE' };
+G.OS_STATUS = OS_STATUS; G.OS_COLOR = OS_COLOR; G.OS_LABEL = OS_LABEL;
+
+})(typeof window!=='undefined'?window:globalThis);
+/* ================= NEGRETS RASTREIO ================= */
+var PASSOS = [
+  {k:'Entrada',       emoji:'✅', tit:'1. Entrada na bancada',    sub:'Aparelho recebido',        cor:'#2563EB'},
+  {k:'Em análise',    emoji:'🔧', tit:'2. Em análise / Em reparo', sub:'Técnico avaliando',        cor:'#CA8A04'},
+  {k:'Aguardando peça', emoji:'⏳', tit:'3. Aguardando peça',      sub:'Aguardando chegada da peça', cor:'#EA580C'},
+  {k:'Pronto',        emoji:'✅', tit:'4. Pronto para retirada',  sub:'Serviço concluído',        cor:'#16A34A'},
+  {k:'Entregue',      emoji:'📦', tit:'5. Entregue',              sub:'Retirado pelo cliente',    cor:'#6B7280'}
+];
+var _osAtual = null, _fonte = 'local', _camStream = null, _camInt = null;
+
+function $(id){ return document.getElementById(id); }
+function show(el){ el.classList.remove('hidden'); }
+function hide(el){ el.classList.add('hidden'); }
+function fmtMoney(v){ return (Number(v)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
+function fmtDT(dt){ if(!dt) return '—'; var d = new Date(dt); return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear() + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); }
+function fmtDate(iso){ if(!iso) return '—'; var p = String(iso).split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+
+function loadDB(){ try{ return JSON.parse(localStorage.getItem('negrets_db') || 'null'); }catch(e){ return null; } }
+function loadCFG(){ try{ return JSON.parse(localStorage.getItem('negrets_config') || 'null'); }catch(e){ return null; } }
+function parsePayload(d){
+  try{
+    var json = decodeURIComponent(escape(atob(decodeURIComponent(d))));
+    return JSON.parse(json);
+  }catch(e){ return null; }
+}
+function findOS(q){
+  var db = loadDB();
+  if(!db || !db.os) return null;
+  var s = String(q||'').trim().toLowerCase();
+  s = s.replace(/[^a-z0-9\-]/g, '');
+  var os = db.os || [];
+  var porId = os.find(function(o){ return o.id.toLowerCase() === s; });
+  if(porId) return {os:porId, fonte:'local'};
+  var digitos = String(q||'').replace(/\D/g, '');
+  if(digitos.length >= 8){
+    var porDoc = os.find(function(o){
+      var tel = String(o.cliente.tel||'').replace(/\D/g,'');
+      var cpf = String(o.cliente.cpf||'').replace(/\D/g,'');
+      return (tel && tel.indexOf(digitos) >= 0) || (cpf && cpf.indexOf(digitos) >= 0);
+    });
+    if(porDoc) return {os:porDoc, fonte:'local'};
+  }
+  return null;
+}
+function totalOS(o){ return (Number(o.maoObra)||0) + (o.pecas||[]).reduce(function(s,p){ return s + (Number(p.preco)||0) * (Number(p.qtd)||0); }, 0); }
+function histStatus(o, st){
+  var h = (o.statusHist || []).filter(function(x){ return x.status === st; });
+  return h.length ? h[h.length-1] : null;
+}
+function renderOS(os, fonte){
+  _osAtual = os; _fonte = fonte;
+  var idx = PASSOS.findIndex(function(p){ return p.k === os.status; });
+  if(idx < 0) idx = 0;
+  var total = fonte === 'payload' && os.total != null ? os.total : totalOS(os);
+  var loja = os.loja || (loadCFG() || {}).loja || 'NEGRET\'S';
+  var wa = os.wa || (loadCFG() || {}).whatsapp || '';
+  var pecasTxt = (os.pecas||[]).length ? os.pecas.map(function(p){ return p.nome + ' x' + p.qtd; }).join(', ') : '—';
+  var html = '<div class="card"><div class="hero">' +
+    '<div class="osc">' + (os.id||'') + (fonte === 'payload' ? ' • dados do momento do envio' : ' • tempo real') + '</div>' +
+    '<div class="stt" style="background:' + PASSOS[idx].cor + '">' + PASSOS[idx].tit.replace(/^\d+\.\s*/, '').toUpperCase() + '</div>' +
+    '<div class="sub" style="color:var(--mut); font-size:12px; margin-top:6px">' + PASSOS[idx].sub + '</div></div>' +
+    '<div style="margin-top:12px">' +
+    '<div class="linha"><span class="k">Cliente</span><span class="v">' + (os.cliente ? os.cliente.nome : '—') + '</span></div>' +
+    '<div class="linha"><span class="k">Aparelho</span><span class="v">' + (os.aparelho||'—') + '</span></div>' +
+    '<div class="linha"><span class="k">Defeito</span><span class="v">' + (os.defeito||'—') + '</span></div>' +
+    '<div class="linha"><span class="k">Previsão</span><span class="v">' + fmtDate(os.previsao) + '</span></div>' +
+    '<div class="linha"><span class="k">Mão de obra</span><span class="v money">' + fmtMoney(os.maoObra||0) + '</span></div>' +
+    '<div class="linha"><span class="k">Peças</span><span class="v">' + pecasTxt + '</span></div>' +
+    '<div class="linha"><span class="k">Valor total</span><span class="v money" style="font-size:17px">' + fmtMoney(total) + '</span></div>' +
+    '</div></div>';
+  html += '<div class="card"><h2 style="font-size:15px; color:var(--gold2); margin-bottom:4px">Linha do tempo</h2><ul class="tl">';
+  html += PASSOS.map(function(p, i){
+    var ev = histStatus(os, p.k) || (os.statusHist||[]).filter(function(x){ return x.status === p.k; })[0];
+    var classe = i < idx ? 'done' : i === idx ? 'now' : 'pend';
+    var borda = i === idx ? 'style="border-color:' + p.cor + ';background:' + p.cor + '22"' : '';
+    return '<li class="' + classe + '"><div class="ico" ' + borda + '>' + p.emoji + '</div>' +
+      '<div style="min-width:0"><div class="tit" style="' + (i === idx ? 'color:' + p.cor : '') + '">' + p.tit + '</div>' +
+      '<div class="sub">' + p.sub + (ev && ev.when ? ' • ' + fmtDT(ev.when) : '') + '</div></div></li>';
+  }).join('');
+  html += '</ul></div>';
+  html += '<div class="btn-row">' +
+    '<a class="btn teal" id="btn-wa" href="' + waLink(wa, 'Olá! Sobre minha OS ' + (os.id||'') + ' (' + (os.aparelho||'') + ')...') + '" target="_blank" rel="noopener">Falar no WhatsApp da loja</a>' +
+    '<button class="btn" id="btn-share">Compartilhar rastreio</button>' +
+    '<button class="btn" id="btn-qr2">QR consulta</button></div>';
+  if(fonte === 'payload'){
+    html += '<p class="nota">Este link mostra os dados do momento em que a loja enviou. Abra pelo app da loja para ver atualizações em tempo real.</p>';
+  }
+  $('resultado').innerHTML = html;
+  show($('resultado'));
+  hide($('nao-encontrado'));
+  $('btn-share').addEventListener('click', function(){
+    var url = location.href;
+    var txt = 'Rastreio da OS ' + os.id + ' — ' + loja;
+    if(navigator.share){ navigator.share({title:'NEGRET\'S', text:txt, url:url}).catch(function(){ copiar(url); }); }
+    else copiar(txt + '\n' + url);
+  });
+  $('btn-qr2').addEventListener('click', abrirCam);
+  $('btn-wa').addEventListener('click', function(e){ if(!wa){ e.preventDefault(); alert('WhatsApp da loja não configurado.'); } });
+}
+function copiar(txt){
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(function(){ toast('Copiado!'); }); }
+  else { var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta); toast('Copiado!'); }
+}
+function waLink(num, text){ return 'https://wa.me/' + String(num||'').replace(/\D/g,'') + '?text=' + encodeURIComponent(text||''); }
+function toast(msg){
+  var t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:999;background:#171b21;border:1px solid #16A34A;color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:700;max-width:calc(100% - 32px);text-align:center';
+  document.body.appendChild(t);
+  setTimeout(function(){ document.body.removeChild(t); }, 2400);
+}
+function abrirCam(){
+  var box = $('cam');
+  if(!box.classList.contains('hidden')){ fecharCam(); return; }
+  show(box);
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    toast('Câmera não suportada — digite o código da OS');
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(function(stream){
+    _camStream = stream;
+    $('cam-video').srcObject = stream;
+    if(window.BarcodeDetector){
+      var det = new BarcodeDetector();
+      _camInt = setInterval(function(){
+        det.detect($('cam-video')).then(function(codes){
+          if(codes && codes.length){ fecharCam(); buscar(codes[0].rawValue); }
+        }).catch(function(){});
+      }, 500);
+    } else {
+      toast('Leitor QR não disponível neste navegador — digite o código da OS');
+    }
+  }).catch(function(){ toast('Não foi possível abrir a câmera'); });
+}
+function fecharCam(){
+  hide($('cam'));
+  if(_camStream){ _camStream.getTracks().forEach(function(t){ t.stop(); }); _camStream = null; }
+  if(_camInt){ clearInterval(_camInt); _camInt = null; }
+}
+function buscar(q){
+  if(!q) { toast('Digite o código da OS'); return; }
+  var res = findOS(q);
+  if(res){ renderOS(res.os, 'local'); }
+  else {
+    hide($('resultado'));
+    show($('nao-encontrado'));
+  }
+}
+function initRastreio(){
+  $('btn-buscar').addEventListener('click', function(){ buscar($('in-busca').value); });
+  $('in-busca').addEventListener('keydown', function(e){ if(e.key === 'Enter') buscar(this.value); });
+  $('btn-cam').addEventListener('click', abrirCam);
+  $('btn-cam-stop').addEventListener('click', fecharCam);
+  var params = new URLSearchParams(location.search);
+  var osq = params.get('os');
+  var payload = params.get('d');
+  if(osq){
+    $('in-busca').value = osq;
+    var res = findOS(osq);
+    if(res){ renderOS(res.os, 'local'); }
+    else if(payload){
+      var d = parsePayload(payload);
+      if(d){ renderOS(d, 'payload'); }
+      else show($('nao-encontrado'));
+    } else show($('nao-encontrado'));
+  }
+  /* atualização em tempo real */
+  setInterval(function(){
+    if(!_osAtual || _fonte !== 'local') return;
+    var res = findOS(_osAtual.id);
+    if(res && res.os.status !== _osAtual.status){ renderOS(res.os, 'local'); toast('Status atualizado: ' + res.os.status); }
+  }, 5000);
+}
+document.addEventListener('DOMContentLoaded', initRastreio);
+</script>
+</body>
+</html>
