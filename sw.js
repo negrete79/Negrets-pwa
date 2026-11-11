@@ -1,7 +1,7 @@
-/* NEGRET'S — Service Worker
-   PWA 100% offline: abre sem internet, cache-first com atualização silenciosa. */
-const V = 'negrets-v1.0.2';
-const CORE = [
+/* NEGRET'S — Service Worker (offline + instalação PWA)
+   Criado por Elias Costa NEGRET'S */
+var CACHE = 'negrets-v3';
+var ARQUIVOS = [
   './',
   './index.html',
   './admin.html',
@@ -11,46 +11,32 @@ const CORE = [
   './apple-touch-icon.png'
 ];
 
-self.addEventListener('install', (e) => {
+self.addEventListener('install', function (e) {
   e.waitUntil(
-    caches.open(V)
-      .then((c) => Promise.all(CORE.map((u) => c.add(u).catch(() => null))))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE).then(function (c) { return c.addAll(ARQUIVOS); }).then(function () { return self.skipWaiting(); })
   );
 });
 
-self.addEventListener('activate', (e) => {
+self.addEventListener('activate', function (e) {
   e.waitUntil(
-    caches.keys()
-      .then((ks) => Promise.all(ks.filter((k) => k !== V).map((k) => caches.delete(k))))
-      .then(() => self.clients.claim())
+    caches.keys().then(function (keys) {
+      return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
+    }).then(function () { return self.clients.claim(); })
   );
 });
 
-self.addEventListener('fetch', (e) => {
+self.addEventListener('fetch', function (e) {
   if (e.request.method !== 'GET') return;
-  const url = new URL(e.request.url);
-  if (url.origin !== self.location.origin) return;
-  const isNav = e.request.mode === 'navigate';
-  e.respondWith((async () => {
-    const cache = await caches.open(V);
-    let hit = await cache.match(e.request, { ignoreSearch: true });
-    if (!hit && isNav) {
-      hit = await cache.match('./index.html', { ignoreSearch: true })
-        || await cache.match('./admin.html', { ignoreSearch: true });
-    }
-    const net = fetch(e.request)
-      .then((res) => {
-        if (res && res.ok && res.type === 'basic') cache.put(e.request, res.clone());
-        return res;
-      })
-      .catch(() => null);
-    if (hit) return hit;
-    const res = await net;
-    return res || cache.match('./index.html', { ignoreSearch: true });
-  })());
-});
-
-self.addEventListener('message', (e) => {
-  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
+  e.respondWith(
+    caches.match(e.request).then(function (cacheHit) {
+      var fetchPromise = fetch(e.request).then(function (resp) {
+        if (resp && resp.status === 200 && (resp.type === 'basic' || resp.type === 'cors')) {
+          var copy = resp.clone();
+          caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
+        }
+        return resp;
+      }).catch(function () { return cacheHit; });
+      return cacheHit || fetchPromise;
+    })
+  );
 });

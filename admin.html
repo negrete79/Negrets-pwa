@@ -1,714 +1,876 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NEGRET'S — Painel Admin</title>
-<meta name="description" content="Painel administrativo do NEGRET'S — gestão de licenças, clientes, PIX e preços dos planos.">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#080808">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="NEGRET'S Admin">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="robots" content="noindex">
+<title>NEGRET'S — Painel do Administrador</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080808'/%3E%3Cpath d='M18 46V18l28 28V18' stroke='%23C9A227' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
+*,*::before,*::after{box-sizing:border-box;max-width:100%}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;width:100vw;overflow-x:hidden;background:#0d0d0d;color:#f2f2f2;font:15px/1.45 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;padding-bottom:70px;-webkit-tap-highlight-color:transparent}
+.container{width:calc(100% - 32px);margin:16px auto}
+.no-cut{overflow-wrap:anywhere;word-break:break-word;white-space:normal}
+.mut{color:#9ca3af}
+.center{text-align:center}
 .hidden{display:none!important}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{
-  --bg:#080808; --bg2:#101012; --card:#17171a; --card2:#1e1e22; --line:#28282e;
-  --txt:#f3f3f4; --mut:#9a9aa3; --gold:#C9A227; --gold2:#e3c25a; --green:#0F766E; --green2:#14b8a6;
-  --red:#e5484d; --amber:#f59e0b; --r:14px; --sh:0 8px 28px rgba(0,0,0,.4);
-}
-[data-theme="light"]{
-  --bg:#f1f1f4; --bg2:#ffffff; --card:#ffffff; --card2:#f6f6f8; --line:#e2e2e8;
-  --txt:#151518; --mut:#6c6c76; --sh:0 8px 24px rgba(20,20,30,.10);
-}
-html{font-size:15px}
-body{background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,sans-serif;line-height:1.45;min-height:100vh}
-img{max-width:100%;display:block}
-svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-::-webkit-scrollbar{width:9px;height:9px}
-::-webkit-scrollbar-thumb{background:#3a3a42;border-radius:9px}
-/* ---------- Login ---------- */
-.login{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:
-  radial-gradient(1000px 500px at 50% -10%,rgba(201,162,39,.10),transparent 60%),var(--bg)}
-.lcard{width:min(92vw,400px);background:#ffffff;color:#17171a;border-radius:20px;padding:26px 24px 20px;box-shadow:0 24px 70px rgba(0,0,0,.55)}
-.lcard .logo-n{width:52px;height:52px;font-size:26px;border-radius:14px;margin:0 auto 14px;background:linear-gradient(145deg,#e3c25a,#C9A227)}
-.lcard h1{font-size:18px;text-align:center;letter-spacing:.3px;color:#111}
-.lcard .sub{text-align:center;font-size:12.5px;color:#7a7a83;margin:4px 0 20px}
-.lfield{position:relative;margin-bottom:12px}
-.lfield>svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:#9a9aa3}
-.lfield input{width:100%;padding:12px 12px 12px 40px;border:1px solid #e2e2e8;border-radius:12px;font-size:15px;background:#fafafa;color:#17171a;outline:none}
-.lfield input:focus{border-color:var(--gold)}
-.lfield .eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:none;background:none;color:#9a9aa3;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.lfield .eye svg{width:19px;height:19px}
-.lcheck{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#43434a;margin:4px 0 16px;cursor:pointer}
-.lcheck input{width:17px;height:17px;accent-color:var(--gold)}
-.lbtn{width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(145deg,#e3c25a,#C9A227);color:#0a0a0a;font-weight:800;font-size:15px;cursor:pointer}
-.lbtn:active{transform:scale(.98)}
-.llink{display:block;text-align:center;margin-top:14px;font-size:13px;color:#7a7a83;text-decoration:underline;cursor:pointer;background:none;border:none;width:100%}
-.lerr{background:rgba(229,72,77,.1);border:1px solid rgba(229,72,77,.4);color:#b3323a;border-radius:10px;padding:9px 12px;font-size:13px;margin-bottom:12px;text-align:center}
-.lfoot{text-align:center;font-size:11.5px;color:var(--mut);margin-top:26px;letter-spacing:.3px}
-.lcard .lfoot{margin-top:18px}
-@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-.shake{animation:shake .3s}
-/* ---------- Painel ---------- */
-.top{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;gap:10px;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top));background:var(--bg2);border-bottom:1px solid var(--line);flex-wrap:wrap}
-.logo-n{width:34px;height:34px;flex:0 0 34px;border-radius:9px;background:linear-gradient(145deg,var(--gold2),var(--gold));color:#0a0a0a;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px}
-.brand{display:flex;flex-direction:column;line-height:1.15}
-.brand b{font-size:14.5px}
-.brand span{font-size:11px;color:var(--mut)}
-.hbtns{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 13px;border-radius:11px;border:1px solid transparent;font-weight:700;font-size:13px;cursor:pointer;color:#0a0a0a;background:linear-gradient(145deg,var(--gold2),var(--gold));min-height:40px}
-.btn svg{width:16px;height:16px}
-.btn:active{transform:scale(.97)}
-.btn.grn{background:linear-gradient(145deg,#12a594,var(--green));color:#fff}
-.btn.ln{background:transparent;border-color:var(--line);color:var(--txt)}
-.btn.rd{background:transparent;border-color:rgba(229,72,77,.5);color:var(--red)}
-.btn.sm{padding:6px 10px;min-height:32px;font-size:12px;border-radius:9px}
-.main{padding:78px 12px 40px;max-width:1200px;margin:0 auto}
-.grid-kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
-@media(min-width:700px){.grid-kpi{grid-template-columns:repeat(5,1fr)}}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px}
-.kpi .l{font-size:10.5px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
-.kpi .v{font-size:22px;font-weight:800;margin-top:4px}
-.kpi .s{font-size:10.5px;color:var(--mut);margin-top:2px}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.grow{flex:1;min-width:0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
-.mt{margin-top:10px}.mb{margin-bottom:10px}
-.mut{color:var(--mut)}.sm{font-size:12.5px}.xs{font-size:11px}
-.gold{color:var(--gold2)}
-.iwrap{position:relative;width:100%}
-.iwrap>svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--mut);pointer-events:none}
-.input,.sel,.ta{width:100%;padding:10px 12px;border-radius:11px;border:1px solid var(--line);background:var(--bg);color:var(--txt);font-size:15px;font-family:inherit;outline:none;min-height:42px}
-.iwrap .input{padding-left:34px}
-.input:focus,.sel:focus,.ta:focus{border-color:var(--gold)}
-.sel{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--mut) 50%),linear-gradient(135deg,var(--mut) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
-.fchip{padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--mut);font-size:12.5px;font-weight:700;cursor:pointer;flex:0 0 auto}
-.fchip.act{background:var(--gold);border-color:var(--gold);color:#0a0a0a}
-.fchips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
-.fchips::-webkit-scrollbar{display:none}
-.pill{display:inline-flex;align-items:center;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.3px}
-.pill.g{background:rgba(34,197,94,.14);color:#4ade80;border:1px solid rgba(34,197,94,.35)}
-.pill.a{background:rgba(245,158,11,.14);color:var(--amber);border:1px solid rgba(245,158,11,.35)}
-.pill.r{background:rgba(229,72,77,.14);color:var(--red);border:1px solid rgba(229,72,77,.35)}
-.pill.n{background:var(--card2);color:var(--mut);border:1px solid var(--line)}
-.pill.vit{background:linear-gradient(145deg,var(--gold2),var(--gold));color:#0a0a0a;border:1px solid var(--gold2)}
-/* lista tipo tabela */
-.tlist{display:flex;flex-direction:column;gap:8px}
-.trow{display:grid;grid-template-columns:1fr auto;gap:4px 10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-size:13px}
-.trow .c1{grid-column:1/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.trow .fld{display:flex;flex-direction:column;min-width:0}
-.trow .fld .k{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
-.trow .fld .w{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
-.trow .acts{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-@media(min-width:900px){
-  .tlist.tgrid{display:block}
-  .tlist.tgrid .thead,.tlist.tgrid .trow{display:grid;grid-template-columns:92px 1.2fr 1.7fr .8fr 1fr minmax(210px,auto);align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);padding:10px 12px}
-  .tlist.tgrid .thead{border-radius:12px 12px 0 0;background:var(--card2);border-bottom:none}
-  .tlist.tgrid .thead span{font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;font-weight:700}
-  .tlist.tgrid .trow{border-radius:0;border-top:none}
-  .tlist.tgrid .trow:last-child{border-radius:0 0 12px 12px}
-  .tlist.tgrid .trow .fld .k{display:none}
-}
-.empty{text-align:center;padding:34px 14px;color:var(--mut)}
-.empty svg{width:38px;height:38px;margin:0 auto 10px;opacity:.6}
-/* modal */
-.modal{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-end;justify-content:center}
-@media(min-width:640px){.modal{align-items:center;padding:20px}}
-.modal .backdrop{position:absolute;inset:0;background:rgba(0,0,0,.62)}
-.modal .sheet{position:relative;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;background:var(--bg2);border:1px solid var(--line);border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));animation:up .22s ease}
-@media(min-width:640px){.modal .sheet{border-radius:18px;max-height:88vh}}
-@keyframes up{from{transform:translateY(30px);opacity:.4}to{transform:none;opacity:1}}
-.mhead{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.mhead h3{font-size:16px;flex:1;min-width:0}
-.mhead .iconbtn{flex:0 0 34px;width:34px;height:34px}
-.iconbtn{width:38px;height:38px;flex:0 0 38px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--txt);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
-.iconbtn svg{width:19px;height:19px}
-.iconbtn:active{transform:scale(.94)}
-.mfoot{display:flex;gap:8px;margin-top:14px}
-.mfoot .btn{flex:1}
-.lbl{display:block;font-size:12px;color:var(--mut);font-weight:600;margin:10px 0 5px}
-.lbl:first-child{margin-top:0}
-.f2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.chkline{display:flex;align-items:center;gap:8px;font-size:13.5px;margin-top:8px;cursor:pointer}
-.chkline input{width:17px;height:17px;accent-color:var(--gold)}
-.box{border-radius:12px;padding:12px 14px;font-size:13.5px;border:1px solid}
-.box.grn{background:rgba(15,118,110,.16);border-color:rgba(15,118,110,.55);color:#d8f5f1}
-.box.grn.center{text-align:center}
-.box.grn b{color:#fff}
-[data-theme="light"] .box.grn{background:#e7f6f4;color:#0b5c56;border-color:#9adcd6}
-[data-theme="light"] .box.grn b{color:#0b3f3b}
-.box.gold{background:rgba(201,162,39,.12);border-color:rgba(201,162,39,.5);color:var(--gold2)}
-.box.red{background:rgba(229,72,77,.10);border-color:rgba(229,72,77,.45);color:#ffb9bb}
-[data-theme="light"] .box.red{color:#a32226}
-.box .sub{font-size:12px;opacity:.85;margin-top:3px}
-.codbig{font-family:ui-monospace,monospace;font-size:22px;letter-spacing:3px;text-align:center;background:var(--bg);border:1px dashed var(--gold);border-radius:12px;padding:14px;color:var(--gold2)}
-#toasts{position:fixed;top:calc(64px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:120;display:flex;flex-direction:column;gap:8px;width:min(92vw,420px)}
-.toast{background:var(--card2);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:11px 13px;font-size:13.5px;font-weight:600;box-shadow:var(--sh);display:flex;gap:8px;align-items:center;animation:up .2s ease}
-.toast.ok{border-left-color:#22c55e}
-.toast.err{border-left-color:var(--red)}
-.toast svg{width:17px;height:17px;flex:0 0 17px;color:var(--mut)}
+h1,h2,h3,h4{margin:0 0 10px;line-height:1.25;overflow-wrap:anywhere}
+h2{font-size:19px}h3{font-size:15.5px}
+p{overflow-wrap:anywhere}
+
+/* LOGIN */
+#login{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 0}
+.login-card{width:calc(100% - 32px);max-width:400px;background:#141414;border:1px solid #262626;border-radius:18px;padding:26px 20px;margin:16px auto;overflow:hidden}
+.login-logo{width:64px;height:64px;margin:0 auto 14px;background:#C9A227;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#080808;font-weight:800;font-size:34px}
+.login-sub{text-align:center;color:#9ca3af;font-size:13px;margin-bottom:18px;overflow-wrap:anywhere}
+.field{position:relative;margin-top:12px}
+.field svg.ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:19px;height:19px;color:#C9A227}
+.field .inp{padding-left:42px}
+.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:38px;height:38px;background:none;border:0;color:#9ca3af;cursor:pointer;padding:8px}
+.remember{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13.5px;color:#c7c7c7}
+.remember input{width:18px;height:18px;accent-color:#C9A227}
+.err{background:#2a0f0f;border:1px solid #b91c1c;color:#fca5a5;border-radius:10px;padding:10px 12px;font-size:13px;margin-top:12px;overflow-wrap:anywhere}
+
+/* BOTÕES */
+.btn-row{display:flex;flex-wrap:wrap;gap:8px}
+.btn{appearance:none;border-radius:10px;padding:11px 14px;min-height:42px;font:600 13.5px/1.2 inherit;color:#fff;background:#1c1c1c;border:1px solid #2e2e2e;cursor:pointer;flex:1 1 45%;min-width:126px;text-align:center;overflow-wrap:anywhere}
+.btn.gold{background:#C9A227;color:#080808;border-color:#C9A227;font-weight:800}
+.btn.green{background:#0F766E;border-color:#0F766E;color:#fff}
+.btn.red{background:#7f1d1d;border-color:#a33;color:#fff}
+.btn.small{flex:0 1 auto;min-width:0;padding:8px 11px;font-size:12px;min-height:34px}
+.btn.tiny{flex:0 0 auto;min-width:0;min-height:28px;padding:4px 9px;font-size:11px;border-radius:8px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn svg{width:18px;height:18px;vertical-align:-3.5px;flex:0 0 18px}
+.btn.small svg{width:15px;height:15px;vertical-align:-2.5px}
+
+/* FORM */
+label.f{display:block;margin:10px 0 4px;font-size:12.5px;color:#9ca3af;font-weight:600}
+.inp{width:100%;background:#0f0f0f;border:1px solid #2e2e2e;color:#fff;border-radius:10px;padding:11px 12px;font-size:16px;min-height:44px;font-family:inherit}
+textarea.inp{min-height:70px;resize:vertical}
+.inp:focus{outline:1px solid #C9A227;border-color:#C9A227}
+.inp2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* HEADER ADM */
+#admHead{position:sticky;top:0;z-index:900;background:#080808;border-bottom:1px solid #232323;display:flex;align-items:center;gap:10px;padding:10px 12px;width:100vw;flex-wrap:wrap}
+.admlogo{width:36px;height:36px;flex:0 0 36px;background:#C9A227;color:#080808;font-weight:800;font-size:21px;display:flex;align-items:center;justify-content:center;border-radius:9px}
+#admHead .t{font-weight:800;font-size:15.5px;letter-spacing:.5px}
+#admHead .btn{min-height:36px;padding:7px 12px;font-size:12.5px;flex:0 0 auto;min-width:0;white-space:nowrap}
+
+/* MÉTRICAS */
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.metric{background:#141414;border:1px solid #232323;border-radius:12px;padding:12px;overflow:hidden}
+.metric .lbl{font-size:11px;color:#9ca3af;font-weight:600;overflow-wrap:anywhere}
+.metric .val{font-size:19px;font-weight:800;margin-top:4px;overflow-wrap:anywhere}
+.metric .val.gold{color:#C9A227}.metric .val.teal{color:#2dd4bf}.metric .val.red{color:#f87171}.metric .val.green{color:#34d399}
+
+/* TABS */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 10px}
+.tab{flex:1 1 30%;min-width:120px;padding:10px;border-radius:10px;background:#141414;border:1px solid #2e2e2e;color:#c7c7c7;font-weight:700;font-size:13px;cursor:pointer;text-align:center}
+.tab.on{background:#C9A227;color:#080808;border-color:#C9A227}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chipf{padding:7px 12px;border-radius:999px;background:#141414;border:1px solid #2e2e2e;color:#c7c7c7;font-size:12px;font-weight:700;cursor:pointer}
+.chipf.on{background:#0F766E;color:#fff;border-color:#0F766E}
+
+/* CHIPS DE STATUS */
+.chip{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;overflow-wrap:anywhere}
+.chip.ok{background:#064e3b;color:#34d399}
+.chip.warn{background:#3b2f06;color:#fbbf24}
+.chip.bad{background:#3f1212;color:#f87171}
+.chip.gray{background:#1f2937;color:#9ca3af}
+.chip.gold{background:#2a2109;color:#C9A227}
+
+/* LISTA DE CLIENTES */
+.cli{background:#141414;border:1px solid #232323;border-radius:14px;padding:12px;margin-bottom:10px;overflow:hidden}
+.cli .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.cli .nm{font-weight:800;font-size:15px;overflow-wrap:anywhere}
+.cli .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px;margin:8px 0;font-size:12.5px}
+.cli .grid div span{color:#9ca3af;display:block;font-size:10.5px;text-transform:uppercase}
+.cli .grid div b{overflow-wrap:anywhere}
+.cli .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.cli .acts .btn{flex:1 1 45%;min-width:120px;min-height:36px;padding:7px 8px;font-size:11.5px}
+.histrow{padding:7px 0;border-bottom:1px dashed #2a2a2a;font-size:12.5px;overflow-wrap:anywhere}
+.histrow b{color:#C9A227}
+
+/* AJUDA */
+.ajuda{background:#141414;border:1px solid #232323;border-radius:14px;padding:12px;margin-bottom:10px;overflow:hidden}
+.ajuda .comp{width:100%;max-width:260px;aspect-ratio:1/1;object-fit:contain;background:#fff;border-radius:10px;cursor:pointer}
+.ajuda .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px;margin:8px 0;font-size:12.5px}
+.ajuda .grid span{color:#9ca3af;display:block;font-size:10.5px;text-transform:uppercase}
+.ajuda .grid b{overflow-wrap:anywhere}
+
+/* MODAIS */
+.modal{position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.78);display:flex;align-items:flex-end;justify-content:center}
+.modal.center{align-items:center;padding:18px}
+.modal .box{position:relative;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;background:#101010;border:1px solid #262626;border-radius:16px 16px 0 0;padding:18px 16px 90px}
+.modal.center .box{border-radius:16px;padding-bottom:16px}
+.mx{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;background:#1d1d1d;border:1px solid #333;color:#fff;font-size:19px;cursor:pointer;line-height:1;z-index:5}
+.box-actions{position:sticky;bottom:0;background:#101010;padding:12px 0 6px;margin-top:16px;border-top:1px solid #222;z-index:4}
+.box h3{padding-right:44px}
+.tots{background:#0b0b0b;border:1px dashed #3a3a3a;border-radius:12px;padding:12px;margin-top:12px}
+.tots .t{display:flex;justify-content:space-between;gap:10px;padding:3px 0;font-size:14px}
+.tots .t b{overflow-wrap:anywhere}
+
+/* TOASTS */
+#toasts{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:1300;width:calc(100% - 32px);max-width:430px;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:#1a1a1a;border:1px solid #C9A227;color:#fff;border-radius:10px;padding:12px 14px;font-size:13.5px;font-weight:600;overflow-wrap:anywhere;box-shadow:0 6px 22px rgba(0,0,0,.55)}
+.toast.err{border-color:#dc2626}
+.toast.ok{border-color:#0F766E}
+.empty{text-align:center;color:#6b7280;padding:26px 10px;font-size:13px}
+.foot{text-align:center;color:#6b7280;font-size:11.5px;padding:18px 0;overflow-wrap:anywhere}
+.codrow{display:flex;gap:8px;align-items:center;padding:8px;background:#0f0f0f;border:1px solid #262626;border-radius:10px;margin-bottom:6px;flex-wrap:wrap}
+.codrow code{font-family:monospace;color:#C9A227;font-weight:700;overflow-wrap:anywhere}
 </style>
 </head>
 <body>
-<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
-<defs>
-<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
-<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
-<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></symbol>
-<symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M4 4l16 16"/><path d="M10.6 6.1c.5-.1.9-.1 1.4-.1 6.5 0 10 6 10 6s-1 1.8-2.8 3.4M6.6 7.3C4 9 2 12 2 12s3.5 6.5 10 6.5c1.3 0 2.5-.2 3.6-.6"/><path d="M9.9 10.1a3 3 0 0 0 4.2 4.2"/></symbol>
-<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
-<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
-<symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.6c0 3.9 2.5 6.4 6.4 6.4l1-2.1-2.2-1-.9.8c-1.2-.6-1.9-1.3-2.4-2.4l.8-.9-1-2.2-1.7 1.4z"/></symbol>
-<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.2-2.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 2.9-1.2V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0 1.2 2.9H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
-<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v10M7 10l5 5 5-5M4 19h16"/></symbol>
-<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H5v16h4"/><path d="M14 8l4 4-4 4M18 12H9"/></symbol>
-<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 7.8-8 9-4.6-1.2-8-4.5-8-9V6l8-3z"/></symbol>
-<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-<symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20l4-1L20.5 6.5a2.1 2.1 0 0 0-3-3L5 16l-1 4z"/><path d="M14.5 6.5l3 3"/></symbol>
-<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V5h6v2M6.5 7l1 13h9l1-13"/><path d="M10 11v6M14 11v6"/></symbol>
-<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></symbol>
-<symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
-<symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
-<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
-<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.3"/><path d="M20 5v6h-6"/></symbol>
-<symbol id="i-csv" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></symbol>
-<symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-8 8-9-8z"/><circle cx="8" cy="8" r="1.4"/></symbol>
-<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c.6-3.4 2.8-5 5.5-5s4.9 1.6 5.5 5"/><circle cx="17" cy="9" r="2.6"/><path d="M16 15.2c2.3.3 4 1.7 4.5 4.8"/></symbol>
-<symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v10a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5a2 2 0 0 1-2-2z"/><circle cx="16.5" cy="13.5" r="1"/></symbol>
-<symbol id="i-cash" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="10" rx="2"/><circle cx="12" cy="12" r="2.6"/></symbol>
-<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="14" r="4"/><path d="M11 11l9-9M16.5 5.5L19 8M13.5 8.5l2 2"/></symbol>
-<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.5L2.5 20h19L12 3.5z"/><path d="M12 10v4M12 17v.2"/></symbol>
-<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></symbol>
-<symbol id="i-store" viewBox="0 0 24 24"><path d="M4 10v10h16V10"/><path d="M2 7l2-4h16l2 4a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z"/><path d="M9 20v-6h6v6"/></symbol>
-<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.2"/></symbol>
-</defs>
-</svg>
-
-<!-- LOGIN -->
-<div class="login" id="vLogin">
-  <div>
-    <div class="lcard">
-      <div class="logo-n">N</div>
-      <h1>NEGRET'S &bull; Painel Admin</h1>
-      <p class="sub">Acesso restrito ao administrador</p>
-      <div class="lerr hidden" id="lErr">E-mail ou senha incorretos</div>
-      <form id="lForm" autocomplete="on">
-        <div class="lfield">
-          <svg><use href="#i-mail"/></svg>
-          <input type="email" inputmode="email" id="lEmail" placeholder="E-mail" autocomplete="username" value="admin@negrets.com">
-        </div>
-        <div class="lfield">
-          <svg><use href="#i-lock"/></svg>
-          <input type="password" id="lPass" placeholder="Senha" autocomplete="current-password">
-          <button type="button" class="eye" id="lEye" aria-label="Mostrar senha"><svg id="lEyeIc"><use href="#i-eye"/></svg></button>
-        </div>
-        <label class="lcheck"><input type="checkbox" id="lRemember" checked><span>Lembrar de mim</span></label>
-        <button class="lbtn" type="submit">Entrar</button>
-        <button class="llink" type="button" id="lForgot">Esqueceu a senha?</button>
-      </form>
+<!-- ================= LOGIN ================= -->
+<section id="login">
+  <div class="login-card">
+    <div class="login-logo">N</div>
+    <h1 class="center" style="font-size:22px;letter-spacing:1px">NEGRET'S</h1>
+    <div class="login-sub no-cut">Painel do Administrador • Área restrita</div>
+    <div class="field">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>
+      <input id="admEmail" class="inp" type="email" inputmode="email" autocomplete="username" placeholder="E-mail" value="admin@negrets.com">
     </div>
-    <p class="lfoot">NEGRET'S &bull; Área restrita &bull; Criado por Elias Costa NEGRET'S</p>
+    <div class="field">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+      <input id="admPass" class="inp" type="password" autocomplete="current-password" placeholder="Senha">
+      <button class="eye" id="btnEye" aria-label="Mostrar senha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="20" height="20"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+    </div>
+    <label class="remember"><input type="checkbox" id="admRemember" checked> Lembrar de mim</label>
+    <div id="loginErr" class="err hidden"></div>
+    <button id="btnEntrar" class="btn gold" style="width:100%;margin-top:16px">Entrar</button>
   </div>
-</div>
+  <div class="foot no-cut">NEGRET'S • Área restrita • Criado por Elias Costa NEGRET'S</div>
+</section>
 
-<!-- PAINEL -->
-<div class="hidden" id="vPanel">
-  <header class="top">
-    <div class="logo-n">N</div>
-    <div class="brand"><b id="adOla">Olá, Elias</b><span id="adMail">admin@negrets.com</span></div>
-    <button class="iconbtn" id="adEdit" title="Editar nome"><svg><use href="#i-pencil"/></svg></button>
-    <div class="hbtns">
-      <button class="btn sm ln" id="adTema"><svg><use href="#i-moon"/></svg>Tema</button>
-      <button class="btn sm grn" id="adWa"><svg><use href="#i-wa"/></svg>WhatsApp</button>
-      <button class="btn sm ln" id="adCfg"><svg><use href="#i-gear"/></svg>Configurações</button>
-      <button class="btn sm ln hidden" id="adInst"><svg><use href="#i-down"/></svg>Instalar App</button>
-      <button class="btn sm ln" id="adLic"><svg><use href="#i-shield"/></svg>Licença</button>
-      <button class="btn sm rd" id="adOut"><svg><use href="#i-logout"/></svg>Sair</button>
+<!-- ================= PAINEL ================= -->
+<section id="painel" class="hidden">
+  <header id="admHead">
+    <div class="admlogo">N</div>
+    <div class="t no-cut">NEGRET'S ADM</div>
+    <div style="margin-left:auto" class="btn-row">
+      <button id="btnAtualizar" class="btn">Atualizar</button>
+      <button id="btnSairAdm" class="btn red">Sair</button>
     </div>
   </header>
-  <main class="main">
-    <div class="grid-kpi" id="adKpis"></div>
-    <div class="row mb">
-      <div class="iwrap grow" style="max-width:420px"><svg><use href="#i-search"/></svg><input class="input" id="adQ" placeholder="Buscar por e-mail, nome ou ID..." value=""></div>
+
+  <div class="container">
+    <div class="grid2" id="metrics"></div>
+
+    <div class="tabs">
+      <button class="tab on" data-tab="clientes">Clientes</button>
+      <button class="tab" data-tab="ajuda">Ajuda / Pix com falha</button>
+      <button class="tab" data-tab="precos">Preços · Pix API</button>
     </div>
-    <div class="row mb">
-      <div class="fchips grow">
-        <button class="fchip act" data-f="todos">Todos</button>
-        <button class="fchip" data-f="ativo">Ativos</button>
-        <button class="fchip" data-f="pendente">Pendentes</button>
-        <button class="fchip" data-f="vitalicio">👑 PRO MAX • VITALÍCIO</button>
-        <button class="fchip" data-f="lixeira">Lixeira</button>
+
+    <!-- ======== ABA CLIENTES ======== -->
+    <div id="tabClientes">
+      <input id="busca" class="inp" placeholder="Buscar por nome, e-mail ou WhatsApp..." autocomplete="off">
+      <div class="chips" id="filtros">
+        <button class="chipf on" data-f="todos">Todos</button>
+        <button class="chipf" data-f="ativos">Ativos</button>
+        <button class="chipf" data-f="pausados">Pausados</button>
+        <button class="chipf" data-f="vencidos">Vencidos</button>
+        <button class="chipf" data-f="cancelados">Cancelados</button>
+        <button class="chipf" data-f="vitalicio">Vitalício</button>
+        <button class="chipf" data-f="lixeira">Lixeira</button>
+      </div>
+      <div class="btn-row" style="margin:10px 0">
+        <button id="btnCsv" class="btn">Exportar CSV</button>
+        <button id="btnNovoCli" class="btn gold">+ Novo Cliente</button>
+        <button id="btnEsvaziar" class="btn red">Esvaziar Lixeira</button>
+      </div>
+      <div id="listaClientes"></div>
+    </div>
+
+    <!-- ======== ABA AJUDA ======== -->
+    <div id="tabAjuda" class="hidden">
+      <div class="warnbox" style="background:#2a2109;border:1px solid #C9A227;border-radius:12px;padding:12px;font-size:13px;margin-bottom:10px">
+        Pedidos de clientes que pagaram via Pix e não ativaram. Confira no banco e use <b>ATIVAR MANUALMENTE</b> — o sistema do cliente libera na hora.
+      </div>
+      <div id="listaAjudas"></div>
+    </div>
+
+    <!-- ======== ABA PREÇOS ======== -->
+    <div id="tabPrecos" class="hidden">
+      <div class="cli">
+        <h3>Preços dos planos</h3>
+        <div class="inp2">
+          <div><label class="f">Mensal (R$)</label><input id="prMensal" class="inp" inputmode="decimal"></div>
+          <div><label class="f">6 Meses (R$)</label><input id="prSemestral" class="inp" inputmode="decimal"></div>
+          <div><label class="f">1 Ano (R$)</label><input id="prAnual" class="inp" inputmode="decimal"></div>
+          <div><label class="f">Vitalício (R$)</label><input id="prVitalicio" class="inp" inputmode="decimal"></div>
+        </div>
+        <div class="btn-row" style="margin-top:10px"><button id="btnSalvarPrecos" class="btn gold">Salvar preços</button></div>
+      </div>
+      <div class="cli">
+        <h3>Pix &amp; Suporte</h3>
+        <label class="f">Chave Pix</label><input id="pxChave" class="inp" placeholder="e-mail / telefone / aleatória">
+        <div class="inp2">
+          <div><label class="f">Nome do recebedor</label><input id="pxNome" class="inp"></div>
+          <div><label class="f">Cidade</label><input id="pxCidade" class="inp"></div>
+        </div>
+        <label class="f">WhatsApp de suporte (com DDI)</label><input id="pxWhats" class="inp" type="tel" inputmode="tel" placeholder="5511999999999">
+        <div class="btn-row" style="margin-top:10px"><button id="btnSalvarPix" class="btn gold">Salvar Pix / Suporte</button></div>
+      </div>
+      <div class="cli">
+        <h3>Códigos de ativação (NEG-XXXX-XXXX)</h3>
+        <div class="inp2">
+          <div><label class="f">Plano do código</label><select id="codPlano" class="inp"><option value="mensal">Mensal — 30 dias</option><option value="semestral">6 Meses — 180 dias</option><option value="anual">1 Ano — 365 dias</option><option value="vitalicio">Vitalício (PRO MAX)</option></select></div>
+          <div><label class="f">&nbsp;</label><button id="btnGerarCod" class="btn gold" style="width:100%">Gerar código</button></div>
+        </div>
+        <div id="listaCodigos" style="margin-top:10px"></div>
+      </div>
+      <div class="cli">
+        <h3>Pagamentos Pix (liberação automática no cliente)</h3>
+        <div id="listaPixPend"></div>
       </div>
     </div>
-    <div class="row mb">
-      <button class="btn sm ln" id="adRefresh"><svg><use href="#i-refresh"/></svg>Atualizar</button>
-      <button class="btn sm ln" id="adCsv"><svg><use href="#i-csv"/></svg>Exportar CSV</button>
-      <button class="btn sm grn" id="adNovo"><svg><use href="#i-plus"/></svg>+ Novo Cliente</button>
-      <button class="btn sm ln" id="adPrecos"><svg><use href="#i-tag"/></svg>Preços / Pix API</button>
-      <button class="btn sm rd" id="adVazio"><svg><use href="#i-trash"/></svg>Esvaziar Lixeira</button>
-      <a class="btn sm ln" href="index.html" target="_blank"><svg><use href="#i-store"/></svg>Abrir o app</a>
-    </div>
-    <div class="tlist tgrid" id="adList"></div>
-  </main>
-</div>
-
-<!-- MODAIS -->
-<div class="modal hidden" id="m-generic"><div class="backdrop" data-x></div><div class="sheet" id="gSheet"></div></div>
-<div class="modal hidden" id="m-confirm">
-  <div class="backdrop"></div>
-  <div class="sheet" style="max-width:420px">
-    <div class="mhead"><svg style="width:20px;height:20px;color:var(--amber)"><use href="#i-alert"/></svg><h3 id="cfTitle">Confirmar</h3></div>
-    <p class="sm" id="cfMsg" style="color:var(--mut)"></p>
-    <div class="mfoot"><button class="btn ln" id="cfNo">Cancelar</button><button class="btn rd" id="cfYes">Excluir</button></div>
   </div>
-</div>
-<div id="toasts"></div>
-</body>
-<script>
-/* ============ NEGRET'S — PAINEL ADMIN (núcleo) ============ */
-'use strict';
-const $=(s,r=document)=>r.querySelector(s);
-const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
-const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const ic=(n)=>'<svg style="width:16px;height:16px"><use href="#i-'+n+'"/></svg>';
-const fmt=v=>'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-const fmtN=(v,d=2)=>Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
-const parseDec=s=>{if(typeof s==='number')return s;let v=String(s||'').trim();if(!v)return 0;if(v.includes(',')&&v.includes('.'))v=v.replace(/\./g,'').replace(',','.');else if(v.includes(','))v=v.replace(',','.');else if((v.match(/\./g)||[]).length>1)v=v.replace(/\./g,'');const n=parseFloat(v);return isNaN(n)?0:n;};
-const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-function hojeISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function parseISO(s){const p=String(s).split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
-function addDiasISO(iso,n){const d=parseISO(iso);d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function fmtData(iso){if(!iso)return '—';const p=String(iso).split('-');return p[2]+'/'+p[1]+'/'+p[0];}
-function fmtDataCurta(iso){if(!iso)return '—';const p=String(iso).split('-');return p[2]+'/'+p[1];}
-function diasEntre(a,b){return Math.round((parseISO(b)-parseISO(a))/86400000);}
-function onlyDigits(s){return String(s||'').replace(/\D/g,'');}
-const K={db:'negrets_db',pix:'negrets_pix',precos:'negrets_precos',trial:'negrets_trial_inicio',lic:'negrets_licenca'};
-const KADM={session:'negrets_admin_session',prefs:'negrets_admin_prefs',email:'negrets_admin_email'};
-const DB={
-  get(k,def){try{const v=localStorage.getItem(k);return v==null?def:JSON.parse(v);}catch(e){return def;}},
-  set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){toast('Armazenamento cheio.','err');}},
-  del(k){localStorage.removeItem(k);},
-  push(k,item){const a=DB.get(k,[]);a.push(item);DB.set(k,a);return item;},
-  up(k,id,patch){const a=DB.get(k,[]).map(x=>x.id===id?Object.assign({},x,patch):x);DB.set(k,a);}
-};
-const ADMIN={email:'admin@negrets.com',senha:'negrets123'};
-function precos(){return Object.assign({mensal:19.90,sem6:99.90,ano:179.90,mes_gratis:0,vitalicio:997.00,mp_token:'',chave_pix_demo:'',whats_suporte:''},DB.get(K.precos,{}));}
-function prefs(){return Object.assign({nome:'Elias',tema:'dark'},DB.get(KADM.prefs,{}));}
-function setPrefs(p){DB.set(KADM.prefs,p);}
+  <div class="foot no-cut">NEGRET'S • Área restrita • Criado por Elias Costa NEGRET'S</div>
+</section>
 
-/* ---------- Toasts / modais ---------- */
-function toast(msg,tipo='ok',ms=2800){
-  const t=document.createElement('div');t.className='toast '+tipo;
-  t.innerHTML=(tipo==='ok'?ic('check'):tipo==='err'?ic('alert'):ic('info'))+'<span>'+esc(msg)+'</span>';
-  $('#toasts').appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),320);},ms);
+<div id="toasts"></div>
+<script>
+'use strict';
+/* ============================================================
+   NEGRET'S ADM — Painel do Administrador
+   Criado por Elias Costa NEGRET'S
+   ============================================================ */
+var $ = function (s, r) { return (r || document).querySelector(s); };
+var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function uid(p) { return (p || 'id') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function fmt(v) { return 'R$ ' + (Number(v || 0)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function parseMoney(v) { if (typeof v === 'number') return v; v = String(v || '').trim(); if (!v) return 0; v = v.replace(/[^\d,.-]/g, ''); if (v.indexOf(',') >= 0) { v = v.replace(/\./g, '').replace(',', '.'); } else if ((v.match(/\./g) || []).length === 1 && v.split('.')[1].length <= 2) { v = v.replace(',', '.'); } else { v = v.replace(/\./g, ''); } var n = parseFloat(v); return isNaN(n) ? 0 : n; }
+function fmtDate(iso, comHora) { if (!iso) return '-'; var d = new Date(iso); if (isNaN(d)) return String(iso); var dd = String(d.getDate()).padStart(2, '0'), mm = String(d.getMonth() + 1).padStart(2, '0'), yy = d.getFullYear(); if (!comHora) return dd + '/' + mm + '/' + yy; return dd + '/' + mm + '/' + yy + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
+function diasAte(iso) { if (!iso) return 0; return Math.ceil((new Date(iso).getTime() - Date.now()) / 86400000); }
+function jget(k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
+function jset(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { toast('Erro ao salvar', 'err'); } }
+function db() {
+  var d = jget('negrets_db', null);
+  if (!d || typeof d !== 'object') d = {};
+  d.produtos = d.produtos || [];
+  d.vendas = d.vendas || [];
+  d.os = d.os || [];
+  d.clientes = d.clientes || [];
+  d.codigos = d.codigos || [];
+  d.clientesLoja = d.clientesLoja || [];
+  d.movs = d.movs || [];
+  d.caixa = d.caixa || { aberto: false, fundo: 0, movs: [] };
+  return d;
 }
-function openModal(id){$('#'+id).classList.remove('hidden');}
-function closeModal(id){$('#'+id).classList.add('hidden');}
-let cfCb=null;
-function openConfirm(msg,cb,opts={}){
-  $('#cfTitle').textContent=opts.title||'Confirmar';
-  $('#cfMsg').textContent=msg;
-  const y=$('#cfYes');y.textContent=opts.yes||'Excluir';y.className='btn '+(opts.danger===false?'grn':'rd');
-  cfCb=cb;openModal('m-confirm');
+function saveDb(d) { jset('negrets_db', d); }
+var VITALICIO_DIAS = 3650;
+
+function toast(msg, tipo) {
+  var t = document.createElement('div');
+  t.className = 'toast' + (tipo ? ' ' + tipo : '');
+  t.textContent = msg;
+  $('#toasts').appendChild(t);
+  setTimeout(function () { t.style.opacity = '0'; t.style.transition = 'opacity .3s'; }, 3200);
+  setTimeout(function () { t.remove(); }, 3600);
 }
-function openSheet(html){
-  $('#gSheet').innerHTML=html;
-  $('#gSheet').querySelectorAll('[data-x]').forEach(b=>b.addEventListener('click',()=>closeModal('m-generic')));
-  openModal('m-generic');
+function openModal(html, opts) {
+  opts = opts || {};
+  var ov = document.createElement('div');
+  ov.className = 'modal' + (opts.center ? ' center' : '');
+  ov.innerHTML = '<div class="box"><button class="mx" data-close aria-label="Fechar">✕</button>' + html + '</div>';
+  document.body.appendChild(ov);
+  document.body.style.overflow = 'hidden';
+  function close() { ov.remove(); document.body.style.overflow = ''; if (opts.onClose) try { opts.onClose(); } catch (e) {} }
+  ov.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', close); });
+  ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
+  if (opts.onOpen) try { opts.onOpen(ov, close); } catch (e) {}
+  return { ov: ov, close: close };
 }
-const fTxt=(n,l,v='',ph='',attrs='')=>'<label class="lbl">'+l+'</label><input class="input" name="'+n+'" value="'+esc(v)+'" placeholder="'+esc(ph)+'" '+attrs+'>';
-/* ---------- Login ---------- */
-let sessao=DB.get(KADM.session,null);
-function bindLogin(){
-  $('#lEye').addEventListener('click',()=>{
-    const i=$('#lPass'),ic2=$('#lEyeIc');
-    const mostrar=i.type==='password';
-    i.type=mostrar?'text':'password';
-    ic2.innerHTML='<use href="#i-'+(mostrar?'eyeoff':'eye')+'"/>';
-    i.focus();
-  });
-  $('#lForm').addEventListener('submit',e=>{
-    e.preventDefault();
-    const em=$('#lEmail').value.trim().toLowerCase(),pw=$('#lPass').value;
-    if(em===ADMIN.email&&pw===ADMIN.senha){
-      if($('#lRemember').checked)localStorage.setItem(KADM.email,em);else localStorage.removeItem(KADM.email);
-      sessao={email:em,ts:Date.now()};DB.set(KADM.session,sessao);
-      toast('Bem-vindo de volta!','ok');entrar();
-    }else{
-      $('#lErr').classList.remove('hidden');
-      const card=$('#lForm');card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');
-    }
-  });
-  $('#lForgot').addEventListener('click',()=>{
-    openSheet('<div class="mhead">'+ic('lock')+'<h3>Recuperar acesso</h3><button class="iconbtn" data-x><svg><use href="#i-x"/></svg></button></div>'+
-      '<p class="sm mut">O acesso do administrador é local e seguro. Para recuperar sua senha:</p>'+
-      '<div class="steps" style="margin-top:10px">'+
-      '<p class="sm">1. Entre em contato com o suporte: <b>suporte@negrets.com</b></p>'+
-      '<p class="sm">2. Ou apague os dados do painel no aparelho e redefina o acesso.</p></div>'+
-      '<div class="mfoot"><a class="btn grn" style="text-decoration:none" href="mailto:suporte@negrets.com">'+ic('mail')+'Enviar e-mail</a></div>');
-  });
+function confirmModal(msg, onOk, opts) {
+  opts = opts || {};
+  var m = openModal(
+    '<h3>' + esc(opts.titulo || 'Confirmação') + '</h3><p class="no-cut">' + msg + '</p>' +
+    '<div class="box-actions"><div class="btn-row">' +
+    '<button class="btn red" data-close>Cancelar</button>' +
+    '<button class="btn gold" id="cfOk">' + esc(opts.okLabel || 'Confirmar') + '</button></div></div>',
+    { center: true }
+  );
+  m.ov.querySelector('#cfOk').addEventListener('click', function () { m.close(); if (onOk) onOk(); });
+  return m;
 }
-function entrar(){
-  $('#vLogin').classList.add('hidden');
-  $('#vPanel').classList.remove('hidden');
-  const p=prefs();
-  $('#adOla').textContent='Olá, '+(p.nome||'Elias');
-  $('#adMail').textContent=ADMIN.email;
+function historicoAdd(c, texto, tipo, dias) {
+  c.historico = c.historico || [];
+  c.historico.push({ quando: new Date().toISOString(), texto: texto, tipo: tipo || null, dias: dias || null });
+}
+
+/* ---------- Estado do painel ---------- */
+var filtro = 'todos', buscaTxt = '', tabAtual = 'clientes';
+var ADMIN_EMAIL = 'admin@negrets.com', ADMIN_SENHA = 'negrets123';
+
+/* ---------- Status computado ---------- */
+function cliStatus(c) {
+  if (c.status === 'pausado') return { chip: 'warn', label: 'PAUSADO' };
+  if (c.status === 'cancelado') return { chip: 'bad', label: 'CANCELADO' };
+  if (c.plano === 'vitalicio') return { chip: 'ok', label: 'ATIVO' };
+  var dias = diasAte(c.vencimento);
+  if (dias <= 0) return { chip: 'gray', label: 'VENCIDO' };
+  if (dias <= 7) return { chip: 'warn', label: 'VENCE EM ' + dias + 'D' };
+  return { chip: 'ok', label: 'ATIVO' };
+}
+function planoLabel(c) {
+  if (c.plano === 'vitalicio') return '👑 PRO MAX • VITALÍCIO';
+  if (c.plano === 'trial') return 'Trial 30 dias';
+  if (c.plano === 'semestral') return '6 Meses';
+  if (c.plano === 'anual') return '1 Ano';
+  return 'Mensal';
+}
+function planoValor(c) {
+  var P = precos();
+  if (c.plano === 'vitalicio') return P.vitalicio;
+  if (c.plano === 'semestral') return P.semestral;
+  if (c.plano === 'anual') return P.anual;
+  if (c.plano === 'trial') return 0;
+  return P.mensal;
+}
+function precos() { return jget('negrets_precos', null) || { mensal: 29.90, semestral: 149.90, anual: 249.90, vitalicio: 497.00 }; }
+function pixcfg() { return jget('negrets_pixcfg', null) || { chave: 'onegretth@gmail.com', nome: 'NEGRET\u2019S', cidade: 'SAO PAULO', whats: '5511999999999' }; }
+
+/* ---------- LOGIN ---------- */
+function tryLogin() {
+  var em = ($('#admEmail').value || '').trim().toLowerCase();
+  var pw = $('#admPass').value || '';
+  if (em === ADMIN_EMAIL && pw === ADMIN_SENHA) {
+    if ($('#admRemember').checked) localStorage.setItem('negrets_adm_remember', '1');
+    sessionStorage.setItem('negrets_adm_session', '1');
+    $('#loginErr').classList.add('hidden');
+    showPanel();
+  } else {
+    var e = $('#loginErr');
+    e.textContent = 'E-mail ou senha incorretos.';
+    e.classList.remove('hidden');
+  }
+}
+function logged() { return sessionStorage.getItem('negrets_adm_session') === '1' || localStorage.getItem('negrets_adm_remember') === '1'; }
+function showPanel() {
+  $('#login').classList.add('hidden');
+  $('#painel').classList.remove('hidden');
   renderAll();
 }
-function sair(){
-  DB.del(KADM.session);sessao=null;
-  $('#vPanel').classList.add('hidden');
-  $('#vLogin').classList.remove('hidden');
-  $('#lPass').value='';$('#lErr').classList.add('hidden');
+function logout() {
+  sessionStorage.removeItem('negrets_adm_session');
+  localStorage.removeItem('negrets_adm_remember');
+  location.reload();
 }
 
-/* ---------- Métricas ---------- */
-function statusOf(r){
-  if(r.deletado)return 'lixeira';
-  if(r.plano==='vitalicio'||r.status==='vitalicio')return 'vitalicio';
-  if(r.status==='pendente')return 'pendente';
-  if(r.validade&&r.validade>=hojeISO())return 'ativo';
-  return 'expirado';
+/* ---------- RENDER ---------- */
+function renderAll() { renderMetrics(); renderLista(); renderAjudas(); renderPrecosTab(); renderCodigos(); renderPixPend(); }
+function renderMetrics() {
+  var D = db();
+  var cls = D.clientes.filter(function (c) { return !c.apagado; });
+  var ativos = cls.filter(function (c) { return cliStatus(c).label === 'ATIVO' || cliStatus(c).label.indexOf('VENCE') === 0; }).length;
+  var vencendo = cls.filter(function (c) { return c.plano !== 'vitalicio' && c.status !== 'cancelado' && c.status !== 'pausado' && diasAte(c.vencimento) > 0 && diasAte(c.vencimento) <= 7; }).length;
+  var vit = cls.filter(function (c) { return c.plano === 'vitalicio'; }).length;
+  var pend = (jget('negrets_ajudas', []) || []).filter(function (a) { return a.status === 'pendente'; }).length;
+  $('#metrics').innerHTML =
+    '<div class="metric"><div class="lbl">Clientes</div><div class="val gold">' + cls.length + '</div></div>' +
+    '<div class="metric"><div class="lbl">Ativos</div><div class="val green">' + ativos + '</div></div>' +
+    '<div class="metric"><div class="lbl">Vencendo (7 dias)</div><div class="val ' + (vencendo ? 'red' : '') + '">' + vencendo + '</div></div>' +
+    '<div class="metric"><div class="lbl">Vitalícios</div><div class="val teal">' + vit + '</div></div>' +
+    '<div class="metric" style="grid-column:1/-1"><div class="lbl">Ajuda / Pix com falha (pendente)</div><div class="val ' + (pend ? 'red' : '') + '">' + pend + '</div></div>';
 }
-function metricas(){
-  const lista=DB.get(K.db,[]),pix=DB.get(K.pix,[]);
-  const hoje=hojeISO();
-  const ativos=lista.filter(r=>!r.deletado&&(statusOf(r)==='ativo'||statusOf(r)==='vitalicio')).length;
-  const d30=addDiasISO(hoje,-30);
-  const faturado=lista.filter(r=>!r.deletado&&(statusOf(r)==='ativo'||statusOf(r)==='vitalicio')&&r.data>=d30).reduce((s,r)=>s+(r.valor||0),0);
-  const pagas=lista.filter(r=>!r.deletado&&(r.origem==='pix'||r.origem==='codigo')).length;
-  const pendentes=lista.filter(r=>!r.deletado&&statusOf(r)==='pendente').length+pix.filter(p=>p.status==='pendente').length;
-  const exp30=lista.filter(r=>!r.deletado&&statusOf(r)==='expirado'&&r.validade&&r.validade<addDiasISO(hoje,-30)).length;
-  return {ativos,faturado,pagas,pendentes,exp30};
-}
-function renderKpis(){
-  const m=metricas();
-  $('#adKpis').innerHTML=
-    '<div class="kpi"><div class="l">'+ic('shield')+'Ativos agora</div><div class="v">'+m.ativos+'</div><div class="s">licenças válidas</div></div>'+
-    '<div class="kpi"><div class="l">'+ic('wallet')+'Faturado 30 dias</div><div class="v">'+fmt(m.faturado)+'</div><div class="s">licenças vendidas</div></div>'+
-    '<div class="kpi"><div class="l">'+ic('check')+'Ativações pagas</div><div class="v">'+m.pagas+'</div><div class="s">PIX + código</div></div>'+
-    '<div class="kpi" id="kpiPend" style="cursor:pointer"><div class="l">'+ic('clock')+'Pendentes</div><div class="v" style="color:var(--amber)">'+m.pendentes+'</div><div class="s">toque para ver PIX</div></div>'+
-    '<div class="kpi"><div class="l">'+ic('alert')+'Expirados &gt;30 dias</div><div class="v" style="color:var(--red)">'+m.exp30+'</div><div class="s">reconquista</div></div>';
-  $('#kpiPend').addEventListener('click',verPendentes);
-}
-function verPendentes(){
-  const pix=DB.get(K.pix,[]).filter(p=>p.status==='pendente');
-  if(!pix.length){toast('Nenhum PIX pendente — tudo em dia!','info');return;}
-  openSheet('<div class="mhead">'+ic('cash')+'<h3>Pagamentos PIX pendentes</h3><button class="iconbtn" data-x><svg><use href="#i-x"/></svg></button></div>'+
-    '<div class="tlist">'+pix.map(p=>'<div class="trow"><div class="c1"><b>'+esc(p.id)+'</b><span class="pill a">PENDENTE</span><span class="xs mut">'+fmtData(p.data)+'</span></div>'+
-    '<div class="fld"><span class="k">Plano</span><span class="w">'+esc(p.plano)+'</span></div>'+
-    '<div class="fld"><span class="k">Cliente</span><span class="w">'+esc(p.email||'—')+'</span></div>'+
-    '<div class="fld"><span class="k">Valor</span><span class="w gold">'+fmt(p.valor)+'</span></div>'+
-    '<div class="acts"><button class="btn sm grn" data-ap="'+p.id+'">'+ic('check')+'Aprovar</button>'+
-    '<button class="btn sm rd" data-ca="'+p.id+'">Cancelar</button></div></div>').join('')+'</div>'+
-    '<p class="xs mut mt">No modo real com token do Mercado Pago a aprovação é automática. Aqui você confirma manualmente o comprovante.</p>');
-  $$('#gSheet [data-ap]').forEach(b=>b.addEventListener('click',()=>{
-    DB.up(K.pix,b.getAttribute('data-ap'),{status:'aprovado'});
-    closeModal('m-generic');toast('PIX aprovado — o app do cliente ativa automaticamente em até 15 segundos.','ok',4200);renderAll();
-  }));
-  $$('#gSheet [data-ca]').forEach(b=>b.addEventListener('click',()=>{
-    DB.up(K.pix,b.getAttribute('data-ca'),{status:'cancelado'});
-    closeModal('m-generic');renderAll();
-  }));
-}
-
-/* ---------- Lista de clientes ---------- */
-let adFiltro='todos',adQ='';
-function renderList(){
-  const el=$('#adList');if(!el)return;
-  let lista=DB.get(K.db,[]);
-  if(adFiltro!=='todos')lista=lista.filter(r=>statusOf(r)===adFiltro);
-  const q=adQ.toLowerCase();
-  if(q)lista=lista.filter(r=>(r.email||'').toLowerCase().includes(q)||(r.nome||'').toLowerCase().includes(q)||(r.id||'').toLowerCase().includes(q)||(r.codigo||'').toLowerCase().includes(q));
-  lista.sort((a,b)=>(b.data||'').localeCompare(a.data||''));
-  if(!lista.length){el.innerHTML='<div class="empty">'+ic('users')+'<b>Nenhum cliente aqui</b>As ativações do app aparecem nesta lista automaticamente.</div>';return;}
-  const badge=r=>{
-    const st=statusOf(r);
-    if(st==='vitalicio')return '<span class="pill vit">👑 PRO MAX • VITALÍCIO</span>';
-    if(st==='ativo')return '<span class="pill g">ATIVO</span>';
-    if(st==='pendente')return '<span class="pill a">PENDENTE</span>';
-    if(st==='expirado')return '<span class="pill r">EXPIRADO</span>';
-    return '<span class="pill n">LIXEIRA</span>';
-  };
-  el.innerHTML='<div class="thead"><span>Data</span><span>Nome</span><span>E-mail</span><span>Valor</span><span>Status</span><span>Ações</span></div>'+
-    lista.map(r=>{
-      const st=statusOf(r);
-      const acoes=st==='lixeira'
-        ?'<button class="btn sm grn" data-restore="'+r.id+'">'+ic('refresh')+'Restaurar</button><button class="btn sm rd" data-purge="'+r.id+'">'+ic('trash')+'Apagar</button>'
-        :'<button class="btn sm ln" data-code="'+r.id+'" title="Código de ativação">'+ic('key')+(r.codigo?'Copiar':'Código')+'</button>'+
-         '<button class="btn sm ln" data-edit="'+r.id+'">'+ic('pencil')+'Editar</button>'+
-         '<button class="btn sm rd" data-del="'+r.id+'">'+ic('trash')+'Excluir</button>';
-      return '<div class="trow">'+
-        '<div class="fld"><span class="k">Data</span><span class="w">'+fmtData(r.data)+'</span></div>'+
-        '<div class="fld"><span class="k">Nome</span><span class="w">'+esc(r.nome||'—')+'</span></div>'+
-        '<div class="fld"><span class="k">E-mail</span><span class="w">'+esc(r.email||'—')+'</span></div>'+
-        '<div class="fld"><span class="k">Valor</span><span class="w gold">'+fmt(r.valor)+'</span></div>'+
-        '<div class="fld"><span class="k">Status</span><span class="w">'+badge(r)+'<br><span class="xs mut">'+(r.validade?'até '+fmtData(r.validade):(r.plano?'plano '+esc(r.plano):''))+'</span></span></div>'+
-        '<div class="acts">'+acoes+'</div></div>';
-    }).join('');
-  el.querySelectorAll('[data-code]').forEach(b=>b.addEventListener('click',()=>verCodigo(b.getAttribute('data-code'))));
-  el.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>editarCliente(b.getAttribute('data-edit'))));
-  el.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>excluirCliente(b.getAttribute('data-del'))));
-  el.querySelectorAll('[data-restore]').forEach(b=>b.addEventListener('click',()=>{
-    DB.up(K.db,b.getAttribute('data-restore'),{deletado:false});
-    toast('Cliente restaurado!','ok');renderAll();
-  }));
-  el.querySelectorAll('[data-purge]').forEach(b=>b.addEventListener('click',()=>{
-    openConfirm('Apagar este cliente para sempre?',()=>{
-      DB.set(K.db,DB.get(K.db,[]).filter(x=>x.id!==b.getAttribute('data-purge')));
-      toast('Apagado definitivamente.','ok');renderAll();
-    },{title:'Apagar definitivo'});
-  }));
-}
-function renderAll(){renderKpis();renderList();}
-</script>
-<script>
-/* ============ NEGRET'S — PAINEL ADMIN (ações) ============ */
-function verCodigo(id){
-  const r=DB.get(K.db,[]).find(x=>x.id===id);if(!r)return;
-  if(!r.codigo){
-    const p=precos();
-    const planos={mensal:{d:30,v:p.mensal},sem6:{d:180,v:p.sem6},ano:{d:365,v:p.ano},mes_gratis:{d:30,v:0},vitalicio:{d:3650,v:p.vitalicio}};
-    openSheet('<div class="mhead">'+ic('tag')+'<h3>Gerar código de ativação</h3><button class="iconbtn" data-x><svg><use href="#i-x"/></svg></button></div>'+
-      '<p class="sm mut mb">Escolha o plano do cliente <b>'+esc(r.nome||r.email||'')+'</b>. O código NEG-XXXX-XXXX é único e vai direto para ele ativar no app.</p>'+
-      '<div class="plans" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+
-      Object.keys(planos).map(k=>'<button class="btn ln" data-pl="'+k+'">'+(k==='vitalicio'?'👑 PRO MAX • VITALÍCIO':({mensal:'Mensal',sem6:'6 Meses',ano:'1 Ano',mes_gratis:'Mês Grátis'}[k]))+'<br><span class="xs">'+fmt(planos[k].v)+' — '+planos[k].d+' dias</span></button>').join('')+'</div>');
-    $$('#gSheet [data-pl]').forEach(b=>b.addEventListener('click',()=>{
-      const k=b.getAttribute('data-pl');
-      const cod=gerarCodigo();
-      DB.up(K.db,id,{codigo:cod,plano:k,dias:planos[k].d,valor:r.valor||planos[k].v,status:r.status&&r.status!=='ativo'?r.status:'pendente'});
-      verCodigoModal(cod,id);
-    }));
-    return;
-  }
-  verCodigoModal(r.codigo,id);
-}
-function gerarCodigo(){
-  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let cod;
-  do{
-    const a=Array.from({length:4},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
-    const b=Array.from({length:4},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
-    cod='NEG-'+a+'-'+b;
-  }while(DB.get(K.db,[]).some(r=>r.codigo===cod));
-  return cod;
-}
-function verCodigoModal(cod,id){
-  openSheet('<div class="mhead">'+ic('key')+'<h3>Código de ativação</h3><button class="iconbtn" data-x><svg><use href="#i-x"/></svg></button></div>'+
-    '<div class="codbig">'+esc(cod)+'</div>'+
-    '<p class="xs mut mt">Envie ao cliente. Ele digita no app em <b>ATIVAR COM CÓDIGO</b> e a licença entra na hora.</p>'+
-    '<div class="mfoot"><button class="btn grn" id="cpCod">'+ic('copy')+'Copiar código</button></div>');
-  $('#cpCod').addEventListener('click',()=>{
-    try{navigator.clipboard.writeText(cod);}catch(e){}
-    toast('Código copiado!','ok');
+function cliFiltrados() {
+  var D = db();
+  var q = buscaTxt.toLowerCase().trim();
+  return D.clientes.filter(function (c) {
+    if (filtro === 'lixeira') return !!c.apagado;
+    if (c.apagado) return false;
+    if (filtro === 'ativos') return cliStatus(c).label === 'ATIVO' || cliStatus(c).label.indexOf('VENCE') === 0;
+    if (filtro === 'pausados') return c.status === 'pausado';
+    if (filtro === 'vencidos') return cliStatus(c).label === 'VENCIDO';
+    if (filtro === 'cancelados') return c.status === 'cancelado';
+    if (filtro === 'vitalicio') return c.plano === 'vitalicio';
+    if (q) return (c.nome || '').toLowerCase().indexOf(q) >= 0 || (c.email || '').toLowerCase().indexOf(q) >= 0 || (c.whats || '').indexOf(q) >= 0;
+    return true;
   });
 }
-function editarCliente(id){
-  const r=DB.get(K.db,[]).find(x=>x.id===id);if(!r)return;
-  const p=precos();
-  const planos=[['','— sem plano —'],['mensal','Mensal (30 dias)'],['sem6','6 Meses (180 dias)'],['ano','1 Ano (365 dias)'],['mes_gratis','Mês Grátis (30 dias)'],['vitalicio','👑 PRO MAX • VITALÍCIO (3650 dias)']];
-  openSheet('<div class="mhead">'+ic('pencil')+'<h3>Editar cliente</h3><button class="iconbtn" data-x><svg><use href="#i-x"/></svg></button></div>'+
-    '<form id="cliForm">'+
-    fTxt('nome','Nome',r.nome||'')+
-    '<label class="lbl">E-mail</label><input class="input" name="email" type="email" inputmode="email" value="'+esc(r.email||'')+'">'+
-    '<label class="lbl">Plano</label><select class="sel" name="plano">'+planos.map(([v,t])=>'<option value="'+v+'"'+((r.plano||'')===v?' selected':'')+'>'+t+'</option>').join('')+'</select>'+
-    fTxt('valor','Valor pago (R$)',fmtN(r.valor||0),'0,00','inputmode="decimal" data-dec')+
-    fTxt('obs','Observações',r.obs||'','anotações internas')+
-    '<div class="mfoot"><button type="submit" class="btn grn">'+ic('check')+'Salvar</button></div></form>');
-  const dec=$('#gSheet [data-dec]');dec&&(dec.value=String(r.valor||0).replace('.',','));
-  $('#cliForm').addEventListener('submit',e=>{
-    e.preventDefault();
-    const fd=new FormData(e.target);
-    const plano=fd.get('plano');
-    const dias={mensal:30,sem6:180,ano:365,mes_gratis:30,vitalicio:3650}[plano]||r.dias||30;
-    DB.up(K.db,id,{nome:fd.get('nome').trim(),email:fd.get('email').trim(),plano,dias,valor:parseDec(fd.get('valor')),obs:fd.get('obs')});
-    if(plano&&r.validade&&r.validade<hojeISO())DB.up(K.db,id,{validade:''});
-    closeModal('m-generic');toast('Cliente atualizado!','ok');renderAll();
-  });
-}
-function excluirCliente(id){
-  const r=DB.get(K.db,[]).find(x=>x.id===id);if(!r)return;
-  openConfirm('Mover "'+(r.nome||r.email||'cliente')+'" para a lixeira?',()=>{
-    DB.up(K.db,id,{deletado:true});
-    toast('Cliente movido para a lixeira.','ok');renderAll();
-  },{title:'Excluir cliente',yes:'Mover'});
-}
-function novoCliente(){
-  const p=precos();
-  openSheet('<div class="mhead">'+ic('plus')+'<h3>Novo cliente</h3><button class="iconbtn" data-x><svg><use href="#i-x"/></svg></button></div>'+
-    '<form id="ncForm">'+
-    fTxt('nome','Nome','')+
-    '<label class="lbl">E-mail</label><input class="input" name="email" type="email" inputmode="email" placeholder="cliente@email.com">'+
-    '<label class="lbl">Plano</label><select class="sel" name="plano">'+
-    '<option value="mensal">Mensal (30 dias) — '+fmt(p.mensal)+'</option>'+
-    '<option value="sem6">6 Meses (180 dias) — '+fmt(p.sem6)+'</option>'+
-    '<option value="ano">1 Ano (365 dias) — '+fmt(p.ano)+'</option>'+
-    '<option value="mes_gratis">Mês Grátis (30 dias) — '+fmt(0)+'</option>'+
-    '<option value="vitalicio">👑 PRO MAX • VITALÍCIO (3650 dias) — '+fmt(p.vitalicio)+'</option></select>'+
-    fTxt('valor','Valor pago (R$)',fmtN(p.mensal),'0,00','inputmode="decimal" data-dec')+
-    '<label class="chkline"><input type="checkbox" name="gerar" checked><span>Gerar código de ativação agora</span></label>'+
-    '<div class="mfoot"><button type="submit" class="btn grn">'+ic('check')+'Cadastrar</button></div></form>');
-  const dec=$('#gSheet [data-dec]');
-  const val=$('#gSheet select[name=plano]');
-  val.addEventListener('change',()=>{dec.value=String(p[val.value]||0).replace('.',',');});
-  $('#ncForm').addEventListener('submit',e=>{
-    e.preventDefault();
-    const fd=new FormData(e.target);
-    const plano=fd.get('plano');
-    const valor=parseDec(fd.get('valor'));
-    const dias={mensal:30,sem6:180,ano:365,mes_gratis:30,vitalicio:3650}[plano];
-    const rec={id:uid(),data:hojeISO(),nome:fd.get('nome').trim(),email:fd.get('email').trim(),valor,status:'pendente',plano,dias,validade:'',origem:'manual',obs:''};
-    if(fd.get('gerar'))rec.codigo=gerarCodigo();
-    DB.push(K.db,rec);
-    closeModal('m-generic');
-    toast('Cliente cadastrado!','ok');renderAll();
-    if(rec.codigo)verCodigoModal(rec.codigo,rec.id);
-  });
-}
-function precosModal(){
-  const p=precos();
-  openSheet('<div class="mhead">'+ic('tag')+'<h3>Preços / Pix API</h3><button class="iconbtn" data-x><svg><use href="#i-x"/></svg></button></div>'+
-    '<form id="prForm">'+
-    '<h3 style="margin:4px 0 0">Preços dos planos</h3>'+
-    fTxt('mensal','Mensal (R$)',String(p.mensal).replace('.',','),'19,90','inputmode="decimal" data-d1')+
-    fTxt('sem6','6 Meses (R$)',String(p.sem6).replace('.',','),'99,90','inputmode="decimal" data-d2')+
-    fTxt('ano','1 Ano (R$)',String(p.ano).replace('.',','),'179,90','inputmode="decimal" data-d3')+
-    fTxt('vitalicio','👑 PRO MAX • VITALÍCIO (R$)',String(p.vitalicio).replace('.',','),'997,00','inputmode="decimal" data-d4')+
-    '<h3 style="margin:14px 0 0">Mercado Pago</h3>'+
-    '<label class="lbl">Access Token de produção</label><input class="input" name="token" type="password" placeholder="APP_USR-…" value="'+esc(p.mp_token||'')+'">'+
-    '<p class="xs mut">Com o token, o GERAR PIX do app cria cobranças reais e ativa a licença automaticamente (verificação a cada 15 s). Sem token, o PIX funciona em modo demonstração.</p>'+
-    fTxt('chave','Chave PIX (modo demo)',p.chave_pix_demo||'','pix@negrets.com')+
-    fTxt('whats','WhatsApp do suporte',p.whats_suporte||'','5511999999999','inputmode="tel"')+
-    '<div class="mfoot"><button type="submit" class="btn grn">'+ic('check')+'Salvar</button></div></form>');
-  $$('#gSheet [data-d1],[data-d2],[data-d3],[data-d4]').forEach(i=>i.value=String(parseDec(i.value)).replace('.',','));
-  $('#prForm').addEventListener('submit',e=>{
-    e.preventDefault();
-    const fd=new FormData(e.target);
-    DB.set(K.precos,{mensal:parseDec(fd.get('mensal')),sem6:parseDec(fd.get('sem6')),ano:parseDec(fd.get('ano')),mes_gratis:0,vitalicio:parseDec(fd.get('vitalicio')),mp_token:fd.get('token').trim(),chave_pix_demo:fd.get('chave').trim(),whats_suporte:onlyDigits(fd.get('whats'))});
-    closeModal('m-generic');toast('Preços e Pix API salvos!','ok');renderAll();
-  });
-}
-function csvExport(){
-  const lista=DB.get(K.db,[]).filter(r=>!r.deletado);
-  if(!lista.length){toast('Sem clientes para exportar.','info');return;}
-  const linhas=['Data;Nome;E-mail;Valor;Status;Plano;Validade;Código'];
-  lista.forEach(r=>{
-    const st=statusOf(r)==='vitalicio'?'PRO MAX • VITALÍCIO':statusOf(r).toUpperCase();
-    linhas.push([fmtData(r.data),r.nome||'',r.email||'',fmtN(r.valor),st,r.plano||'',r.validade?fmtData(r.validade):'',r.codigo||''].join(';'));
-  });
-  const blob=new Blob(['\ufeff'+linhas.join('\n')],{type:'text/csv;charset=utf-8'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='negrets_clientes_'+hojeISO()+'.csv';a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
-  toast('CSV exportado!','ok');
-}
-function licAdmin(){
-  const ate=addDiasISO(hojeISO(),3650);
-  openSheet('<div class="mhead"><div class="logo-n" style="width:28px;height:28px;font-size:14px">N</div><h3>👑 VOCÊ É UM USUÁRIO PRO MAX • VITALÍCIO</h3><button class="iconbtn" data-x><svg><use href="#i-x"/></svg></button></div>'+
-    '<div class="box grn"><b>Licença ativa — 3650 dias restantes, até '+fmtDataCurta(ate)+'</b><div class="sub">Painel de administração do NEGRET\'S</div></div>'+
-    '<div class="box grn center mt"><b>Ativo até '+fmtData(ate)+'</b><div class="sub">admin@negrets.com</div></div>'+
-    '<div class="box gold mt"><b>Não expira nunca</b><div class="sub">Criado por Elias Costa NEGRET\'S</div></div>');
-}
-function cfgModal(){
-  const p=prefs();
-  openSheet('<div class="mhead">'+ic('gear')+'<h3>Configurações</h3><button class="iconbtn" data-x><svg><use href="#i-x"/></svg></button></div>'+
-    '<form id="cfgForm">'+
-    fTxt('nome','Seu nome (exibido no topo)',p.nome||'Elias')+
-    fTxt('whats','WhatsApp do suporte',precos().whats_suporte||'','5511999999999','inputmode="tel"')+
-    '<div class="mfoot"><button type="submit" class="btn grn">'+ic('check')+'Salvar</button>'+
-    '<button type="button" class="btn rd" id="cfgReset">'+ic('trash')+'Zerar dados de demonstração</button></div></form>');
-  $('#cfgForm').addEventListener('submit',e=>{
-    e.preventDefault();
-    const fd=new FormData(e.target);
-    const np=prefs();np.nome=fd.get('nome').trim()||'Elias';
-    setPrefs(np);
-    $('#adOla').textContent='Olá, '+np.nome;
-    const pr=precos();pr.whats_suporte=onlyDigits(fd.get('whats'));
-    DB.set(K.precos,pr);
-    closeModal('m-generic');toast('Configurações salvas!','ok');
-  });
-  $('#cfgReset').addEventListener('click',()=>openConfirm('Apagar TODOS os clientes, PIX e preços de demonstração?',()=>{
-    DB.set(K.db,[]);DB.set(K.pix,[]);localStorage.removeItem(K.precos);
-    closeModal('m-generic');renderAll();toast('Dados zerados.','ok');
-  },{title:'Zerar dados'}));
-}
-function waSuporte(){
-  const num=onlyDigits(precos().whats_suporte||'');
-  const texto=encodeURIComponent("Olá! Sou o administrador do NEGRET'S e preciso de ajuda.");
-  if(num)window.open('https://wa.me/'+num+'?text='+texto,'_blank');
-  else toast('Defina o WhatsApp do suporte em Configurações ou Preços / Pix API.','info');
-}
-
-/* ---------- Tema / instalar / tempo real ---------- */
-function applyTema(){document.documentElement.setAttribute('data-theme',prefs().tema||'dark');}
-let installEvt=null;
-function bindPanel(){
-  applyTema();
-  const lem=localStorage.getItem(KADM.email);
-  if(lem)$('#lEmail').value=lem;
-  $('#adOut').addEventListener('click',sair);
-  $('#adEdit').addEventListener('click',()=>openSheet('<div class="mhead">'+ic('pencil')+'<h3>Seu nome</h3><button class="iconbtn" data-x><svg><use href="#i-x"/></svg></button></div>'+
-    '<form id="nmForm">'+fTxt('nome','Como quer ser chamado?',prefs().nome||'Elias')+
-    '<div class="mfoot"><button type="submit" class="btn grn">'+ic('check')+'Salvar</button></div></form>'));
-  document.addEventListener('submit',e=>{
-    if(e.target&&e.target.id==='nmForm'){
-      e.preventDefault();
-      const fd=new FormData(e.target);
-      const np=prefs();np.nome=fd.get('nome').trim()||'Elias';setPrefs(np);
-      $('#adOla').textContent='Olá, '+np.nome;
-      closeModal('m-generic');toast('Nome atualizado!','ok');
+function renderLista() {
+  var list = cliFiltrados();
+  if (!list.length) { $('#listaClientes').innerHTML = '<div class="empty">Nenhum cliente nesta visão</div>'; return; }
+  var lixeira = filtro === 'lixeira';
+  $('#listaClientes').innerHTML = list.map(function (c) {
+    var st = cliStatus(c);
+    var dias = c.plano === 'vitalicio' ? VITALICIO_DIAS : Math.max(0, diasAte(c.vencimento));
+    var btns = '';
+    if (lixeira) {
+      btns = '<button class="btn" data-rest="' + c.id + '">Restaurar</button>' +
+             '<button class="btn red" data-delforever="' + c.id + '">Excluir definitivo</button>';
+    } else {
+      if (c.status === 'ativo') btns += '<button class="btn" data-pausar="' + c.id + '">PAUSAR</button>';
+      if (c.status === 'pausado') btns += '<button class="btn green" data-despausar="' + c.id + '">DESPAUSAR</button>';
+      if (c.status !== 'cancelado') btns += '<button class="btn red" data-cancelar="' + c.id + '">CANCELAR</button>';
+      else btns += '<button class="btn green" data-reativar="' + c.id + '">REATIVAR</button>';
+      btns += '<button class="btn" data-venc="' + c.id + '">EDITAR VENCIMENTO</button>' +
+              '<button class="btn" data-dias="' + c.id + '">+ DIAS GRÁTIS / BÔNUS</button>' +
+              '<button class="btn gold" data-plano="' + c.id + '">ATIVAR PLANO</button>' +
+              '<button class="btn green" data-renovar="' + c.id + '">RENOVAR</button>' +
+              '<button class="btn" data-hist="' + c.id + '">VER HISTÓRICO</button>' +
+              '<button class="btn red" data-apagar="' + c.id + '">Mandar pra lixeira</button>';
     }
+    return '<div class="cli">' +
+      '<div class="top"><div class="nm no-cut">' + esc(c.nome || '—') + '</div><span class="chip ' + st.chip + ' no-cut">' + st.label + '</span></div>' +
+      '<div class="grid">' +
+      '<div><span>WhatsApp</span><b>' + esc(c.whats || '—') + '</b></div>' +
+      '<div style="grid-column:1/-1"><span>E-mail</span><b class="no-cut">' + esc(c.email || '—') + '</b></div>' +
+      '<div><span>Plano</span><b class="no-cut">' + planoLabel(c) + (c.plano !== 'trial' && c.plano !== 'vitalicio' ? ' (' + fmt(planoValor(c)) + ')' : '') + '</b></div>' +
+      '<div><span>Vencimento</span><b>' + fmtDate(c.vencimento) + '</b></div>' +
+      '<div><span>Dias restantes</span><b>' + (c.plano === 'vitalicio' ? '3650 (não expira nunca)' : dias) + '</b></div>' +
+      '<div><span>Cadastrado</span><b>' + fmtDate(c.criado) + '</b></div>' +
+      '</div>' +
+      '<div class="acts">' + btns + '</div>' +
+      '</div>';
+  }).join('');
+  bindCliButtons();
+}
+function bindCliButtons() {
+  var D = db();
+  var find = function (id) { var c = null; D.clientes.forEach(function (x) { if (x.id === id) c = x; }); return c; };
+  $$('#listaClientes [data-pausar]').forEach(function (b) { b.addEventListener('click', function () {
+    var c = find(b.getAttribute('data-pausar'));
+    confirmModal('Pausar o sistema de <b>' + esc(c.nome) + '</b>? O cliente fica travado na hora e o tempo NÃO conta.', function () {
+      c.status = 'pausado'; c.pausaInicio = new Date().toISOString();
+      historicoAdd(c, 'Pausado pelo administrador', 'pausa');
+      saveDb(D); renderAll();
+      toast('Cliente ' + c.nome + ' — Pausado com sucesso', 'ok');
+    }, { titulo: 'PAUSAR sistema', okLabel: 'PAUSAR' });
+  }); });
+  $$('#listaClientes [data-despausar]').forEach(function (b) { b.addEventListener('click', function () {
+    var c = find(b.getAttribute('data-despausar'));
+    confirmModal('Despausar <b>' + esc(c.nome) + '</b>? O tempo pausado não conta: os dias restantes continuam os mesmos.', function () {
+      if (c.pausaInicio) {
+        var pausadoMs = Date.now() - new Date(c.pausaInicio).getTime();
+        if (c.plano !== 'vitalicio') c.vencimento = new Date(new Date(c.vencimento).getTime() + pausadoMs).toISOString();
+        c.pausaTotal = (c.pausaTotal || 0) + pausadoMs;
+        c.pausaInicio = null;
+      }
+      c.status = 'ativo';
+      historicoAdd(c, 'Reativado pelo administrador — tempo pausado não contou', 'despausa');
+      saveDb(D); renderAll();
+      toast('Cliente ' + c.nome + ' — Despausado. Dias restantes: ' + (c.plano === 'vitalicio' ? '3650' : Math.max(0, diasAte(c.vencimento))), 'ok');
+    }, { titulo: 'DESPAUSAR', okLabel: 'DESPAUSAR' });
+  }); });
+  $$('#listaClientes [data-cancelar]').forEach(function (b) { b.addEventListener('click', function () {
+    var c = find(b.getAttribute('data-cancelar'));
+    confirmModal('Cancelar o acesso de <b>' + esc(c.nome) + '</b>? Os dados ficam salvos por 30 dias para reativação.', function () {
+      c.status = 'cancelado'; c.canceladoEm = new Date().toISOString();
+      historicoAdd(c, 'Acesso cancelado pelo administrador — dados retidos por 30 dias', 'cancelado');
+      saveDb(D); renderAll();
+      toast('Cliente ' + c.nome + ' — Cancelado', 'ok');
+    }, { titulo: 'CANCELAR acesso', okLabel: 'CANCELAR' });
+  }); });
+  $$('#listaClientes [data-reativar]').forEach(function (b) { b.addEventListener('click', function () {
+    var c = find(b.getAttribute('data-reativar'));
+    confirmModal('Reativar <b>' + esc(c.nome) + '</b>? Volta para ATIVO (se vencido, use RENOVAR para +30 dias).', function () {
+      c.status = 'ativo'; c.canceladoEm = null;
+      historicoAdd(c, 'Acesso reativado pelo administrador', 'reativado');
+      saveDb(D); renderAll();
+      toast('Cliente ' + c.nome + ' — Reativado', 'ok');
+    }, { titulo: 'REATIVAR', okLabel: 'REATIVAR' });
+  }); });
+  $$('#listaClientes [data-venc]').forEach(function (b) { b.addEventListener('click', function () {
+    var c = find(b.getAttribute('data-venc'));
+    var m = openModal(
+      '<h3 class="no-cut">Editar vencimento — ' + esc(c.nome) + '</h3>' +
+      '<p class="mut no-cut" style="font-size:12.5px">Vencimento atual: <b>' + fmtDate(c.vencimento) + '</b></p>' +
+      '<label class="f">Nova data de vencimento</label><input id="nvData" class="inp" type="date" value="' + (String(c.vencimento || '').substring(0, 10)) + '">' +
+      '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn gold" id="nvOk">Salvar</button></div></div>',
+      { center: true });
+    m.ov.querySelector('#nvOk').addEventListener('click', function () {
+      var v = m.ov.querySelector('#nvData').value;
+      if (!v) { toast('Escolha uma data', 'err'); return; }
+      c.vencimento = new Date(v + 'T23:59:59').toISOString();
+      historicoAdd(c, 'Vencimento alterado pelo ADM para ' + fmtDate(c.vencimento), 'plano');
+      saveDb(D); m.close(); renderAll();
+      toast('Vencimento de ' + c.nome + ' alterado para ' + fmtDate(c.vencimento), 'ok');
+    });
+  }); });
+  $$('#listaClientes [data-dias]').forEach(function (b) { b.addEventListener('click', function () {
+    var c = find(b.getAttribute('data-dias'));
+    var m = openModal(
+      '<h3 class="no-cut">Adicionar dias grátis / bônus — ' + esc(c.nome) + '</h3>' +
+      '<p class="mut no-cut" style="font-size:12.5px">Ex: comprou 30 dias e ganhou +30 no sorteio. Vencimento atual: <b>' + fmtDate(c.vencimento) + '</b></p>' +
+      '<label class="f">+ Dias</label><input id="adDias" class="inp" inputmode="numeric" placeholder="30">' +
+      '<label class="f">Motivo (histórico)</label><input id="adMot" class="inp" value="Bônus Sorteio">' +
+      '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn gold" id="adOk">Adicionar</button></div></div>',
+      { center: true });
+    m.ov.querySelector('#adOk').addEventListener('click', function () {
+      var dias = parseInt(m.ov.querySelector('#adDias').value, 10) || 0;
+      var mot = (m.ov.querySelector('#adMot').value || 'Bônus').trim();
+      if (dias <= 0) { toast('Informe a quantidade de dias', 'err'); return; }
+      var base = Math.max(Date.now(), new Date(c.vencimento || Date.now()).getTime());
+      c.vencimento = new Date(base + dias * 86400000).toISOString();
+      historicoAdd(c, mot + ': +' + dias + ' dias em ' + fmtDate(new Date().toISOString()) + ' por ADM', 'bonus', dias);
+      saveDb(D); m.close(); renderAll();
+      toast('+' + dias + ' dias adicionados — ' + c.nome + ' até ' + fmtDate(c.vencimento), 'ok');
+    });
+  }); });
+  $$('#listaClientes [data-plano]').forEach(function (b) { b.addEventListener('click', function () {
+    var c = find(b.getAttribute('data-plano'));
+    var m = openModal(
+      '<h3 class="no-cut">Ativar plano — ' + esc(c.nome) + '</h3>' +
+      '<label class="f">Escolher plano</label>' +
+      '<select id="plSel" class="inp"><option value="trial">Ativar Trial 30 dias grátis</option><option value="mensal">Ativar 30 dias (Mensal)</option><option value="semestral">Ativar 6 Meses (180 dias)</option><option value="anual">Ativar 1 Ano (365 dias)</option><option value="vitalicio">Ativar Vitalício (PRO MAX • VITALÍCIO)</option></select>' +
+      '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn gold" id="plOk">Confirmar</button></div></div>',
+      { center: true });
+    m.ov.querySelector('#plOk').addEventListener('click', function () {
+      var p = m.ov.querySelector('#plSel').value;
+      var agora = new Date();
+      if (p === 'vitalicio') {
+        c.plano = 'vitalicio'; c.status = 'ativo';
+        c.vencimento = new Date(agora.getTime() + VITALICIO_DIAS * 86400000).toISOString();
+        historicoAdd(c, 'Plano 👑 PRO MAX • VITALÍCIO ativado por ADM — 3650 dias (' + fmtDate(c.vencimento) + ') — Não expira nunca', 'plano');
+      } else {
+        var dias = p === 'semestral' ? 180 : p === 'anual' ? 365 : 30;
+        var nome = p === 'semestral' ? '6 Meses' : p === 'anual' ? '1 Ano' : p === 'trial' ? 'Trial 30 dias' : 'Mensal';
+        c.plano = (p === 'trial') ? 'trial' : p;
+        c.status = 'ativo';
+        var base = Math.max(agora.getTime(), new Date(c.vencimento || agora).getTime());
+        c.vencimento = new Date(base + dias * 86400000).toISOString();
+        historicoAdd(c, 'Plano ' + nome + ' ativado por ADM (+' + dias + ' dias até ' + fmtDate(c.vencimento) + ')', 'plano');
+      }
+      saveDb(D); m.close(); renderAll();
+      toast('Cliente ' + c.nome + ' — Plano ativado até ' + fmtDate(c.vencimento), 'ok');
+    });
+  }); });
+  $$('#listaClientes [data-renovar]').forEach(function (b) { b.addEventListener('click', function () {
+    var c = find(b.getAttribute('data-renovar'));
+    confirmModal('Renovar <b>' + esc(c.nome) + '</b> com +30 dias a partir de ' + (diasAte(c.vencimento) > 0 ? fmtDate(c.vencimento) : 'hoje') + '?', function () {
+      var base = Math.max(Date.now(), new Date(c.vencimento || Date.now()).getTime());
+      c.vencimento = new Date(base + 30 * 86400000).toISOString();
+      c.status = 'ativo';
+      if (c.plano === 'trial') c.plano = 'mensal';
+      historicoAdd(c, 'Renovação por ADM: +30 dias até ' + fmtDate(c.vencimento), 'plano');
+      saveDb(D); renderAll();
+      toast('Cliente ' + c.nome + ' — Renovado até ' + fmtDate(c.vencimento), 'ok');
+    }, { titulo: 'RENOVAR', okLabel: 'Renovar +30 dias' });
+  }); });
+  $$('#listaClientes [data-hist]').forEach(function (b) { b.addEventListener('click', function () {
+    var c = find(b.getAttribute('data-hist'));
+    var rows = (c.historico || []).slice().reverse().map(function (h) {
+      return '<div class="histrow no-cut"><b>' + fmtDate(h.quando, true) + '</b> — ' + esc(h.texto) + '</div>';
+    }).join('') || '<div class="empty">Sem histórico</div>';
+    openModal('<h3 class="no-cut">Histórico — ' + esc(c.nome) + '</h3>' + rows +
+      '<div class="box-actions"><div class="btn-row"><button class="btn" data-close>Fechar</button></div></div>');
+  }); });
+  $$('#listaClientes [data-apagar]').forEach(function (b) { b.addEventListener('click', function () {
+    var c = find(b.getAttribute('data-apagar'));
+    confirmModal('Mandar <b>' + esc(c.nome) + '</b> para a lixeira? Você pode restaurar depois.', function () {
+      c.apagado = true; c.apagadoEm = new Date().toISOString();
+      saveDb(D); renderAll();
+      toast('Cliente ' + c.nome + ' — movido para a lixeira', 'ok');
+    }, { titulo: 'Lixeira', okLabel: 'Mandar pra lixeira' });
+  }); });
+  $$('#listaClientes [data-rest]').forEach(function (b) { b.addEventListener('click', function () {
+    var c = find(b.getAttribute('data-rest'));
+    c.apagado = false; c.apagadoEm = null;
+    saveDb(D); renderAll();
+    toast('Cliente ' + c.nome + ' — restaurado', 'ok');
+  }); });
+  $$('#listaClientes [data-delforever]').forEach(function (b) { b.addEventListener('click', function () {
+    var id = b.getAttribute('data-delforever');
+    var c = find(id);
+    confirmModal('Excluir <b>' + esc(c ? c.nome : '') + '</b> PARA SEMPRE? Não dá para desfazer.', function () {
+      var D2 = db();
+      D2.clientes = D2.clientes.filter(function (x) { return x.id !== id; });
+      saveDb(D2); renderAll();
+      toast('Cliente excluído definitivamente', 'ok');
+    }, { titulo: 'Excluir definitivo', okLabel: 'Excluir para sempre' });
+  }); });
+}
+/* ---------- ABA AJUDA / PIX COM FALHA ---------- */
+function renderAjudas() {
+  var lista = jget('negrets_ajudas', []) || [];
+  if (!lista.length) { $('#listaAjudas').innerHTML = '<div class="empty">Nenhum pedido de ajuda</div>'; return; }
+  $('#listaAjudas').innerHTML = lista.map(function (a) {
+    var chip = a.status === 'pendente' ? '<span class="chip warn">PENDENTE</span>' : a.status === 'ativado' ? '<span class="chip ok">ATIVADO</span>' : '<span class="chip bad">RECUSADO</span>';
+    var btns = '';
+    if (a.status === 'pendente') {
+      btns = '<button class="btn green" data-aman="' + a.id + '">ATIVAR MANUALMENTE</button>' +
+             '<button class="btn red" data-arec="' + a.id + '">RECUSAR</button>';
+    }
+    return '<div class="ajuda">' +
+      '<div class="top" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div class="nm no-cut" style="font-weight:800;font-size:15px">' + esc(a.nome) + '</div>' + chip + '</div>' +
+      '<div class="grid">' +
+      '<div style="grid-column:1/-1"><span>E-mail</span><b class="no-cut">' + esc(a.email) + '</b></div>' +
+      '<div><span>Valor pago</span><b>' + fmt(a.valor) + '</b></div>' +
+      '<div style="grid-column:1/-1"><span>Data/hora do pagamento</span><b>' + esc((function (s) { var d = new Date(s); return isNaN(d) ? String(s || '—') : fmtDate(d.toISOString(), true); })(a.dataPagamento)) + '</b></div>' +
+      '<div><span>Enviado em</span><b>' + fmtDate(a.criado, true) + '</b></div>' +
+      '</div>' +
+      (a.comprovante ? '<img class="comp" src="' + a.comprovante + '" alt="Comprovante" data-aver="' + a.id + '">' : '<div class="empty">Sem comprovante anexado</div>') +
+      (a.motivoRecusa ? '<div class="grid"><div style="grid-column:1/-1"><span>Motivo da recusa</span><b class="no-cut">' + esc(a.motivoRecusa) + '</b></div></div>' : '') +
+      '<div class="acts btn-row">' + btns + '</div>' +
+      '</div>';
+  }).join('');
+  $$('#listaAjudas [data-aver]').forEach(function (img) { img.addEventListener('click', function () {
+    var a = (jget('negrets_ajudas', []) || []).filter(function (x) { return x.id === img.getAttribute('data-aver'); })[0];
+    if (!a) return;
+    openModal('<h3 class="no-cut">Comprovante — ' + esc(a.nome) + '</h3><img src="' + a.comprovante + '" style="width:100%;border-radius:10px;background:#fff">' +
+      '<div class="box-actions"><div class="btn-row"><button class="btn" data-close>Fechar</button></div></div>');
+  }); });
+  $$('#listaAjudas [data-aman]').forEach(function (b) { b.addEventListener('click', function () {
+    var a = (jget('negrets_ajudas', []) || []).filter(function (x) { return x.id === b.getAttribute('data-aman'); })[0];
+    if (!a) return;
+    var m = openModal(
+      '<h3 class="no-cut">Ativar manualmente — ' + esc(a.nome) + '</h3>' +
+      '<p class="mut no-cut" style="font-size:12.5px">Confirme após conferir o Pix no banco. Valor informado: <b>' + fmt(a.valor) + '</b> • e-mail: <b>' + esc(a.email) + '</b></p>' +
+      '<label class="f">Plano</label>' +
+      '<select id="amPlano" class="inp"><option value="mensal">Ativar 30 dias (Mensal)</option><option value="semestral">6 Meses (180 dias)</option><option value="anual">1 Ano (365 dias)</option><option value="vitalicio">Ativar Vitalício (PRO MAX • VITALÍCIO)</option></select>' +
+      '<label class="f">Dias bônus (opcional)</label><input id="amBonus" class="inp" inputmode="numeric" placeholder="0">' +
+      '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn green" id="amOk">Confirmar ativação</button></div></div>',
+      { center: true });
+    m.ov.querySelector('#amOk').addEventListener('click', function () {
+      var plano = m.ov.querySelector('#amPlano').value;
+      var bonus = parseInt(m.ov.querySelector('#amBonus').value, 10) || 0;
+      var D = db(), c = null;
+      D.clientes.forEach(function (x) { if ((x.email || '').toLowerCase() === (a.email || '').toLowerCase()) c = x; });
+      if (!c) {
+        c = { id: uid('cli'), nome: a.nome, email: (a.email || '').toLowerCase(), whats: '', plano: 'trial', status: 'ativo', vencimento: new Date().toISOString(), pausaInicio: null, pausaTotal: 0, criado: new Date().toISOString(), historico: [] };
+        D.clientes.push(c);
+      }
+      var agora = new Date();
+      if (plano === 'vitalicio') {
+        c.plano = 'vitalicio'; c.status = 'ativo';
+        c.vencimento = new Date(agora.getTime() + VITALICIO_DIAS * 86400000).toISOString();
+      } else {
+        var dias = plano === 'semestral' ? 180 : plano === 'anual' ? 365 : 30;
+        c.plano = plano; c.status = 'ativo';
+        var base = Math.max(agora.getTime(), new Date(c.vencimento || agora).getTime());
+        c.vencimento = new Date(base + dias * 86400000).toISOString();
+      }
+      if (bonus > 0) c.vencimento = new Date(new Date(c.vencimento).getTime() + bonus * 86400000).toISOString();
+      historicoAdd(c, 'Ativação manual por ADM em ' + fmtDate(new Date().toISOString()) + ' - Pix comprovante anexo - Motivo: falha automática do Pix' + (bonus > 0 ? ' + ' + bonus + ' dias bônus' : ''), 'ativacao_manual');
+      var lista2 = jget('negrets_ajudas', []) || [];
+      lista2.forEach(function (x) { if (x.id === a.id) { x.status = 'ativado'; x.planoAtivado = plano; } });
+      jset('negrets_ajudas', lista2);
+      saveDb(D); m.close(); renderAll();
+      toast('Cliente ' + c.nome + ' — Ativado manualmente (' + (plano === 'vitalicio' ? 'Vitalício' : plano) + '). Cliente recebe aviso na hora.', 'ok');
+    });
+  }); });
+  $$('#listaAjudas [data-arec]').forEach(function (b) { b.addEventListener('click', function () {
+    var a = (jget('negrets_ajudas', []) || []).filter(function (x) { return x.id === b.getAttribute('data-arec'); })[0];
+    if (!a) return;
+    var m = openModal(
+      '<h3 class="no-cut">Recusar pedido — ' + esc(a.nome) + '</h3>' +
+      '<label class="f">Motivo</label><input id="rcMot" class="inp" placeholder="Ex: comprovante inválido">' +
+      '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn gold" id="rcOk">Recusar</button></div></div>',
+      { center: true });
+    m.ov.querySelector('#rcOk').addEventListener('click', function () {
+      var mot = (m.ov.querySelector('#rcMot').value || '').trim() || 'Sem motivo informado';
+      var lista2 = jget('negrets_ajudas', []) || [];
+      lista2.forEach(function (x) { if (x.id === a.id) { x.status = 'recusado'; x.motivoRecusa = mot; } });
+      jset('negrets_ajudas', lista2);
+      m.close(); renderAll();
+      toast('Pedido recusado — o cliente verá o motivo', 'ok');
+    });
+  }); });
+}
+
+/* ---------- ABA PREÇOS ---------- */
+function renderPrecosTab() {
+  var P = precos(), cfg = pixcfg();
+  $('#prMensal').value = P.mensal;
+  $('#prSemestral').value = P.semestral;
+  $('#prAnual').value = P.anual;
+  $('#prVitalicio').value = P.vitalicio;
+  $('#pxChave').value = cfg.chave || '';
+  $('#pxNome').value = cfg.nome || '';
+  $('#pxCidade').value = cfg.cidade || '';
+  $('#pxWhats').value = cfg.whats || '';
+}
+function renderCodigos() {
+  var D = db();
+  var rows = D.codigos.slice().reverse().slice(0, 20).map(function (cd) {
+    return '<div class="codrow"><code>' + esc(cd.codigo) + '</code><span class="mut" style="font-size:11.5px">' + esc(cd.plano) + '</span>' +
+      (cd.usado ? '<span class="chip gray" style="margin-left:auto">usado</span>' : '<button class="btn tiny" data-cod="' + esc(cd.codigo) + '" style="margin-left:auto">Copiar</button>') + '</div>';
+  }).join('') || '<div class="empty">Nenhum código gerado</div>';
+  $('#listaCodigos').innerHTML = rows;
+  $$('#listaCodigos [data-cod]').forEach(function (b) { b.addEventListener('click', function () {
+    var cod = b.getAttribute('data-cod');
+    var ok = false;
+    try { var ta = document.createElement('textarea'); ta.value = cod; document.body.appendChild(ta); ta.select(); ok = document.execCommand('copy'); ta.remove(); } catch (e) {}
+    if (!ok && navigator.clipboard) { navigator.clipboard.writeText(cod); ok = true; }
+    toast(ok ? 'Código copiado: ' + cod : 'Código: ' + cod, ok ? 'ok' : 'err');
+  }); });
+}
+function renderPixPend() {
+  var lista = (jget('negrets_pix', []) || []).filter(function (p) { return p.status === 'pendente'; }).slice(0, 15);
+  if (!lista.length) { $('#listaPixPend').innerHTML = '<div class="empty">Nenhum Pix pendente</div>'; return; }
+  $('#listaPixPend').innerHTML = lista.map(function (p) {
+    return '<div class="codrow"><div style="flex:1;min-width:140px"><b class="no-cut">' + esc(p.plano) + ' — ' + fmt(p.valor) + '</b><br><span class="mut" style="font-size:11px">' + fmtDate(p.criado, true) + ' • ' + esc(p.email || '') + '</span></div>' +
+      '<button class="btn tiny green" data-pixok="' + p.id + '">Confirmar pagamento</button>' +
+      '<button class="btn tiny red" data-pixno="' + p.id + '">Cancelar</button></div>';
+  }).join('');
+  $$('#listaPixPend [data-pixok]').forEach(function (b) { b.addEventListener('click', function () {
+    var id = b.getAttribute('data-pixok');
+    var lista2 = jget('negrets_pix', []) || [];
+    lista2.forEach(function (x) { if (x.id === id) x.status = 'pago'; });
+    jset('negrets_pix', lista2);
+    renderAll();
+    toast('Pix confirmado — o cliente ativa automaticamente em até 15 segundos', 'ok');
+  }); });
+  $$('#listaPixPend [data-pixno]').forEach(function (b) { b.addEventListener('click', function () {
+    var id = b.getAttribute('data-pixno');
+    var lista2 = jget('negrets_pix', []) || [];
+    lista2 = lista2.filter(function (x) { return x.id !== id; });
+    jset('negrets_pix', lista2);
+    renderAll();
+    toast('Pix cancelado', 'ok');
+  }); });
+}
+
+/* ---------- CSV ---------- */
+function exportCsv() {
+  var D = db();
+  var rows = [['Nome loja', 'WhatsApp', 'E-mail', 'Plano', 'Status', 'Vencimento', 'Dias restantes']];
+  D.clientes.filter(function (c) { return !c.apagado; }).forEach(function (c) {
+    var st = cliStatus(c);
+    rows.push([
+      (c.nome || '').replace(/;/g, ','), (c.whats || ''), (c.email || ''),
+      planoLabel(c).replace('👑 ', ''), st.label, fmtDate(c.vencimento),
+      String(c.plano === 'vitalicio' ? 3650 : Math.max(0, diasAte(c.vencimento)))
+    ]);
   });
-  $('#adTema').addEventListener('click',()=>{
-    const np=prefs();np.tema=np.tema==='dark'?'light':'dark';setPrefs(np);
-    applyTema();
-    const ic2=$('#adTema svg use');ic2&&ic2.setAttribute('href','#i-'+(np.tema==='dark'?'moon':'sun'));
-    toast('Tema '+(np.tema==='dark'?'escuro':'claro')+' ativado.','ok',1500);
-  });
-  $('#adWa').addEventListener('click',waSuporte);
-  $('#adCfg').addEventListener('click',cfgModal);
-  $('#adLic').addEventListener('click',licAdmin);
-  $('#adRefresh').addEventListener('click',()=>{renderAll();toast('Dados atualizados.','ok',1500);});
-  $('#adCsv').addEventListener('click',csvExport);
-  $('#adNovo').addEventListener('click',novoCliente);
-  $('#adPrecos').addEventListener('click',precosModal);
-  $('#adVazio').addEventListener('click',()=>{
-    const lixo=DB.get(K.db,[]).filter(r=>r.deletado);
-    if(!lixo.length){toast('A lixeira está vazia.','info');return;}
-    openConfirm('Apagar DEFINITIVAMENTE '+lixo.length+' cliente(s) da lixeira?',()=>{
-      DB.set(K.db,DB.get(K.db,[]).filter(r=>!r.deletado));
-      toast('Lixeira esvaziada.','ok');renderAll();
-    },{title:'Esvaziar lixeira',yes:'Esvaziar'});
-  });
-  $('#adQ').addEventListener('input',e=>{adQ=e.target.value;renderList();});
-  $$('.fchip').forEach(b=>b.addEventListener('click',()=>{
-    adFiltro=b.getAttribute('data-f');
-    $$('.fchip').forEach(x=>x.classList.toggle('act',x===b));
-    renderList();
-  }));
-  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEvt=e;$('#adInst').classList.remove('hidden');});
-  $('#adInst').addEventListener('click',()=>{if(installEvt){installEvt.prompt();installEvt.userChoice.then(()=>{installEvt=null;});}});
-  window.addEventListener('appinstalled',()=>{$('#adInst').classList.add('hidden');toast('App instalado!','ok');});
-  window.addEventListener('storage',e=>{
-    if([K.db,K.pix,K.precos,K.lic,K.trial].includes(e.key))renderAll();
+  var csv = '\ufeff' + rows.map(function (r) { return r.join(';'); }).join('\r\n');
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'negrets-clientes-' + new Date().toISOString().substring(0, 10) + '.csv';
+  a.click();
+  toast('CSV exportado', 'ok');
+}
+
+/* ---------- NOVO CLIENTE ---------- */
+function modalNovoCliente() {
+  var m = openModal(
+    '<h3 class="no-cut">Novo cliente</h3>' +
+    '<label class="f">Nome da loja *</label><input id="ncNome" class="inp">' +
+    '<label class="f">E-mail *</label><input id="ncEmail" class="inp" type="email" inputmode="email">' +
+    '<label class="f">WhatsApp</label><input id="ncWhats" class="inp" type="tel" inputmode="tel">' +
+    '<label class="f">Plano</label><select id="ncPlano" class="inp"><option value="trial">Trial 30 dias grátis</option><option value="mensal">Mensal — 30 dias</option><option value="semestral">6 Meses — 180 dias</option><option value="anual">1 Ano — 365 dias</option><option value="vitalicio">Vitalício (PRO MAX • VITALÍCIO)</option></select>' +
+    '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn gold" id="ncOk">Salvar</button></div></div>',
+    { center: true });
+  m.ov.querySelector('#ncOk').addEventListener('click', function () {
+    var nome = (m.ov.querySelector('#ncNome').value || '').trim();
+    var email = (m.ov.querySelector('#ncEmail').value || '').trim().toLowerCase();
+    if (!nome || !email) { toast('Nome e e-mail obrigatórios', 'err'); return; }
+    var D = db();
+    var dup = D.clientes.filter(function (x) { return (x.email || '').toLowerCase() === email; })[0];
+    if (dup) { toast('Já existe cliente com este e-mail', 'err'); return; }
+    var plano = m.ov.querySelector('#ncPlano').value;
+    var agora = new Date();
+    var venc = plano === 'vitalicio' ? new Date(agora.getTime() + VITALICIO_DIAS * 86400000).toISOString() : new Date(agora.getTime() + 30 * 86400000).toISOString();
+    var c = { id: uid('cli'), nome: nome, email: email, whats: (m.ov.querySelector('#ncWhats').value || '').trim(), plano: plano, status: 'ativo', vencimento: venc, pausaInicio: null, pausaTotal: 0, criado: agora.toISOString(), historico: [{ quando: agora.toISOString(), texto: 'Cliente criado pelo ADM — plano ' + plano + ' até ' + fmtDate(venc) }] };
+    D.clientes.unshift(c);
+    saveDb(D);
+    m.close(); renderAll();
+    toast('Cliente ' + nome + ' criado até ' + fmtDate(venc), 'ok');
   });
 }
 
-/* ---------- Boot ---------- */
-document.addEventListener('DOMContentLoaded',()=>{
-  bindLogin();
-  if(sessao){entrar();}
-  else{
-    const lem=localStorage.getItem(KADM.email);
-    if(lem)$('#lEmail').value=lem;
-    $('#lPass').focus();
+/* ---------- INIT ---------- */
+function init() {
+  $('#btnEye').addEventListener('click', function () {
+    var p = $('#admPass');
+    p.type = p.type === 'password' ? 'text' : 'password';
+  });
+  $('#btnEntrar').addEventListener('click', tryLogin);
+  $('#admPass').addEventListener('keydown', function (e) { if (e.key === 'Enter') tryLogin(); });
+  $('#btnSairAdm').addEventListener('click', function () {
+    confirmModal('Sair do painel?', logout, { titulo: 'Sair', okLabel: 'Sair' });
+  });
+  $('#btnAtualizar').addEventListener('click', function () { renderAll(); toast('Lista atualizada', 'ok'); });
+  $$('#filtros .chipf').forEach(function (b) { b.addEventListener('click', function () {
+    $$('#filtros .chipf').forEach(function (x) { x.classList.remove('on'); });
+    b.classList.add('on');
+    filtro = b.getAttribute('data-f');
+    renderLista();
+  }); });
+  $('#busca').addEventListener('input', function () { buscaTxt = this.value; renderLista(); });
+  $$('.tab').forEach(function (b) { b.addEventListener('click', function () {
+    $$('.tab').forEach(function (x) { x.classList.remove('on'); });
+    b.classList.add('on');
+    tabAtual = b.getAttribute('data-tab');
+    $('#tabClientes').classList.toggle('hidden', tabAtual !== 'clientes');
+    $('#tabAjuda').classList.toggle('hidden', tabAtual !== 'ajuda');
+    $('#tabPrecos').classList.toggle('hidden', tabAtual !== 'precos');
+    renderAll();
+  }); });
+  $('#btnCsv').addEventListener('click', exportCsv);
+  $('#btnNovoCli').addEventListener('click', modalNovoCliente);
+  $('#btnEsvaziar').addEventListener('click', function () {
+    var D = db();
+    var lixeira = D.clientes.filter(function (c) { return c.apagado; });
+    if (!lixeira.length) { toast('Lixeira já está vazia', 'err'); return; }
+    confirmModal('Excluir <b>' + lixeira.length + '</b> cliente(s) da lixeira para sempre?', function () {
+      var D2 = db();
+      D2.clientes = D2.clientes.filter(function (c) { return !c.apagado; });
+      saveDb(D2); renderAll();
+      toast('Lixeira esvaziada', 'ok');
+    }, { titulo: 'Esvaziar lixeira', okLabel: 'Esvaziar' });
+  });
+  $('#btnSalvarPrecos').addEventListener('click', function () {
+    jset('negrets_precos', {
+      mensal: parseMoney($('#prMensal').value),
+      semestral: parseMoney($('#prSemestral').value),
+      anual: parseMoney($('#prAnual').value),
+      vitalicio: parseMoney($('#prVitalicio').value)
+    });
+    toast('Preços salvos', 'ok');
+    renderAll();
+  });
+  $('#btnSalvarPix').addEventListener('click', function () {
+    jset('negrets_pixcfg', {
+      chave: ($('#pxChave').value || '').trim(),
+      nome: ($('#pxNome').value || '').trim() || 'NEGRET\u2019S',
+      cidade: ($('#pxCidade').value || '').trim() || 'SAO PAULO',
+      whats: ($('#pxWhats').value || '').trim() || '5511999999999'
+    });
+    toast('Configuração Pix / Suporte salva', 'ok');
+  });
+  $('#btnGerarCod').addEventListener('click', function () {
+    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    function bloco() { var s = ''; for (var i = 0; i < 4; i++) s += chars[Math.floor(Math.random() * chars.length)]; return s; }
+    var cod = 'NEG-' + bloco() + '-' + bloco();
+    var D = db();
+    D.codigos.push({ codigo: cod, plano: $('#codPlano').value, usado: false, criado: new Date().toISOString() });
+    saveDb(D);
+    renderCodigos();
+    toast('Código gerado: ' + cod + ' (' + $('#codPlano').value + ')', 'ok');
+  });
+  // seeds básicos do ADM (se abrir antes do cliente)
+  var D = db();
+  if (!D.clientes.length && !jget('negrets_adm_seed', false)) {
+    var agora = new Date().toISOString();
+    D.clientes = [
+      { id: uid('cli'), nome: 'João Celulares', email: 'joao@celulares.com', whats: '11988887777', plano: 'mensal', status: 'ativo', vencimento: new Date(Date.now() + 12 * 86400000).toISOString(), pausaInicio: null, pausaTotal: 0, criado: agora, historico: [{ quando: agora, texto: 'Cliente criado (demonstração) — plano Mensal' }] },
+      { id: uid('cli'), nome: 'Maria Acessórios', email: 'maria@acessorios.com', whats: '11977776666', plano: 'anual', status: 'pausado', vencimento: new Date(Date.now() + 45 * 86400000).toISOString(), pausaInicio: agora, pausaTotal: 0, criado: agora, historico: [{ quando: agora, texto: 'Cliente criado (demonstração) — plano 1 Ano' }, { quando: agora, texto: 'Pausado pelo administrador (demonstração)', tipo: 'pausa' }] },
+      { id: uid('cli'), nome: 'Pedro Tech', email: 'pedro@tech.com', whats: '11966665555', plano: 'vitalicio', status: 'ativo', vencimento: new Date(Date.now() + VITALICIO_DIAS * 86400000).toISOString(), pausaInicio: null, pausaTotal: 0, criado: agora, historico: [{ quando: agora, texto: 'Cliente criado (demonstração) — 👑 PRO MAX • VITALÍCIO' }] }
+    ];
+    if (!(jget('negrets_ajudas', []) || []).length) {
+      jset('negrets_ajudas', [{ id: uid('aj'), nome: 'Lucas Pereira', email: 'lucas@p.com', valor: 29.90, dataPagamento: new Date().toISOString(), comprovante: null, criado: agora, status: 'pendente' }]);
+    }
+    jset('negrets_adm_seed', true);
+    saveDb(D);
   }
-});
+  if (logged()) showPanel();
+  // atualização ao vivo sem recarregar
+  window.addEventListener('storage', function (e) { if (e && e.key && e.key.indexOf('negrets') === 0) renderAll(); });
+  setInterval(function () { if (!$('.modal')) renderAll(); }, 10000);
+}
+document.addEventListener('DOMContentLoaded', init);
 </script>
+
+
+
 </body>
 </html>
