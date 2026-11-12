@@ -1,7 +1,7 @@
 {
-  "name": "NEGRET'S — PDV & Assistência Técnica",
+  "name": "NEGRET'S — PDV e Assistência",
   "short_name": "NEGRET'S",
-  "description": "Sistema completo para assistência técnica: PDV, OS, Estoque, Vendas e Clientes. Criado por Elias Costa NEGRET'S.",
+  "description": "Sistema PDV, Estoque, OS, Financeiro e Marketplace. Funciona offline.",
   "lang": "pt-BR",
   "start_url": "./index.html",
   "scope": "./",
@@ -10,9 +10,17 @@
   "background_color": "#080808",
   "theme_color": "#080808",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }

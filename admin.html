@@ -2,875 +2,1394 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#080808">
-<meta name="robots" content="noindex">
-<title>NEGRET'S — Painel do Administrador</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080808'/%3E%3Cpath d='M18 46V18l28 28V18' stroke='%23C9A227' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta name="description" content="NEGRET'S — Painel Administrativo">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="NEGRET'S ADM">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<title>NEGRET'S — Painel Administrativo</title>
 <style>
-*,*::before,*::after{box-sizing:border-box;max-width:100%}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;width:100vw;overflow-x:hidden;background:#0d0d0d;color:#f2f2f2;font:15px/1.45 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;padding-bottom:70px;-webkit-tap-highlight-color:transparent}
-.container{width:calc(100% - 32px);margin:16px auto}
-.no-cut{overflow-wrap:anywhere;word-break:break-word;white-space:normal}
-.mut{color:#9ca3af}
-.center{text-align:center}
-.hidden{display:none!important}
-h1,h2,h3,h4{margin:0 0 10px;line-height:1.25;overflow-wrap:anywhere}
-h2{font-size:19px}h3{font-size:15.5px}
-p{overflow-wrap:anywhere}
-
-/* LOGIN */
-#login{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 0}
-.login-card{width:calc(100% - 32px);max-width:400px;background:#141414;border:1px solid #262626;border-radius:18px;padding:26px 20px;margin:16px auto;overflow:hidden}
-.login-logo{width:64px;height:64px;margin:0 auto 14px;background:#C9A227;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#080808;font-weight:800;font-size:34px}
-.login-sub{text-align:center;color:#9ca3af;font-size:13px;margin-bottom:18px;overflow-wrap:anywhere}
-.field{position:relative;margin-top:12px}
-.field svg.ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:19px;height:19px;color:#C9A227}
-.field .inp{padding-left:42px}
-.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:38px;height:38px;background:none;border:0;color:#9ca3af;cursor:pointer;padding:8px}
-.remember{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13.5px;color:#c7c7c7}
-.remember input{width:18px;height:18px;accent-color:#C9A227}
-.err{background:#2a0f0f;border:1px solid #b91c1c;color:#fca5a5;border-radius:10px;padding:10px 12px;font-size:13px;margin-top:12px;overflow-wrap:anywhere}
-
-/* BOTÕES */
-.btn-row{display:flex;flex-wrap:wrap;gap:8px}
-.btn{appearance:none;border-radius:10px;padding:11px 14px;min-height:42px;font:600 13.5px/1.2 inherit;color:#fff;background:#1c1c1c;border:1px solid #2e2e2e;cursor:pointer;flex:1 1 45%;min-width:126px;text-align:center;overflow-wrap:anywhere}
-.btn.gold{background:#C9A227;color:#080808;border-color:#C9A227;font-weight:800}
-.btn.green{background:#0F766E;border-color:#0F766E;color:#fff}
-.btn.red{background:#7f1d1d;border-color:#a33;color:#fff}
-.btn.small{flex:0 1 auto;min-width:0;padding:8px 11px;font-size:12px;min-height:34px}
-.btn.tiny{flex:0 0 auto;min-width:0;min-height:28px;padding:4px 9px;font-size:11px;border-radius:8px}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.btn svg{width:18px;height:18px;vertical-align:-3.5px;flex:0 0 18px}
-.btn.small svg{width:15px;height:15px;vertical-align:-2.5px}
-
-/* FORM */
-label.f{display:block;margin:10px 0 4px;font-size:12.5px;color:#9ca3af;font-weight:600}
-.inp{width:100%;background:#0f0f0f;border:1px solid #2e2e2e;color:#fff;border-radius:10px;padding:11px 12px;font-size:16px;min-height:44px;font-family:inherit}
-textarea.inp{min-height:70px;resize:vertical}
-.inp:focus{outline:1px solid #C9A227;border-color:#C9A227}
-.inp2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-
-/* HEADER ADM */
-#admHead{position:sticky;top:0;z-index:900;background:#080808;border-bottom:1px solid #232323;display:flex;align-items:center;gap:10px;padding:10px 12px;width:100vw;flex-wrap:wrap}
-.admlogo{width:36px;height:36px;flex:0 0 36px;background:#C9A227;color:#080808;font-weight:800;font-size:21px;display:flex;align-items:center;justify-content:center;border-radius:9px}
-#admHead .t{font-weight:800;font-size:15.5px;letter-spacing:.5px}
-#admHead .btn{min-height:36px;padding:7px 12px;font-size:12.5px;flex:0 0 auto;min-width:0;white-space:nowrap}
-
-/* MÉTRICAS */
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.metric{background:#141414;border:1px solid #232323;border-radius:12px;padding:12px;overflow:hidden}
-.metric .lbl{font-size:11px;color:#9ca3af;font-weight:600;overflow-wrap:anywhere}
-.metric .val{font-size:19px;font-weight:800;margin-top:4px;overflow-wrap:anywhere}
-.metric .val.gold{color:#C9A227}.metric .val.teal{color:#2dd4bf}.metric .val.red{color:#f87171}.metric .val.green{color:#34d399}
-
-/* TABS */
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 10px}
-.tab{flex:1 1 30%;min-width:120px;padding:10px;border-radius:10px;background:#141414;border:1px solid #2e2e2e;color:#c7c7c7;font-weight:700;font-size:13px;cursor:pointer;text-align:center}
-.tab.on{background:#C9A227;color:#080808;border-color:#C9A227}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
-.chipf{padding:7px 12px;border-radius:999px;background:#141414;border:1px solid #2e2e2e;color:#c7c7c7;font-size:12px;font-weight:700;cursor:pointer}
-.chipf.on{background:#0F766E;color:#fff;border-color:#0F766E}
-
-/* CHIPS DE STATUS */
-.chip{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;overflow-wrap:anywhere}
-.chip.ok{background:#064e3b;color:#34d399}
-.chip.warn{background:#3b2f06;color:#fbbf24}
-.chip.bad{background:#3f1212;color:#f87171}
-.chip.gray{background:#1f2937;color:#9ca3af}
-.chip.gold{background:#2a2109;color:#C9A227}
-
-/* LISTA DE CLIENTES */
-.cli{background:#141414;border:1px solid #232323;border-radius:14px;padding:12px;margin-bottom:10px;overflow:hidden}
-.cli .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
-.cli .nm{font-weight:800;font-size:15px;overflow-wrap:anywhere}
-.cli .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px;margin:8px 0;font-size:12.5px}
-.cli .grid div span{color:#9ca3af;display:block;font-size:10.5px;text-transform:uppercase}
-.cli .grid div b{overflow-wrap:anywhere}
-.cli .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.cli .acts .btn{flex:1 1 45%;min-width:120px;min-height:36px;padding:7px 8px;font-size:11.5px}
-.histrow{padding:7px 0;border-bottom:1px dashed #2a2a2a;font-size:12.5px;overflow-wrap:anywhere}
-.histrow b{color:#C9A227}
-
-/* AJUDA */
-.ajuda{background:#141414;border:1px solid #232323;border-radius:14px;padding:12px;margin-bottom:10px;overflow:hidden}
-.ajuda .comp{width:100%;max-width:260px;aspect-ratio:1/1;object-fit:contain;background:#fff;border-radius:10px;cursor:pointer}
-.ajuda .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 10px;margin:8px 0;font-size:12.5px}
-.ajuda .grid span{color:#9ca3af;display:block;font-size:10.5px;text-transform:uppercase}
-.ajuda .grid b{overflow-wrap:anywhere}
-
-/* MODAIS */
-.modal{position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.78);display:flex;align-items:flex-end;justify-content:center}
-.modal.center{align-items:center;padding:18px}
-.modal .box{position:relative;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;background:#101010;border:1px solid #262626;border-radius:16px 16px 0 0;padding:18px 16px 90px}
-.modal.center .box{border-radius:16px;padding-bottom:16px}
-.mx{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;background:#1d1d1d;border:1px solid #333;color:#fff;font-size:19px;cursor:pointer;line-height:1;z-index:5}
-.box-actions{position:sticky;bottom:0;background:#101010;padding:12px 0 6px;margin-top:16px;border-top:1px solid #222;z-index:4}
-.box h3{padding-right:44px}
-.tots{background:#0b0b0b;border:1px dashed #3a3a3a;border-radius:12px;padding:12px;margin-top:12px}
-.tots .t{display:flex;justify-content:space-between;gap:10px;padding:3px 0;font-size:14px}
-.tots .t b{overflow-wrap:anywhere}
-
-/* TOASTS */
-#toasts{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:1300;width:calc(100% - 32px);max-width:430px;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.toast{background:#1a1a1a;border:1px solid #C9A227;color:#fff;border-radius:10px;padding:12px 14px;font-size:13.5px;font-weight:600;overflow-wrap:anywhere;box-shadow:0 6px 22px rgba(0,0,0,.55)}
-.toast.err{border-color:#dc2626}
-.toast.ok{border-color:#0F766E}
-.empty{text-align:center;color:#6b7280;padding:26px 10px;font-size:13px}
-.foot{text-align:center;color:#6b7280;font-size:11.5px;padding:18px 0;overflow-wrap:anywhere}
-.codrow{display:flex;gap:8px;align-items:center;padding:8px;background:#0f0f0f;border:1px solid #262626;border-radius:10px;margin-bottom:6px;flex-wrap:wrap}
-.codrow code{font-family:monospace;color:#C9A227;font-weight:700;overflow-wrap:anywhere}
+:root{
+  --bg:#080808; --panel:#131316; --panel2:#1a1b1f; --line:#26272c;
+  --gold:#C9A227; --gold2:#E7C14F; --teal:#0F766E; --green:#16A34A; --red:#DC2626;
+  --amber:#CA8A04; --orange:#EA580C; --blue:#2563EB; --gray:#6B7280;
+  --txt:#F4F4F5; --mut:#9CA3AF;
+}
+*{ box-sizing:border-box; max-width:100%; margin:0; padding:0; }
+html{ scroll-padding-bottom:40px; }
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+  font-size:15px; overflow-x:hidden; width:100%; -webkit-tap-highlight-color:transparent;
+}
+.hidden{ display:none !important; }
+button{ font-family:inherit; cursor:pointer; }
+input,select,textarea{ font-family:inherit; }
+img{ max-width:100%; }
+.container{ width:calc(100% - 32px); margin:16px auto; }
+@media(min-width:760px){ .container{ width:calc(100% - 48px); max-width:1120px; } }
+#topbar{
+  position:sticky; top:0; z-index:900; height:56px; background:var(--bg);
+  border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px; padding:0 12px;
+}
+.logoN{ width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--gold),#8f7016);
+  color:#080808; font-weight:800; font-size:19px; display:flex; align-items:center; justify-content:center; }
+.logoT{ font-weight:800; letter-spacing:1.5px; font-size:15px; color:var(--gold2); }
+#btn-sair{ margin-left:auto; }
+.card{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:12px; }
+.card h2{ font-size:15px; margin-bottom:10px; color:var(--gold2); }
+.ttl{ font-size:17px; font-weight:800; margin:2px 0 12px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  background:var(--panel2); color:var(--txt); border:1px solid var(--line);
+  border-radius:11px; padding:10px 12px; font-size:13px; font-weight:600;
+  min-height:42px; cursor:pointer; text-align:center;
+}
+.btn:active{ transform:scale(.97); }
+.btn.gold{ background:linear-gradient(135deg,var(--gold),#9c7d1c); color:#080808; border-color:var(--gold2); }
+.btn.green{ background:var(--green); color:#fff; border-color:#15803d; }
+.btn.red{ background:var(--red); color:#fff; border-color:#b91c1c; }
+.btn.teal{ background:var(--teal); color:#fff; border-color:#0d9488; }
+.btn.ghost{ background:transparent; }
+.btn.small{ padding:7px 9px; font-size:12px; min-height:36px; min-width:0; flex:1 1 45%; }
+.btn.big{ width:100%; padding:14px; font-size:15px; }
+.btn:disabled{ opacity:.45; cursor:not-allowed; }
+.btn-row{ display:flex; flex-wrap:wrap; gap:7px; }
+.lbl{ display:block; font-size:12px; color:var(--mut); margin:9px 2px 4px; font-weight:600; }
+.in{ width:100%; background:#0d0e10; color:#fff; border:1px solid var(--line);
+  border-radius:10px; padding:11px; font-size:16px; outline:none; min-height:44px; }
+.in:focus{ border-color:var(--gold); }
+.stats{ display:grid; grid-template-columns:repeat(2,1fr); gap:9px; }
+@media(min-width:760px){ .stats{ grid-template-columns:repeat(5,1fr); } }
+.stat{ background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:12px; min-width:0; }
+.stat .sn{ font-size:20px; font-weight:800; color:var(--gold2); white-space:nowrap; font-variant-numeric:tabular-nums; }
+.stat .sl{ font-size:11px; color:var(--mut); margin-top:3px; }
+.tabs{ display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; -webkit-overflow-scrolling:touch; margin-bottom:12px; }
+.tab{
+  background:var(--panel2); border:1px solid var(--line); color:var(--mut);
+  padding:9px 14px; border-radius:999px; font-size:12.5px; font-weight:700; white-space:nowrap;
+}
+.tab.on{ background:var(--gold); color:#080808; border-color:var(--gold2); }
+.tab .dot{ display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--red); margin-left:5px; vertical-align:middle; }
+.chips{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
+.fchip{ background:var(--panel2); border:1px solid var(--line); color:var(--mut);
+  padding:7px 12px; border-radius:999px; font-size:12.5px; font-weight:600; }
+.fchip.on{ background:var(--gold); color:#080808; border-color:var(--gold2); }
+.ucard{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:13px; margin-bottom:11px; min-width:0; }
+.ucard .uh{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
+.ucard .unome{ font-weight:800; font-size:15px; word-break:break-word; flex:1; min-width:120px; }
+.ucard .ulinha{ display:flex; gap:6px; flex-wrap:wrap; font-size:12.5px; color:var(--mut); padding:2px 0; }
+.ucard .ulinha b{ color:var(--txt); font-weight:600; word-break:break-all; }
+.chip{ display:inline-block; border-radius:999px; padding:3px 10px; font-size:11.5px; font-weight:700; white-space:normal; }
+.st-ATIVO{ background:#14532d; color:#86efac; } .st-PAUSADO{ background:#713f12; color:#fde68a; }
+.st-CANCELADO{ background:#7f1d1d; color:#fecaca; } .st-VENCIDO{ background:#374151; color:#d1d5db; }
+.st-AGUARDANDO{ background:#a16207; color:#fef3c7; } .st-CONFIRMADO{ background:#166534; color:#bbf7d0; } .st-FALHOU{ background:#991b1b; color:#fecaca; }
+.st-PENDENTE{ background:#a16207; color:#fef3c7; } .st-ATIVADO{ background:#166534; color:#bbf7d0; } .st-RECUSADO{ background:#991b1b; color:#fecaca; }
+.modal{ position:fixed; inset:0; z-index:1200; background:rgba(0,0,0,.72); display:flex; align-items:flex-end; justify-content:center; }
+.mbox{ width:calc(100% - 24px); max-width:560px; max-height:90vh; overflow-y:auto;
+  background:var(--panel); border:1px solid var(--line); border-radius:18px 18px 0 0;
+  padding:16px 16px 24px; -webkit-overflow-scrolling:touch; }
+@media(min-width:760px){ .modal{ align-items:center; } .mbox{ border-radius:18px; padding-bottom:16px; } }
+.mhead{ display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+.mhead h3{ font-size:16px; font-weight:800; flex:1; word-break:break-word; }
+.mfoot{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.mfoot .btn{ flex:1 1 45%; min-width:130px; }
+.iconbtn{ background:var(--panel2); border:1px solid var(--line); color:var(--txt);
+  width:38px; height:38px; min-width:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+.toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); z-index:1500;
+  background:#171b21; color:#fff; border:1px solid var(--green); border-radius:12px;
+  padding:11px 16px; font-size:13.5px; font-weight:600; max-width:calc(100% - 32px); text-align:center;
+  box-shadow:0 6px 24px rgba(0,0,0,.5); }
+.toast.err{ border-color:var(--red); }
+.login-wrap{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+.login-card{ width:100%; max-width:380px; background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:26px 22px; text-align:center; }
+.nmark{ width:64px; height:64px; border-radius:18px; margin:0 auto 14px;
+  background:linear-gradient(135deg,var(--gold),#8f7016); color:#080808;
+  font-size:36px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+.plano-opt{ display:flex; gap:10px; align-items:center; width:100%; text-align:left;
+  background:var(--panel2); border:1px solid var(--line); color:var(--txt);
+  border-radius:12px; padding:13px; margin-bottom:8px; cursor:pointer; flex-wrap:wrap; }
+.plano-opt.on{ border-color:var(--gold); background:rgba(201,162,39,.12); }
+.foto-prev{ max-width:200px; max-height:200px; border-radius:10px; background:#fff; padding:6px; }
+.hline{ padding:6px 0; border-bottom:1px solid var(--line); font-size:12.5px; color:var(--mut); word-break:break-word; }
 </style>
 </head>
 <body>
-<!-- ================= LOGIN ================= -->
-<section id="login">
+
+<!-- ===== Login ===== -->
+<div class="login-wrap" id="login-wrap">
   <div class="login-card">
-    <div class="login-logo">N</div>
-    <h1 class="center" style="font-size:22px;letter-spacing:1px">NEGRET'S</h1>
-    <div class="login-sub no-cut">Painel do Administrador • Área restrita</div>
-    <div class="field">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>
-      <input id="admEmail" class="inp" type="email" inputmode="email" autocomplete="username" placeholder="E-mail" value="admin@negrets.com">
+    <div class="nmark">N</div>
+    <h1 style="font-size:20px; margin-bottom:4px">NEGRET'S</h1>
+    <p style="color:var(--mut); font-size:13px; margin-bottom:16px">Painel Administrativo — acesso restrito</p>
+    <div style="text-align:left">
+      <label class="lbl">E-mail</label>
+      <input class="in" id="lg-email" type="email" inputmode="email" placeholder="admin@negrets.com" autocomplete="username">
+      <label class="lbl">Senha</label>
+      <input class="in" id="lg-senha" type="password" placeholder="Sua senha" autocomplete="current-password">
+      <button class="btn gold big mt12" id="lg-entrar">Entrar</button>
     </div>
-    <div class="field">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
-      <input id="admPass" class="inp" type="password" autocomplete="current-password" placeholder="Senha">
-      <button class="eye" id="btnEye" aria-label="Mostrar senha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" width="20" height="20"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
-    </div>
-    <label class="remember"><input type="checkbox" id="admRemember" checked> Lembrar de mim</label>
-    <div id="loginErr" class="err hidden"></div>
-    <button id="btnEntrar" class="btn gold" style="width:100%;margin-top:16px">Entrar</button>
   </div>
-  <div class="foot no-cut">NEGRET'S • Área restrita • Criado por Elias Costa NEGRET'S</div>
-</section>
+</div>
 
-<!-- ================= PAINEL ================= -->
-<section id="painel" class="hidden">
-  <header id="admHead">
-    <div class="admlogo">N</div>
-    <div class="t no-cut">NEGRET'S ADM</div>
-    <div style="margin-left:auto" class="btn-row">
-      <button id="btnAtualizar" class="btn">Atualizar</button>
-      <button id="btnSairAdm" class="btn red">Sair</button>
-    </div>
+<!-- ===== Painel ===== -->
+<div id="painel" class="hidden">
+  <header id="topbar">
+    <span class="logoN">N</span><span class="logoT">NEGRET'S ADM</span>
+    <button class="btn small ghost" id="btn-sair">Sair</button>
   </header>
-
   <div class="container">
-    <div class="grid2" id="metrics"></div>
-
-    <div class="tabs">
-      <button class="tab on" data-tab="clientes">Clientes</button>
-      <button class="tab" data-tab="ajuda">Ajuda / Pix com falha</button>
-      <button class="tab" data-tab="precos">Preços · Pix API</button>
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-tab="usuarios">Usuários</button>
+      <button class="tab" data-tab="pix">Pagamentos Pix <span class="dot hidden" id="dot-pix"></span></button>
+      <button class="tab" data-tab="ajuda">Ajuda / Pix com falha <span class="dot hidden" id="dot-ajuda"></span></button>
+      <button class="tab" data-tab="precos">Preços · PIX</button>
+      <button class="tab" data-tab="hist">Histórico</button>
     </div>
 
-    <!-- ======== ABA CLIENTES ======== -->
-    <div id="tabClientes">
-      <input id="busca" class="inp" placeholder="Buscar por nome, e-mail ou WhatsApp..." autocomplete="off">
-      <div class="chips" id="filtros">
-        <button class="chipf on" data-f="todos">Todos</button>
-        <button class="chipf" data-f="ativos">Ativos</button>
-        <button class="chipf" data-f="pausados">Pausados</button>
-        <button class="chipf" data-f="vencidos">Vencidos</button>
-        <button class="chipf" data-f="cancelados">Cancelados</button>
-        <button class="chipf" data-f="vitalicio">Vitalício</button>
-        <button class="chipf" data-f="lixeira">Lixeira</button>
-      </div>
-      <div class="btn-row" style="margin:10px 0">
-        <button id="btnCsv" class="btn">Exportar CSV</button>
-        <button id="btnNovoCli" class="btn gold">+ Novo Cliente</button>
-        <button id="btnEsvaziar" class="btn red">Esvaziar Lixeira</button>
-      </div>
-      <div id="listaClientes"></div>
-    </div>
+    <div class="stats" id="metricas" style="margin-bottom:14px"></div>
 
-    <!-- ======== ABA AJUDA ======== -->
-    <div id="tabAjuda" class="hidden">
-      <div class="warnbox" style="background:#2a2109;border:1px solid #C9A227;border-radius:12px;padding:12px;font-size:13px;margin-bottom:10px">
-        Pedidos de clientes que pagaram via Pix e não ativaram. Confira no banco e use <b>ATIVAR MANUALMENTE</b> — o sistema do cliente libera na hora.
+    <!-- Tab: Usuários -->
+    <section id="tab-usuarios">
+      <div class="card">
+        <div class="btn-row">
+          <input class="in" id="us-busca" type="search" placeholder="Buscar por nome, e-mail ou WhatsApp..." style="flex:2 1 180px">
+          <button class="btn gold" id="btn-us-novo" style="flex:0 0 auto">+ Novo usuário</button>
+          <button class="btn" id="btn-us-csv" style="flex:0 0 auto">Exportar CSV</button>
+        </div>
+        <div class="chips" id="us-filtros" style="margin-top:10px">
+          <button class="fchip on" data-uf="todos">Todos</button>
+          <button class="fchip" data-uf="ativos">Ativos</button>
+          <button class="fchip" data-uf="pendentes">Pendentes</button>
+          <button class="fchip" data-uf="vitalicio">Vitalício</button>
+          <button class="fchip" data-uf="lixeira">Lixeira</button>
+        </div>
       </div>
-      <div id="listaAjudas"></div>
-    </div>
+      <div id="us-lista"></div>
+    </section>
 
-    <!-- ======== ABA PREÇOS ======== -->
-    <div id="tabPrecos" class="hidden">
-      <div class="cli">
-        <h3>Preços dos planos</h3>
-        <div class="inp2">
-          <div><label class="f">Mensal (R$)</label><input id="prMensal" class="inp" inputmode="decimal"></div>
-          <div><label class="f">6 Meses (R$)</label><input id="prSemestral" class="inp" inputmode="decimal"></div>
-          <div><label class="f">1 Ano (R$)</label><input id="prAnual" class="inp" inputmode="decimal"></div>
-          <div><label class="f">Vitalício (R$)</label><input id="prVitalicio" class="inp" inputmode="decimal"></div>
+    <!-- Tab: Pagamentos Pix -->
+    <section id="tab-pix" class="hidden">
+      <div class="card">
+        <h2>Solicitações de pagamento PIX</h2>
+        <p class="mut" style="font-size:12.5px">Confirme manualmente o pagamento pelo extrato do seu PIX. Ao confirmar, o cliente é ativado na hora (verificação automática a cada 15s no app dele).</p>
+      </div>
+      <div id="pix-lista"></div>
+    </section>
+
+    <!-- Tab: Ajuda / Pix com falha -->
+    <section id="tab-ajuda" class="hidden">
+      <div class="card">
+        <h2>Ajuda / Pix com falha</h2>
+        <p class="mut" style="font-size:12.5px">Solicitações de clientes: pagamentos não ativados e suporte. Ative manualmente após conferir o comprovante.</p>
+      </div>
+      <div id="ajuda-lista"></div>
+    </section>
+
+    <!-- Tab: Preços · PIX -->
+    <section id="tab-precos" class="hidden">
+      <div class="card">
+        <h2>Preços dos planos</h2>
+        <label class="lbl">Mensal (30 dias) — R$</label>
+        <input class="in" id="pc-mensal" type="text" inputmode="decimal" style="text-align:right">
+        <label class="lbl">6 Meses (180 dias) — R$</label>
+        <input class="in" id="pc-semestral" type="text" inputmode="decimal" style="text-align:right">
+        <label class="lbl">1 Ano (365 dias) — R$</label>
+        <input class="in" id="pc-anual" type="text" inputmode="decimal" style="text-align:right">
+        <label class="lbl">Vitalício (3650 dias) — R$</label>
+        <input class="in" id="pc-vitalicio" type="text" inputmode="decimal" style="text-align:right">
+        <button class="btn gold big mt12" id="pc-salvar">Salvar preços</button>
+      </div>
+      <div class="card">
+        <h2>PIX que recebe os pagamentos</h2>
+        <label class="lbl">Chave PIX (e-mail, telefone ou aleatória)</label>
+        <input class="in" id="pc-pixkey" type="text" placeholder="onegretth@gmail.com">
+        <label class="lbl">Nome do recebedor</label>
+        <input class="in" id="pc-receb" type="text" placeholder="NEGRETS SISTEMAS">
+        <label class="lbl">Cidade</label>
+        <input class="in" id="pc-cidade" type="text" placeholder="SAO PAULO">
+        <label class="lbl">WhatsApp do suporte (com DDI/DDD)</label>
+        <input class="in" id="pc-suporte" type="tel" inputmode="tel" placeholder="5511999999999">
+        <button class="btn gold big mt12" id="pc-salvar2">Salvar PIX</button>
+      </div>
+      <div class="card">
+        <h2>Códigos de ativação (NEG-XXXX-XXXX)</h2>
+        <div class="btn-row" style="margin-bottom:10px">
+          <select class="in" id="cg-plano" style="flex:1 1 150px">
+            <option value="Mensal|30">Mensal — 30 dias</option>
+            <option value="6 Meses|180">6 Meses — 180 dias</option>
+            <option value="1 Ano|365">1 Ano — 365 dias</option>
+            <option value="Vitalício|3650">Vitalício — 3650 dias</option>
+          </select>
+          <button class="btn gold" id="cg-gerar" style="flex:0 0 auto">Gerar código</button>
         </div>
-        <div class="btn-row" style="margin-top:10px"><button id="btnSalvarPrecos" class="btn gold">Salvar preços</button></div>
+        <div id="cg-lista"></div>
       </div>
-      <div class="cli">
-        <h3>Pix &amp; Suporte</h3>
-        <label class="f">Chave Pix</label><input id="pxChave" class="inp" placeholder="e-mail / telefone / aleatória">
-        <div class="inp2">
-          <div><label class="f">Nome do recebedor</label><input id="pxNome" class="inp"></div>
-          <div><label class="f">Cidade</label><input id="pxCidade" class="inp"></div>
-        </div>
-        <label class="f">WhatsApp de suporte (com DDI)</label><input id="pxWhats" class="inp" type="tel" inputmode="tel" placeholder="5511999999999">
-        <div class="btn-row" style="margin-top:10px"><button id="btnSalvarPix" class="btn gold">Salvar Pix / Suporte</button></div>
+    </section>
+
+    <!-- Tab: Histórico -->
+    <section id="tab-hist" class="hidden">
+      <div class="card">
+        <h2>Histórico de ações</h2>
+        <div id="hist-lista"></div>
       </div>
-      <div class="cli">
-        <h3>Códigos de ativação (NEG-XXXX-XXXX)</h3>
-        <div class="inp2">
-          <div><label class="f">Plano do código</label><select id="codPlano" class="inp"><option value="mensal">Mensal — 30 dias</option><option value="semestral">6 Meses — 180 dias</option><option value="anual">1 Ano — 365 dias</option><option value="vitalicio">Vitalício (PRO MAX)</option></select></div>
-          <div><label class="f">&nbsp;</label><button id="btnGerarCod" class="btn gold" style="width:100%">Gerar código</button></div>
-        </div>
-        <div id="listaCodigos" style="margin-top:10px"></div>
-      </div>
-      <div class="cli">
-        <h3>Pagamentos Pix (liberação automática no cliente)</h3>
-        <div id="listaPixPend"></div>
-      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ===== Modais ===== -->
+<div class="modal hidden" id="m-us-novo">
+  <div class="mbox">
+    <div class="mhead"><h3>Novo usuário</h3><button class="iconbtn" data-close aria-label="Fechar"></button></div>
+    <label class="lbl">Nome da loja *</label>
+    <input class="in" id="un-nome" type="text">
+    <label class="lbl">WhatsApp</label>
+    <input class="in" id="un-wa" type="tel" inputmode="tel">
+    <label class="lbl">E-mail *</label>
+    <input class="in" id="un-email" type="email" inputmode="email">
+    <label class="lbl">Plano inicial</label>
+    <select class="in" id="un-plano">
+      <option value="Trial|30|0">Trial — 30 dias grátis</option>
+      <option value="Mensal|30|49.90">Mensal — 30 dias</option>
+      <option value="6 Meses|180|249.90">6 Meses — 180 dias</option>
+      <option value="1 Ano|365|399.90">1 Ano — 365 dias</option>
+      <option value="Vitalício|3650|997.00">Vitalício — PRO MAX</option>
+    </select>
+    <div class="mfoot">
+      <button class="btn ghost" data-close>Cancelar</button>
+      <button class="btn green" id="un-salvar">Criar usuário</button>
     </div>
   </div>
-  <div class="foot no-cut">NEGRET'S • Área restrita • Criado por Elias Costa NEGRET'S</div>
-</section>
+</div>
 
-<div id="toasts"></div>
+<div class="modal hidden" id="m-dias">
+  <div class="mbox">
+    <div class="mhead"><h3 id="dias-titulo">Adicionar dias grátis</h3><button class="iconbtn" data-close aria-label="Fechar"></button></div>
+    <p class="mut" id="dias-info" style="font-size:13px"></p>
+    <label class="lbl">Quantidade de dias</label>
+    <input class="in" id="dias-qtd" type="text" inputmode="numeric" value="30" style="text-align:center;font-weight:700">
+    <label class="lbl">Motivo (registrado no histórico)</label>
+    <input class="in" id="dias-motivo" type="text" value="Bônus Sorteio">
+    <div class="mfoot">
+      <button class="btn ghost" data-close>Cancelar</button>
+      <button class="btn green" id="dias-ok">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="m-venc">
+  <div class="mbox">
+    <div class="mhead"><h3>Editar vencimento</h3><button class="iconbtn" data-close aria-label="Fechar"></button></div>
+    <p class="mut" id="venc-info" style="font-size:13px"></p>
+    <label class="lbl">Nova data de vencimento</label>
+    <input class="in" id="venc-data" type="date">
+    <div class="mfoot">
+      <button class="btn ghost" data-close>Cancelar</button>
+      <button class="btn green" id="venc-ok">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="m-ativar">
+  <div class="mbox">
+    <div class="mhead"><h3>Ativar plano</h3><button class="iconbtn" data-close aria-label="Fechar"></button></div>
+    <p class="mut" id="ativar-info" style="font-size:13px"></p>
+    <div id="ativar-planos"></div>
+    <div class="mfoot">
+      <button class="btn ghost" data-close>Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="m-hist-user">
+  <div class="mbox">
+    <div class="mhead"><h3 id="hist-user-titulo">Histórico</h3><button class="iconbtn" data-close aria-label="Fechar"></button></div>
+    <div id="hist-user-lista"></div>
+    <div class="mfoot"><button class="btn" data-close>Fechar</button></div>
+  </div>
+</div>
+
+<div class="modal hidden" id="m-manual">
+  <div class="mbox">
+    <div class="mhead"><h3>ATIVAR MANUALMENTE</h3><button class="iconbtn" data-close aria-label="Fechar"></button></div>
+    <p class="mut" id="manual-info" style="font-size:13px"></p>
+    <label class="lbl">Plano a ativar</label>
+    <select class="in" id="manual-plano">
+      <option value="Mensal|30">Mensal — 30 dias</option>
+      <option value="6 Meses|180">6 Meses — 180 dias</option>
+      <option value="1 Ano|365">1 Ano — 365 dias</option>
+      <option value="Vitalício|3650">Vitalício — PRO MAX • VITALÍCIO</option>
+    </select>
+    <label class="lbl">Dias extras (opcional, além do plano)</label>
+    <input class="in" id="manual-extras" type="text" inputmode="numeric" value="0" style="text-align:center">
+    <div class="mfoot">
+      <button class="btn ghost" data-close>Cancelar</button>
+      <button class="btn green" id="manual-ok">Confirmar ativação</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="m-recusar">
+  <div class="mbox">
+    <div class="mhead"><h3>Recusar solicitação</h3><button class="iconbtn" data-close aria-label="Fechar"></button></div>
+    <label class="lbl">Motivo (enviado ao cliente)</label>
+    <input class="in" id="rec-motivo" type="text" placeholder="Ex: comprovante ilegível">
+    <div class="mfoot">
+      <button class="btn ghost" data-close>Cancelar</button>
+      <button class="btn red" id="rec-ok">Recusar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="m-confirm">
+  <div class="mbox">
+    <div class="mhead"><h3>Confirmar</h3></div>
+    <p id="confirm-msg" style="line-height:1.5"></p>
+    <div class="mfoot">
+      <button class="btn ghost" data-close>Cancelar</button>
+      <button class="btn red" id="confirm-ok">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
 <script>
+/* ================= NEGRETS CORE (compartilhado - sem CDN, offline) ================= */
 'use strict';
-/* ============================================================
-   NEGRET'S ADM — Painel do Administrador
-   Criado por Elias Costa NEGRET'S
-   ============================================================ */
-var $ = function (s, r) { return (r || document).querySelector(s); };
-var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
-function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-function uid(p) { return (p || 'id') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
-function fmt(v) { return 'R$ ' + (Number(v || 0)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-function parseMoney(v) { if (typeof v === 'number') return v; v = String(v || '').trim(); if (!v) return 0; v = v.replace(/[^\d,.-]/g, ''); if (v.indexOf(',') >= 0) { v = v.replace(/\./g, '').replace(',', '.'); } else if ((v.match(/\./g) || []).length === 1 && v.split('.')[1].length <= 2) { v = v.replace(',', '.'); } else { v = v.replace(/\./g, ''); } var n = parseFloat(v); return isNaN(n) ? 0 : n; }
-function fmtDate(iso, comHora) { if (!iso) return '-'; var d = new Date(iso); if (isNaN(d)) return String(iso); var dd = String(d.getDate()).padStart(2, '0'), mm = String(d.getMonth() + 1).padStart(2, '0'), yy = d.getFullYear(); if (!comHora) return dd + '/' + mm + '/' + yy; return dd + '/' + mm + '/' + yy + ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
-function diasAte(iso) { if (!iso) return 0; return Math.ceil((new Date(iso).getTime() - Date.now()) / 86400000); }
-function jget(k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
-function jset(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { toast('Erro ao salvar', 'err'); } }
-function db() {
-  var d = jget('negrets_db', null);
-  if (!d || typeof d !== 'object') d = {};
-  d.produtos = d.produtos || [];
-  d.vendas = d.vendas || [];
-  d.os = d.os || [];
-  d.clientes = d.clientes || [];
-  d.codigos = d.codigos || [];
-  d.clientesLoja = d.clientesLoja || [];
-  d.movs = d.movs || [];
-  d.caixa = d.caixa || { aberto: false, fundo: 0, movs: [] };
-  return d;
-}
-function saveDb(d) { jset('negrets_db', d); }
-var VITALICIO_DIAS = 3650;
+(function(G){
+/* ---------- Helpers NS ---------- */
+var K = {
+  db:'negrets_db', cfg:'negrets_config', lic:'negrets_licenca', users:'negrets_usuarios',
+  pixReq:'negrets_pix_solicitacoes', ajuda:'negrets_ajuda_solicitacoes',
+  precos:'negrets_precos', codigos:'negrets_codigos', trial:'negrets_trial_inicio',
+  hist:'negrets_hist_admin', sup:'negrets_suporte', backup:'negrets_backup_auto'
+};
+var NS = {
+  K: K,
+  load: function(k, d){ try{ var v = localStorage.getItem(k); return v ? JSON.parse(v) : (d===undefined?null:d); }catch(e){ return d===undefined?null:d; } },
+  save: function(k, v){ localStorage.setItem(k, JSON.stringify(v)); },
+  uid: function(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); },
+  today: function(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); },
+  nowISO: function(){ return new Date().toISOString(); },
+  addDays: function(iso, n){ var d=new Date(iso+'T12:00:00'); d.setDate(d.getDate()+n); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); },
+  diffDays: function(aISO, bISO){ var a=new Date(aISO+'T12:00:00'), b=new Date(bISO+'T12:00:00'); return Math.round((b-a)/86400000); },
+  fmtDate: function(iso){ if(!iso) return '—'; var p=String(iso).split('-'); if(p.length<3) return iso; return p[2]+'/'+p[1]+'/'+p[0]; },
+  fmtMoney: function(v){ return (Number(v)||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); },
+  fmtNum: function(v){ return (Number(v)||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); },
+  fmtDT: function(dt){ if(!dt) return '—'; var d=new Date(dt); return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); },
+  esc: function(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); },
+  toast: function(msg, type){
+    var t = document.getElementById('toast'); if(!t) return;
+    t.textContent = msg;
+    t.className = 'toast show' + (type==='err' ? ' err' : type==='warn' ? ' warn' : '');
+    clearTimeout(NS._tt); NS._tt = setTimeout(function(){ t.className='toast hidden'; }, 2800);
+  },
+  copyText: function(txt){
+    var done=function(){ NS.toast('Copiado!'); };
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done).catch(function(){ NS.fallbackCopy(txt); done(); }); }
+    else { NS.fallbackCopy(txt); done(); }
+  },
+  fallbackCopy: function(txt){ var ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta); },
+  waLink: function(num, text){ return 'https://wa.me/' + String(num||'').replace(/\D/g,'') + '?text=' + encodeURIComponent(text||''); },
+  supportWA: function(){ var s = NS.load(K.sup, null); return (s && s.wa) ? s.wa : '5511999999999'; },
+  shareText: function(title, text, url){
+    if(navigator.share){ navigator.share({title:title, text:text, url:url}).catch(function(){}); }
+    else { NS.copyText((text?text+'\n':'')+(url||'')); }
+  },
+  downloadFile: function(name, content, mime){
+    var blob = new Blob([content], {type: mime||'application/octet-stream'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); document.body.removeChild(a); }, 400);
+  },
+  imgFileToDataUrl: function(file, cb, max){
+    max = max || 800;
+    var fr = new FileReader();
+    fr.onload = function(){
+      var img = new Image();
+      img.onload = function(){
+        var w=img.width, h=img.height, sc=Math.min(1, max/Math.max(w,h));
+        var c=document.createElement('canvas'); c.width=Math.round(w*sc); c.height=Math.round(h*sc);
+        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+        cb(c.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = function(){ cb(fr.result); };
+      img.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  },
+  openM: function(id){ var m=document.getElementById(id); if(m) m.classList.remove('hidden'); },
+  closeM: function(id){ var m=document.getElementById(id); if(m) m.classList.add('hidden'); },
+  bindModals: function(root){
+    document.querySelectorAll('.modal').forEach(function(m){
+      if(m._bound) return; m._bound = true;
+      m.addEventListener('click', function(e){ if(e.target === m) m.classList.add('hidden'); });
+      m.querySelectorAll('[data-close]').forEach(function(b){
+        if(b.tagName === 'BUTTON' && !b.innerHTML.trim()) b.innerHTML = svg('x', 18);
+        b.addEventListener('click', function(){ m.classList.add('hidden'); });
+      });
+    });
+  },
+  confirm: function(msg, cb, danger){
+    var m = document.getElementById('m-confirm'); if(!m){ if(confirm(msg)) cb(); return; }
+    document.getElementById('confirm-msg').textContent = msg;
+    var ok = document.getElementById('confirm-ok');
+    ok.textContent = 'Confirmar';
+    ok.onclick = function(){ m.classList.add('hidden'); cb(); };
+    NS.openM('m-confirm');
+  }
+};
+G.NS = NS; G.K = K;
 
-function toast(msg, tipo) {
-  var t = document.createElement('div');
-  t.className = 'toast' + (tipo ? ' ' + tipo : '');
-  t.textContent = msg;
-  $('#toasts').appendChild(t);
-  setTimeout(function () { t.style.opacity = '0'; t.style.transition = 'opacity .3s'; }, 3200);
-  setTimeout(function () { t.remove(); }, 3600);
+/* ---------- Ícones SVG (linha fina, sem emoji — exceto 👑 Vitalício que é regra da marca) ---------- */
+var IC = {
+  home:'<path d="M4 11.5 12 4.5l8 7"/><path d="M6 10.5V20h12v-9.5"/>',
+  cart:'<circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M3 4h2.2l2.4 11.5h9.8L20 7H6"/>',
+  box:'<path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4"/><path d="M12 12v8"/>',
+  receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
+  menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  minus:'<path d="M6 12h12"/>',
+  search:'<circle cx="10.5" cy="10.5" r="6"/><path d="M15.5 15.5 20 20"/>',
+  camera:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7l1.5-2.5h3L15 7"/><circle cx="12" cy="13.5" r="3.5"/>',
+  image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M4 18l5-5 4 4 3-3 4 4"/>',
+  qr:'<rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/>',
+  print:'<path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M7 14h10v6H7z"/>',
+  pen:'<path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19z"/><path d="M13.5 6.5l3 3"/>',
+  wa:'<path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.7-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c.6 3 3.5 5.9 6.5 6.5l1-2-2.2-1-1 .8a7.3 7.3 0 0 1-2.1-2.1l.8-1-1-2.2z"/>',
+  trash:'<path d="M4 7h16M9 7V4h6v3M6.5 7l1 13h9l1-13"/>',
+  edit:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M9 5V3h6v2"/>',
+  cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+  chart:'<path d="M4 20h16"/><path d="M7 16v-5M12 16V6M17 16v-8"/>',
+  truck:'<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/>',
+  globe:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c-5 5-5 12 0 17M12 3.5c5 5 5 12 0 17"/>',
+  doc:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',
+  tag:'<path d="M4 12 12 4h8v8l-8 8z"/><circle cx="16" cy="8" r="1.4"/>',
+  help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.6 2.6 0 1 1 3.4 2.5c-.7.3-.9.8-.9 1.7"/><circle cx="12" cy="17" r=".6"/>',
+  lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  check:'<path d="M5 12.5 10 17.5 19 7"/>',
+  share:'<circle cx="6" cy="12" r="2.4"/><circle cx="17" cy="6" r="2.4"/><circle cx="17" cy="18" r="2.4"/><path d="M8.2 10.8 14.8 7.2M8.2 13.2l6.6 3.6"/>',
+  link:'<path d="M10 14a4 4 0 0 1 0-5.6l2.4-2.4a4 4 0 0 1 5.6 5.6L16.5 13"/><path d="M14 10a4 4 0 0 1 0 5.6l-2.4 2.4a4 4 0 0 1-5.6-5.6L7.5 11"/>',
+  down:'<path d="M12 4v12M6.5 10.5 12 16l5.5-5.5"/><path d="M5 20h14"/>',
+  up:'<path d="M12 20V8M6.5 13.5 12 8l5.5 5.5"/><path d="M5 4h14"/>',
+  gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 4v2.2M12 17.8V20M4 12h2.2M17.8 12H20M6.3 6.3l1.6 1.6M16.1 16.1l1.6 1.6M17.7 6.3l-1.6 1.6M7.9 16.1l-1.6 1.6"/>',
+  users:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9.5" r="2.4"/><path d="M16 14.6c2.2.2 3.9 1.7 4.4 4.4"/>',
+  money:'<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6.5 9.5h.01M17.5 14.5h.01"/>',
+  wrench:'<path d="M14.5 6.5a4 4 0 0 1 5 5L9 22l-4-1-1-4L14.5 6.5z"/><path d="M13 8l3 3"/>',
+  phone:'<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 17h4"/>',
+  crown:'<path d="M4 17 3 7l5 3.5L12 4l4 6.5L21 7l-1 10z"/><path d="M5 20h14"/>',
+  star:'<path d="M12 4l2.4 5 5.6.6-4.2 3.8 1.2 5.6L12 16l-5 3 1.2-5.6L4 9.6 9.6 9z"/>',
+  eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.6"/>',
+  bell:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2.5H4.5z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  install:'<path d="M12 3v10M8 9l4 4 4-4"/><rect x="4" y="16" width="16" height="5" rx="1.5"/>',
+  logout:'<path d="M9 4H5v16h4"/><path d="M13 12h8M17.5 8.5 21 12l-3.5 3.5"/>',
+  back:'<path d="M14 6l-6 6 6 6"/>',
+  filter:'<path d="M4 6h16M7 12h10M10 18h4"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/>'
+};
+function svg(name, size){
+  return '<svg viewBox="0 0 24 24" width="'+(size||22)+'" height="'+(size||22)+'" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(IC[name]||'')+'</svg>';
 }
-function openModal(html, opts) {
-  opts = opts || {};
-  var ov = document.createElement('div');
-  ov.className = 'modal' + (opts.center ? ' center' : '');
-  ov.innerHTML = '<div class="box"><button class="mx" data-close aria-label="Fechar">✕</button>' + html + '</div>';
-  document.body.appendChild(ov);
-  document.body.style.overflow = 'hidden';
-  function close() { ov.remove(); document.body.style.overflow = ''; if (opts.onClose) try { opts.onClose(); } catch (e) {} }
-  ov.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', close); });
-  ov.addEventListener('click', function (e) { if (e.target === ov) close(); });
-  if (opts.onOpen) try { opts.onOpen(ov, close); } catch (e) {}
-  return { ov: ov, close: close };
-}
-function confirmModal(msg, onOk, opts) {
-  opts = opts || {};
-  var m = openModal(
-    '<h3>' + esc(opts.titulo || 'Confirmação') + '</h3><p class="no-cut">' + msg + '</p>' +
-    '<div class="box-actions"><div class="btn-row">' +
-    '<button class="btn red" data-close>Cancelar</button>' +
-    '<button class="btn gold" id="cfOk">' + esc(opts.okLabel || 'Confirmar') + '</button></div></div>',
-    { center: true }
-  );
-  m.ov.querySelector('#cfOk').addEventListener('click', function () { m.close(); if (onOk) onOk(); });
-  return m;
-}
-function historicoAdd(c, texto, tipo, dias) {
-  c.historico = c.historico || [];
-  c.historico.push({ quando: new Date().toISOString(), texto: texto, tipo: tipo || null, dias: dias || null });
-}
+G.icon = svg;
 
-/* ---------- Estado do painel ---------- */
-var filtro = 'todos', buscaTxt = '', tabAtual = 'clientes';
-var ADMIN_EMAIL = 'admin@negrets.com', ADMIN_SENHA = 'negrets123';
+/* ---------- QR CODE (gerador completo, byte mode, EC L/M, máscara automática) ---------- */
+var ECL_FB = [1,0,3,2]; /* format bits por nível (L,M,Q,H) */
+var ECC = [
+  [-1,7,10,15,20,26,18,20,24,30,18,20,24,26,30,22,24,28,30,28,28,28,28,30,30,26,28,30,30,30,30,30,30,30,30,30,30,30,30,30,30],
+  [-1,10,16,26,18,24,16,18,22,22,26,30,22,22,24,24,28,28,26,26,26,26,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28,28]
+];
+var NB = [
+  [-1,1,1,1,1,1,2,2,2,2,4,4,4,4,4,6,6,6,6,7,8,8,9,10,12,12,12,13,14,15,16,17,18,19,19,20,21,22,24,25,26],
+  [-1,1,1,1,2,2,4,4,4,5,5,5,8,9,9,10,10,11,13,14,16,17,18,19,19,20,21,22,24,25,26,27,28,29,30,31,32,33,34,35,36]
+];
+function rawModules(v){
+  var r=(16*v+128)*v+64;
+  if(v>=2){ var na=Math.floor(v/7)+2; r-=(25*na-10)*na-55; if(v>=7) r-=36; }
+  return r;
+}
+function dataCodewords(v,e){ return Math.floor(rawModules(v)/8) - ECC[e][v]*NB[e][v]; }
+function alignPos(v){
+  if(v===1) return [];
+  var na=Math.floor(v/7)+2;
+  var step=(v===32)?26:Math.floor((v*4+na*2+1)/(na*2-2))*2;
+  var res=new Array(na), pos=v*4+10;
+  for(var i=0;i<na;i++){ res[na-1-i]=pos; pos-=step; }
+  res[0]=6;
+  return res;
+}
+var GF_EXP = new Uint8Array(512), GF_LOG = new Uint8Array(256);
+(function(){
+  var x=1;
+  for(var i=0;i<255;i++){ GF_EXP[i]=x; GF_LOG[x]=i; x<<=1; if(x & 0x100) x^=0x11D; }
+  for(var j=255;j<512;j++) GF_EXP[j]=GF_EXP[j-255];
+})();
+function gfMul(a,b){
+  if(a===0 || b===0) return 0;
+  return GF_EXP[GF_LOG[a] + GF_LOG[b]];
+}
+function rsDivisor(degree){
+  var result=new Array(degree).fill(0);
+  result[degree-1]=1;
+  var root=1;
+  for(var i=0;i<degree;i++){
+    for(var j=0;j<degree;j++){
+      result[j]=gfMul(result[j],root);
+      if(j+1<degree) result[j]^=result[j+1];
+    }
+    root=gfMul(root,0x02);
+  }
+  return result;
+}
+function rsRemainder(data,divisor){
+  var result=new Array(divisor.length).fill(0);
+  for(var d=0; d<data.length; d++){
+    var b=data[d];
+    var factor=b^result.shift();
+    result.push(0);
+    for(var i=0;i<divisor.length;i++) result[i]^=gfMul(divisor[i],factor);
+  }
+  return result;
+}
+function maskBit(m,x,y){
+  switch(m){
+    case 0: return (y+x)%2===0;
+    case 1: return y%2===0;
+    case 2: return x%3===0;
+    case 3: return (y+x)%3===0;
+    case 4: return (Math.floor(y/2)+Math.floor(x/3))%2===0;
+    case 5: return (y*x)%2+(y*x)%3===0;
+    case 6: return ((y*x)%2+(y*x)%3)%2===0;
+    case 7: return ((y+x)%2+(y*x)%3)%2===0;
+  }
+  return false;
+}
+var QR = {
+  make: function(text, ecLevel){
+    ecLevel = ecLevel||0; /* 0=L 1=M */
+    var data = Array.from(new TextEncoder().encode(String(text)));
+    var ver=-1, cci=0;
+    for(var v=1; v<=40; v++){
+      cci = v<10 ? 8 : 16;
+      var need = Math.ceil((4+cci+data.length*8)/8);
+      if(need <= dataCodewords(v, ecLevel)){ ver=v; break; }
+    }
+    if(ver<0) throw new Error('QR: dados muito grandes');
+    var bits=[], bitLen=0;
+    function app(val, n){ for(var i=n-1;i>=0;i--){ bits.push((val>>>i)&1); bitLen++; } }
+    app(4,4); app(data.length, cci);
+    for(var i0=0;i0<data.length;i0++) app(data[i0],8);
+    var cap = dataCodewords(ver,ecLevel)*8;
+    app(0, Math.min(4, cap-bitLen));
+    while(bitLen%8) bits.push(0);
+    var totalData=dataCodewords(ver,ecLevel);
+    var bytes=new Uint8Array(totalData);
+    for(var i1=0;i1<totalData;i1++){ var b=0; for(var j=0;j<8;j++) b=(b<<1)|(bits[i1*8+j]||0); bytes[i1]=b; }
+    for(var i2=Math.ceil(bitLen/8), p=0; i2<totalData; i2++, p^=1) bytes[i2]=p?0x11:0xEC;
+    /* RS + interleave */
+    var numBlocks=NB[ecLevel][ver], blockEcc=ECC[ecLevel][ver];
+    var rawCW=Math.floor(rawModules(ver)/8);
+    var numShort=numBlocks-(rawCW%numBlocks);
+    var shortLen=Math.floor(rawCW/numBlocks);
+    var S=shortLen-blockEcc;
+    var blocks=[], off=0;
+    for(var bi=0;bi<numBlocks;bi++){
+      var datLen=S+(bi<numShort?0:1);
+      var dat=Array.prototype.slice.call(bytes.slice(off,off+datLen)); off+=datLen;
+      blocks.push({dat:dat, ec:rsRemainder(dat, rsDivisor(blockEcc))});
+    }
+    var result=new Uint8Array(rawCW), k=0;
+    for(var ii=0; ii<=S; ii++){
+      for(var bj=0; bj<numBlocks; bj++){
+        if(ii!==S || bj>=numShort) result[k++]=blocks[bj].dat[ii];
+      }
+    }
+    for(var ei=0; ei<blockEcc; ei++){
+      for(var ej=0; ej<numBlocks; ej++) result[k++]=blocks[ej].ec[ei];
+    }
+    /* matriz */
+    var size=ver*4+17;
+    var mod=[], fn=[];
+    for(var r=0;r<size;r++){ mod.push(new Array(size).fill(false)); fn.push(new Array(size).fill(false)); }
+    function setFn(x,y,vv){ mod[y][x]=vv; fn[y][x]=true; }
+    function drawFinder(cx,cy){
+      for(var dy=-4;dy<=4;dy++)for(var dx=-4;dx<=4;dx++){
+        var d=Math.max(Math.abs(dx),Math.abs(dy)), x=cx+dx, y=cy+dy;
+        if(x>=0&&x<size&&y>=0&&y<size) setFn(x,y,d!==2&&d!==4);
+      }
+    }
+    for(var t=0;t<size;t++){ setFn(6,t,t%2===0); setFn(t,6,t%2===0); }
+    drawFinder(3,3); drawFinder(size-4,3); drawFinder(3,size-4);
+    var ap=alignPos(ver), nap=ap.length;
+    for(var ai=0;ai<nap;ai++)for(var aj=0;aj<nap;aj++){
+      if((ai===0&&aj===0)||(ai===0&&aj===nap-1)||(ai===nap-1&&aj===0)) continue;
+      for(var dy2=-2;dy2<=2;dy2++)for(var dx2=-2;dx2<=2;dx2++) setFn(ap[aj]+dx2, ap[ai]+dy2, Math.max(Math.abs(dx2),Math.abs(dy2))!==1);
+    }
+    if(ver>=7){
+      var rem=ver;
+      for(var v7=0;v7<12;v7++) rem=(rem<<1)^((rem>>>11)*0x1F25);
+      var vbits=(ver<<12)|rem;
+      for(var vi=0;vi<18;vi++){
+        var bit=((vbits>>>vi)&1)!==0;
+        var a=size-11+vi%3, vb=Math.floor(vi/3);
+        setFn(a,vb,bit); setFn(vb,a,bit);
+      }
+    }
+    for(var ri=0;ri<=8;ri++){ if(ri!==6){ setFn(8,ri,false); setFn(ri,8,false); } }
+    for(var rj=0;rj<8;rj++){ setFn(size-1-rj,8,false); setFn(8,size-1-rj,false); }
+    setFn(8,size-8,true);
+    function placeData(mask){
+      var i=0;
+      for(var right=size-1; right>=1; right-=2){
+        if(right===6) right=5;
+        for(var vert=0; vert<size; vert++){
+          for(var j=0;j<2;j++){
+            var x=right-j;
+            var upward=((right+1)&2)===0;
+            var y=upward?size-1-vert:vert;
+            if(!fn[y][x]){
+              var vv=false;
+              if(i<result.length*8){ vv=((result[i>>>3]>>>(7-(i&7)))&1)===1; i++; }
+              if(maskBit(mask,x,y)) vv=!vv;
+              mod[y][x]=vv;
+            }
+          }
+        }
+      }
+    }
+    function drawFormat(mask){
+      var fd=ECL_FB[ecLevel]<<3|mask;
+      var remf=fd;
+      for(var i=0;i<10;i++) remf=(remf<<1)^((remf>>>9)*0x537);
+      var fbits=(fd<<10|remf)^0x5412;
+      function gb(n){ return ((fbits>>>n)&1)!==0; }
+      for(var i2=0;i2<=5;i2++) setFn(8,i2,gb(i2));
+      setFn(8,7,gb(6)); setFn(8,8,gb(7)); setFn(7,8,gb(8));
+      for(var i3=9;i3<15;i3++) setFn(14-i3,8,gb(i3));
+      for(var i4=0;i4<8;i4++) setFn(size-1-i4,8,gb(i4));
+      for(var i5=8;i5<15;i5++) setFn(8,size-15+i5,gb(i5));
+      setFn(8,size-8,true);
+    }
+    var N1=3,N2=3,N3=40,N4=10;
+    function penAdd(cur,hist){ if(hist[0]===0) cur+=size; hist.unshift(cur); hist.pop(); }
+    function penCount(hist){
+      var n=hist[1];
+      var core=n>0 && hist[2]===n && hist[3]===n*3 && hist[4]===n && hist[5]===n;
+      return (core&&hist[0]>=n*4&&hist[6]>=n?1:0)+(core&&hist[6]>=n*4&&hist[0]>=n?1:0);
+    }
+    function penTerm(runColor,runLen,hist){
+      if(runColor){ penAdd(runLen,hist); runLen=0; }
+      runLen+=size;
+      penAdd(runLen,hist);
+      return penCount(hist);
+    }
+    function penalty(){
+      var res=0;
+      for(var o=0;o<2;o++){
+        for(var y=0;y<size;y++){
+          var runColor=false, runLen=0;
+          var hist=new Array(7).fill(0);
+          for(var x=0;x<size;x++){
+            var c = o===0 ? mod[y][x] : mod[x][y];
+            if(c===runColor){ runLen++; if(runLen===5) res+=N1; else if(runLen>5) res++; }
+            else { penAdd(runLen,hist); if(!runColor) res+=penCount(hist)*N3; runColor=c; runLen=1; }
+          }
+          res+=penTerm(runColor,runLen,hist)*N3;
+        }
+      }
+      for(var y2=0;y2<size-1;y2++)for(var x2=0;x2<size-1;x2++){
+        var cc=mod[y2][x2];
+        if(cc===mod[y2][x2+1] && cc===mod[y2+1][x2] && cc===mod[y2+1][x2+1]) res+=N2;
+      }
+      var dark=0;
+      for(var y3=0;y3<size;y3++)for(var x3=0;x3<size;x3++) if(mod[y3][x3]) dark++;
+      var total=size*size;
+      var kk=(Math.abs(dark*20-total*10)+total-1)/(total-1)-1;
+      res+=Math.abs(Math.round(kk))*N4;
+      return res;
+    }
+    var best=0, bestPen=Infinity;
+    for(var m=0;m<8;m++){
+      for(var y4=0;y4<size;y4++)for(var x4=0;x4<size;x4++) if(!fn[y4][x4]) mod[y4][x4]=false;
+      placeData(m); drawFormat(m);
+      var pp=penalty();
+      if(pp<bestPen){ bestPen=pp; best=m; }
+    }
+    for(var y5=0;y5<size;y5++)for(var x5=0;x5<size;x5++) if(!fn[y5][x5]) mod[y5][x5]=false;
+    placeData(best); drawFormat(best);
+    return { size:size, version:ver, mask:best, get:function(y,x){ return mod[y][x]; } };
+  },
+  draw: function(canvas, text, px, ecLevel){
+    var q=this.make(text, ecLevel||0);
+    var quiet=4, total=q.size+quiet*2;
+    px=px||420;
+    var s=Math.max(3, Math.floor(px/total));
+    canvas.width=canvas.height=total*s;
+    var ctx=canvas.getContext('2d');
+    ctx.fillStyle='#FFFFFF'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#000000';
+    for(var y=0;y<q.size;y++)for(var x=0;x<q.size;x++){
+      if(q.get(y,x)) ctx.fillRect((quiet+x)*s,(quiet+y)*s,s,s);
+    }
+    return q;
+  }
+};
+G.QR = QR;
+G._rsDivisor = rsDivisor; G._rsRemainder = rsRemainder; G._dataCodewords = dataCodewords; G._gfMul = gfMul;
 
-/* ---------- Status computado ---------- */
-function cliStatus(c) {
-  if (c.status === 'pausado') return { chip: 'warn', label: 'PAUSADO' };
-  if (c.status === 'cancelado') return { chip: 'bad', label: 'CANCELADO' };
-  if (c.plano === 'vitalicio') return { chip: 'ok', label: 'ATIVO' };
-  var dias = diasAte(c.vencimento);
-  if (dias <= 0) return { chip: 'gray', label: 'VENCIDO' };
-  if (dias <= 7) return { chip: 'warn', label: 'VENCE EM ' + dias + 'D' };
-  return { chip: 'ok', label: 'ATIVO' };
+/* ---------- PIX Copia e Cola (EMV BR Code + CRC16-CCITT) ---------- */
+function crc16(str){
+  var crc=0xFFFF;
+  for(var i=0;i<str.length;i++){
+    crc^=str.charCodeAt(i)<<8;
+    for(var j=0;j<8;j++){
+      crc=(crc&0x8000)?((crc<<1)^0x1021):(crc<<1);
+      crc&=0xFFFF;
+    }
+  }
+  var s=crc.toString(16).toUpperCase();
+  while(s.length<4) s='0'+s;
+  return s;
 }
-function planoLabel(c) {
-  if (c.plano === 'vitalicio') return '👑 PRO MAX • VITALÍCIO';
-  if (c.plano === 'trial') return 'Trial 30 dias';
-  if (c.plano === 'semestral') return '6 Meses';
-  if (c.plano === 'anual') return '1 Ano';
-  return 'Mensal';
+function pixPayload(o){
+  function clean(s){ return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-z0-9 ]/g,'').trim().toUpperCase(); }
+  function f(id,v){ v=String(v); var len=String(v.length); while(len.length<2) len='0'+len; return id+len+v; }
+  var key=String(o.key||'').trim();
+  var mai=f('00','br.gov.bcb.pix')+f('01',key);
+  var p=[];
+  p.push(f('00','01'));
+  p.push(f('01','12'));
+  p.push(f('26',mai));
+  p.push(f('52','0000'));
+  p.push(f('53','986'));
+  if(o.amount) p.push(f('54',Number(o.amount).toFixed(2)));
+  p.push(f('58','BR'));
+  p.push(f('59', clean(o.name).slice(0,25)||'NEGRETS'));
+  p.push(f('60', clean(o.city).slice(0,15)||'SAO PAULO'));
+  var txid=String(o.txid||'').replace(/[^A-Za-z0-9]/g,'').slice(0,25);
+  p.push(f('62', f('05', txid||'NEG')));
+  var payload=p.join('')+'6304';
+  payload+=crc16(payload);
+  return payload;
 }
-function planoValor(c) {
-  var P = precos();
-  if (c.plano === 'vitalicio') return P.vitalicio;
-  if (c.plano === 'semestral') return P.semestral;
-  if (c.plano === 'anual') return P.anual;
-  if (c.plano === 'trial') return 0;
-  return P.mensal;
-}
-function precos() { return jget('negrets_precos', null) || { mensal: 29.90, semestral: 149.90, anual: 249.90, vitalicio: 497.00 }; }
-function pixcfg() { return jget('negrets_pixcfg', null) || { chave: 'onegretth@gmail.com', nome: 'NEGRET\u2019S', cidade: 'SAO PAULO', whats: '5511999999999' }; }
+G.crc16 = crc16; G.pixPayload = pixPayload;
 
-/* ---------- LOGIN ---------- */
-function tryLogin() {
-  var em = ($('#admEmail').value || '').trim().toLowerCase();
-  var pw = $('#admPass').value || '';
-  if (em === ADMIN_EMAIL && pw === ADMIN_SENHA) {
-    if ($('#admRemember').checked) localStorage.setItem('negrets_adm_remember', '1');
-    sessionStorage.setItem('negrets_adm_session', '1');
-    $('#loginErr').classList.add('hidden');
-    showPanel();
-  } else {
-    var e = $('#loginErr');
-    e.textContent = 'E-mail ou senha incorretos.';
-    e.classList.remove('hidden');
+/* ---------- Dados demo (apenas se localStorage vazio) ---------- */
+function seedCore(){
+  if(!NS.load(K.precos, null)) NS.save(K.precos, {mensal:49.90, semestral:249.90, anual:399.90, vitalicio:997.00});
+  if(!NS.load(K.sup, null)) NS.save(K.sup, {wa:'5511999999999'});
+  if(!NS.load(K.codigos, null)) NS.save(K.codigos, [{codigo:'NEG-DEMO-2026', plano:'Mensal', dias:30, vitalicio:false, usado:false, usadoPor:'', usadoEm:''}]);
+  if(!NS.load(K.users, null)){
+    var t=NS.today();
+    NS.save(K.users, [
+      {id:NS.uid(), nome:'Onegretth', whatsapp:'(11) 99999-0001', email:'onegretth@gmail.com', plano:'Vitalício', vitalicio:true, status:'ATIVO', vencimento:'2036-11-07', pausadoEm:'', canceladoEm:'', deletado:false, deletedEm:'', criado:t, historico:['👑 Plano Vitalício ativado - PRO MAX • VITALÍCIO em '+NS.fmtDate(t)+' por ADM']},
+      {id:NS.uid(), nome:'Cliente João', whatsapp:'(11) 98888-7777', email:'joao@lojaojoao.com', plano:'Mensal', vitalicio:false, status:'ATIVO', vencimento:NS.addDays(t,20), pausadoEm:'', canceladoEm:'', deletado:false, deletedEm:'', criado:t, historico:['Plano Mensal ativado em '+NS.fmtDate(t)+' por ADM']},
+      {id:NS.uid(), nome:'Eliascell Assistência', whatsapp:'(11) 97777-6666', email:'elias@eliascell.com', plano:'Mensal', vitalicio:false, status:'ATIVO', vencimento:NS.addDays(t,12), pausadoEm:'', canceladoEm:'', deletado:false, deletedEm:'', criado:t, historico:['Plano Mensal ativado em '+NS.fmtDate(t)+' por ADM']},
+      {id:NS.uid(), nome:'Mila Boutique', whatsapp:'(21) 96666-5555', email:'mila@milaboutique.com', plano:'6 Meses', vitalicio:false, status:'PAUSADO', vencimento:NS.addDays(t,40), pausadoEm:new Date(Date.now()-2*86400000).toISOString(), canceladoEm:'', deletado:false, deletedEm:'', criado:t, historico:['Sistema pausado por ADM em '+NS.fmtDate(t)]},
+      {id:NS.uid(), nome:'Auto Peças VP', whatsapp:'(31) 95555-4444', email:'vp@autopecasvp.com', plano:'Mensal', vitalicio:false, status:'ATIVO', vencimento:NS.addDays(t,-3), pausadoEm:'', canceladoEm:'', deletado:false, deletedEm:'', criado:t, historico:['Plano Mensal ativado em '+NS.fmtDate(t)+' por ADM']},
+      {id:NS.uid(), nome:'Studio Bella', whatsapp:'(41) 94444-3333', email:'bella@studiobella.com', plano:'Mensal', vitalicio:false, status:'CANCELADO', vencimento:NS.addDays(t,10), pausadoEm:'', canceladoEm:new Date(Date.now()-5*86400000).toISOString(), deletado:false, deletedEm:'', criado:t, historico:['Acesso cancelado por ADM em '+NS.fmtDate(t)+' - dados guardados por 30 dias']}
+    ]);
   }
 }
-function logged() { return sessionStorage.getItem('negrets_adm_session') === '1' || localStorage.getItem('negrets_adm_remember') === '1'; }
-function showPanel() {
-  $('#login').classList.add('hidden');
-  $('#painel').classList.remove('hidden');
-  renderAll();
-}
-function logout() {
-  sessionStorage.removeItem('negrets_adm_session');
-  localStorage.removeItem('negrets_adm_remember');
-  location.reload();
-}
+G.seedCore = seedCore;
 
-/* ---------- RENDER ---------- */
-function renderAll() { renderMetrics(); renderLista(); renderAjudas(); renderPrecosTab(); renderCodigos(); renderPixPend(); }
-function renderMetrics() {
-  var D = db();
-  var cls = D.clientes.filter(function (c) { return !c.apagado; });
-  var ativos = cls.filter(function (c) { return cliStatus(c).label === 'ATIVO' || cliStatus(c).label.indexOf('VENCE') === 0; }).length;
-  var vencendo = cls.filter(function (c) { return c.plano !== 'vitalicio' && c.status !== 'cancelado' && c.status !== 'pausado' && diasAte(c.vencimento) > 0 && diasAte(c.vencimento) <= 7; }).length;
-  var vit = cls.filter(function (c) { return c.plano === 'vitalicio'; }).length;
-  var pend = (jget('negrets_ajudas', []) || []).filter(function (a) { return a.status === 'pendente'; }).length;
-  $('#metrics').innerHTML =
-    '<div class="metric"><div class="lbl">Clientes</div><div class="val gold">' + cls.length + '</div></div>' +
-    '<div class="metric"><div class="lbl">Ativos</div><div class="val green">' + ativos + '</div></div>' +
-    '<div class="metric"><div class="lbl">Vencendo (7 dias)</div><div class="val ' + (vencendo ? 'red' : '') + '">' + vencendo + '</div></div>' +
-    '<div class="metric"><div class="lbl">Vitalícios</div><div class="val teal">' + vit + '</div></div>' +
-    '<div class="metric" style="grid-column:1/-1"><div class="lbl">Ajuda / Pix com falha (pendente)</div><div class="val ' + (pend ? 'red' : '') + '">' + pend + '</div></div>';
+/* ---------- Status OS ---------- */
+var OS_STATUS = ['Entrada','Em análise','Aguardando peça','Pronto','Entregue'];
+var OS_COLOR  = { 'Entrada':'#2563EB', 'Em análise':'#CA8A04', 'Aguardando peça':'#EA580C', 'Pronto':'#16A34A', 'Entregue':'#6B7280' };
+var OS_LABEL  = { 'Entrada':'ENTRADA NA BANCADA', 'Em análise':'EM ANÁLISE', 'Aguardando peça':'AGUARDANDO PEÇA', 'Pronto':'PRONTO PARA RETIRADA', 'Entregue':'ENTREGUE' };
+G.OS_STATUS = OS_STATUS; G.OS_COLOR = OS_COLOR; G.OS_LABEL = OS_LABEL;
+
+})(typeof window!=='undefined'?window:globalThis);
+/* ================= NEGRETS ADM ================= */
+function $(id){ return document.getElementById(id); }
+function show(el){ el.classList.remove('hidden'); }
+function hide(el){ el.classList.add('hidden'); }
+function parseNum(v){ if(typeof v === 'number') return v; if(!v) return 0; var s = String(v).replace(/\s/g,'').replace(/\./g,'').replace(',', '.'); var n = parseFloat(s); return isNaN(n) ? 0 : n; }
+
+var SENHA_ADM = 'negrets123', EMAIL_ADM = 'admin@negrets.com';
+var FILTRO = 'todos', BUSCA = '', TAB = 'usuarios';
+var _acaoUser = null;
+
+function admLog(txt){
+  var h = NS.load(K.hist, []);
+  h.push({quando:NS.nowISO(), txt:txt});
+  if(h.length > 500) h = h.slice(-500);
+  NS.save(K.hist, h);
 }
-function cliFiltrados() {
-  var D = db();
-  var q = buscaTxt.toLowerCase().trim();
-  return D.clientes.filter(function (c) {
-    if (filtro === 'lixeira') return !!c.apagado;
-    if (c.apagado) return false;
-    if (filtro === 'ativos') return cliStatus(c).label === 'ATIVO' || cliStatus(c).label.indexOf('VENCE') === 0;
-    if (filtro === 'pausados') return c.status === 'pausado';
-    if (filtro === 'vencidos') return cliStatus(c).label === 'VENCIDO';
-    if (filtro === 'cancelados') return c.status === 'cancelado';
-    if (filtro === 'vitalicio') return c.plano === 'vitalicio';
-    if (q) return (c.nome || '').toLowerCase().indexOf(q) >= 0 || (c.email || '').toLowerCase().indexOf(q) >= 0 || (c.whats || '').indexOf(q) >= 0;
+function diasRestantes(u){
+  if(u.vitalicio) return 3650;
+  if(!u.vencimento) return 0;
+  return Math.max(0, NS.diffDays(NS.today(), u.vencimento));
+}
+function statusDisplay(u){
+  if(u.deletado) return {s:'VENCIDO', cor:'st-VENCIDO', txt:'LIXEIRA'};
+  if(u.status === 'PAUSADO') return {s:'PAUSADO', cor:'st-PAUSADO', txt:'PAUSADO'};
+  if(u.status === 'CANCELADO') return {s:'CANCELADO', cor:'st-CANCELADO', txt:'CANCELADO'};
+  if(!u.vitalicio && u.vencimento && NS.diffDays(NS.today(), u.vencimento) < 0) return {s:'VENCIDO', cor:'st-VENCIDO', txt:'VENCIDO'};
+  return {s:'ATIVO', cor:'st-ATIVO', txt:'ATIVO'};
+}
+function users(){ return NS.load(K.users, []); }
+function saveUsers(list){ NS.save(K.users, list); }
+function purgarAntigos(){
+  var list = users();
+  var mudou = false;
+  var t = NS.today();
+  list = list.filter(function(u){
+    var dataLim = u.deletado ? u.deletedEm : u.canceladoEm;
+    if(dataLim && NS.diffDays(String(dataLim).slice(0,10), t) > 30){ mudou = true; return false; }
     return true;
   });
+  if(mudou) saveUsers(list);
 }
-function renderLista() {
-  var list = cliFiltrados();
-  if (!list.length) { $('#listaClientes').innerHTML = '<div class="empty">Nenhum cliente nesta visão</div>'; return; }
-  var lixeira = filtro === 'lixeira';
-  $('#listaClientes').innerHTML = list.map(function (c) {
-    var st = cliStatus(c);
-    var dias = c.plano === 'vitalicio' ? VITALICIO_DIAS : Math.max(0, diasAte(c.vencimento));
-    var btns = '';
-    if (lixeira) {
-      btns = '<button class="btn" data-rest="' + c.id + '">Restaurar</button>' +
-             '<button class="btn red" data-delforever="' + c.id + '">Excluir definitivo</button>';
-    } else {
-      if (c.status === 'ativo') btns += '<button class="btn" data-pausar="' + c.id + '">PAUSAR</button>';
-      if (c.status === 'pausado') btns += '<button class="btn green" data-despausar="' + c.id + '">DESPAUSAR</button>';
-      if (c.status !== 'cancelado') btns += '<button class="btn red" data-cancelar="' + c.id + '">CANCELAR</button>';
-      else btns += '<button class="btn green" data-reativar="' + c.id + '">REATIVAR</button>';
-      btns += '<button class="btn" data-venc="' + c.id + '">EDITAR VENCIMENTO</button>' +
-              '<button class="btn" data-dias="' + c.id + '">+ DIAS GRÁTIS / BÔNUS</button>' +
-              '<button class="btn gold" data-plano="' + c.id + '">ATIVAR PLANO</button>' +
-              '<button class="btn green" data-renovar="' + c.id + '">RENOVAR</button>' +
-              '<button class="btn" data-hist="' + c.id + '">VER HISTÓRICO</button>' +
-              '<button class="btn red" data-apagar="' + c.id + '">Mandar pra lixeira</button>';
-    }
-    return '<div class="cli">' +
-      '<div class="top"><div class="nm no-cut">' + esc(c.nome || '—') + '</div><span class="chip ' + st.chip + ' no-cut">' + st.label + '</span></div>' +
-      '<div class="grid">' +
-      '<div><span>WhatsApp</span><b>' + esc(c.whats || '—') + '</b></div>' +
-      '<div style="grid-column:1/-1"><span>E-mail</span><b class="no-cut">' + esc(c.email || '—') + '</b></div>' +
-      '<div><span>Plano</span><b class="no-cut">' + planoLabel(c) + (c.plano !== 'trial' && c.plano !== 'vitalicio' ? ' (' + fmt(planoValor(c)) + ')' : '') + '</b></div>' +
-      '<div><span>Vencimento</span><b>' + fmtDate(c.vencimento) + '</b></div>' +
-      '<div><span>Dias restantes</span><b>' + (c.plano === 'vitalicio' ? '3650 (não expira nunca)' : dias) + '</b></div>' +
-      '<div><span>Cadastrado</span><b>' + fmtDate(c.criado) + '</b></div>' +
-      '</div>' +
-      '<div class="acts">' + btns + '</div>' +
-      '</div>';
-  }).join('');
-  bindCliButtons();
-}
-function bindCliButtons() {
-  var D = db();
-  var find = function (id) { var c = null; D.clientes.forEach(function (x) { if (x.id === id) c = x; }); return c; };
-  $$('#listaClientes [data-pausar]').forEach(function (b) { b.addEventListener('click', function () {
-    var c = find(b.getAttribute('data-pausar'));
-    confirmModal('Pausar o sistema de <b>' + esc(c.nome) + '</b>? O cliente fica travado na hora e o tempo NÃO conta.', function () {
-      c.status = 'pausado'; c.pausaInicio = new Date().toISOString();
-      historicoAdd(c, 'Pausado pelo administrador', 'pausa');
-      saveDb(D); renderAll();
-      toast('Cliente ' + c.nome + ' — Pausado com sucesso', 'ok');
-    }, { titulo: 'PAUSAR sistema', okLabel: 'PAUSAR' });
-  }); });
-  $$('#listaClientes [data-despausar]').forEach(function (b) { b.addEventListener('click', function () {
-    var c = find(b.getAttribute('data-despausar'));
-    confirmModal('Despausar <b>' + esc(c.nome) + '</b>? O tempo pausado não conta: os dias restantes continuam os mesmos.', function () {
-      if (c.pausaInicio) {
-        var pausadoMs = Date.now() - new Date(c.pausaInicio).getTime();
-        if (c.plano !== 'vitalicio') c.vencimento = new Date(new Date(c.vencimento).getTime() + pausadoMs).toISOString();
-        c.pausaTotal = (c.pausaTotal || 0) + pausadoMs;
-        c.pausaInicio = null;
-      }
-      c.status = 'ativo';
-      historicoAdd(c, 'Reativado pelo administrador — tempo pausado não contou', 'despausa');
-      saveDb(D); renderAll();
-      toast('Cliente ' + c.nome + ' — Despausado. Dias restantes: ' + (c.plano === 'vitalicio' ? '3650' : Math.max(0, diasAte(c.vencimento))), 'ok');
-    }, { titulo: 'DESPAUSAR', okLabel: 'DESPAUSAR' });
-  }); });
-  $$('#listaClientes [data-cancelar]').forEach(function (b) { b.addEventListener('click', function () {
-    var c = find(b.getAttribute('data-cancelar'));
-    confirmModal('Cancelar o acesso de <b>' + esc(c.nome) + '</b>? Os dados ficam salvos por 30 dias para reativação.', function () {
-      c.status = 'cancelado'; c.canceladoEm = new Date().toISOString();
-      historicoAdd(c, 'Acesso cancelado pelo administrador — dados retidos por 30 dias', 'cancelado');
-      saveDb(D); renderAll();
-      toast('Cliente ' + c.nome + ' — Cancelado', 'ok');
-    }, { titulo: 'CANCELAR acesso', okLabel: 'CANCELAR' });
-  }); });
-  $$('#listaClientes [data-reativar]').forEach(function (b) { b.addEventListener('click', function () {
-    var c = find(b.getAttribute('data-reativar'));
-    confirmModal('Reativar <b>' + esc(c.nome) + '</b>? Volta para ATIVO (se vencido, use RENOVAR para +30 dias).', function () {
-      c.status = 'ativo'; c.canceladoEm = null;
-      historicoAdd(c, 'Acesso reativado pelo administrador', 'reativado');
-      saveDb(D); renderAll();
-      toast('Cliente ' + c.nome + ' — Reativado', 'ok');
-    }, { titulo: 'REATIVAR', okLabel: 'REATIVAR' });
-  }); });
-  $$('#listaClientes [data-venc]').forEach(function (b) { b.addEventListener('click', function () {
-    var c = find(b.getAttribute('data-venc'));
-    var m = openModal(
-      '<h3 class="no-cut">Editar vencimento — ' + esc(c.nome) + '</h3>' +
-      '<p class="mut no-cut" style="font-size:12.5px">Vencimento atual: <b>' + fmtDate(c.vencimento) + '</b></p>' +
-      '<label class="f">Nova data de vencimento</label><input id="nvData" class="inp" type="date" value="' + (String(c.vencimento || '').substring(0, 10)) + '">' +
-      '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn gold" id="nvOk">Salvar</button></div></div>',
-      { center: true });
-    m.ov.querySelector('#nvOk').addEventListener('click', function () {
-      var v = m.ov.querySelector('#nvData').value;
-      if (!v) { toast('Escolha uma data', 'err'); return; }
-      c.vencimento = new Date(v + 'T23:59:59').toISOString();
-      historicoAdd(c, 'Vencimento alterado pelo ADM para ' + fmtDate(c.vencimento), 'plano');
-      saveDb(D); m.close(); renderAll();
-      toast('Vencimento de ' + c.nome + ' alterado para ' + fmtDate(c.vencimento), 'ok');
-    });
-  }); });
-  $$('#listaClientes [data-dias]').forEach(function (b) { b.addEventListener('click', function () {
-    var c = find(b.getAttribute('data-dias'));
-    var m = openModal(
-      '<h3 class="no-cut">Adicionar dias grátis / bônus — ' + esc(c.nome) + '</h3>' +
-      '<p class="mut no-cut" style="font-size:12.5px">Ex: comprou 30 dias e ganhou +30 no sorteio. Vencimento atual: <b>' + fmtDate(c.vencimento) + '</b></p>' +
-      '<label class="f">+ Dias</label><input id="adDias" class="inp" inputmode="numeric" placeholder="30">' +
-      '<label class="f">Motivo (histórico)</label><input id="adMot" class="inp" value="Bônus Sorteio">' +
-      '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn gold" id="adOk">Adicionar</button></div></div>',
-      { center: true });
-    m.ov.querySelector('#adOk').addEventListener('click', function () {
-      var dias = parseInt(m.ov.querySelector('#adDias').value, 10) || 0;
-      var mot = (m.ov.querySelector('#adMot').value || 'Bônus').trim();
-      if (dias <= 0) { toast('Informe a quantidade de dias', 'err'); return; }
-      var base = Math.max(Date.now(), new Date(c.vencimento || Date.now()).getTime());
-      c.vencimento = new Date(base + dias * 86400000).toISOString();
-      historicoAdd(c, mot + ': +' + dias + ' dias em ' + fmtDate(new Date().toISOString()) + ' por ADM', 'bonus', dias);
-      saveDb(D); m.close(); renderAll();
-      toast('+' + dias + ' dias adicionados — ' + c.nome + ' até ' + fmtDate(c.vencimento), 'ok');
-    });
-  }); });
-  $$('#listaClientes [data-plano]').forEach(function (b) { b.addEventListener('click', function () {
-    var c = find(b.getAttribute('data-plano'));
-    var m = openModal(
-      '<h3 class="no-cut">Ativar plano — ' + esc(c.nome) + '</h3>' +
-      '<label class="f">Escolher plano</label>' +
-      '<select id="plSel" class="inp"><option value="trial">Ativar Trial 30 dias grátis</option><option value="mensal">Ativar 30 dias (Mensal)</option><option value="semestral">Ativar 6 Meses (180 dias)</option><option value="anual">Ativar 1 Ano (365 dias)</option><option value="vitalicio">Ativar Vitalício (PRO MAX • VITALÍCIO)</option></select>' +
-      '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn gold" id="plOk">Confirmar</button></div></div>',
-      { center: true });
-    m.ov.querySelector('#plOk').addEventListener('click', function () {
-      var p = m.ov.querySelector('#plSel').value;
-      var agora = new Date();
-      if (p === 'vitalicio') {
-        c.plano = 'vitalicio'; c.status = 'ativo';
-        c.vencimento = new Date(agora.getTime() + VITALICIO_DIAS * 86400000).toISOString();
-        historicoAdd(c, 'Plano 👑 PRO MAX • VITALÍCIO ativado por ADM — 3650 dias (' + fmtDate(c.vencimento) + ') — Não expira nunca', 'plano');
-      } else {
-        var dias = p === 'semestral' ? 180 : p === 'anual' ? 365 : 30;
-        var nome = p === 'semestral' ? '6 Meses' : p === 'anual' ? '1 Ano' : p === 'trial' ? 'Trial 30 dias' : 'Mensal';
-        c.plano = (p === 'trial') ? 'trial' : p;
-        c.status = 'ativo';
-        var base = Math.max(agora.getTime(), new Date(c.vencimento || agora).getTime());
-        c.vencimento = new Date(base + dias * 86400000).toISOString();
-        historicoAdd(c, 'Plano ' + nome + ' ativado por ADM (+' + dias + ' dias até ' + fmtDate(c.vencimento) + ')', 'plano');
-      }
-      saveDb(D); m.close(); renderAll();
-      toast('Cliente ' + c.nome + ' — Plano ativado até ' + fmtDate(c.vencimento), 'ok');
-    });
-  }); });
-  $$('#listaClientes [data-renovar]').forEach(function (b) { b.addEventListener('click', function () {
-    var c = find(b.getAttribute('data-renovar'));
-    confirmModal('Renovar <b>' + esc(c.nome) + '</b> com +30 dias a partir de ' + (diasAte(c.vencimento) > 0 ? fmtDate(c.vencimento) : 'hoje') + '?', function () {
-      var base = Math.max(Date.now(), new Date(c.vencimento || Date.now()).getTime());
-      c.vencimento = new Date(base + 30 * 86400000).toISOString();
-      c.status = 'ativo';
-      if (c.plano === 'trial') c.plano = 'mensal';
-      historicoAdd(c, 'Renovação por ADM: +30 dias até ' + fmtDate(c.vencimento), 'plano');
-      saveDb(D); renderAll();
-      toast('Cliente ' + c.nome + ' — Renovado até ' + fmtDate(c.vencimento), 'ok');
-    }, { titulo: 'RENOVAR', okLabel: 'Renovar +30 dias' });
-  }); });
-  $$('#listaClientes [data-hist]').forEach(function (b) { b.addEventListener('click', function () {
-    var c = find(b.getAttribute('data-hist'));
-    var rows = (c.historico || []).slice().reverse().map(function (h) {
-      return '<div class="histrow no-cut"><b>' + fmtDate(h.quando, true) + '</b> — ' + esc(h.texto) + '</div>';
-    }).join('') || '<div class="empty">Sem histórico</div>';
-    openModal('<h3 class="no-cut">Histórico — ' + esc(c.nome) + '</h3>' + rows +
-      '<div class="box-actions"><div class="btn-row"><button class="btn" data-close>Fechar</button></div></div>');
-  }); });
-  $$('#listaClientes [data-apagar]').forEach(function (b) { b.addEventListener('click', function () {
-    var c = find(b.getAttribute('data-apagar'));
-    confirmModal('Mandar <b>' + esc(c.nome) + '</b> para a lixeira? Você pode restaurar depois.', function () {
-      c.apagado = true; c.apagadoEm = new Date().toISOString();
-      saveDb(D); renderAll();
-      toast('Cliente ' + c.nome + ' — movido para a lixeira', 'ok');
-    }, { titulo: 'Lixeira', okLabel: 'Mandar pra lixeira' });
-  }); });
-  $$('#listaClientes [data-rest]').forEach(function (b) { b.addEventListener('click', function () {
-    var c = find(b.getAttribute('data-rest'));
-    c.apagado = false; c.apagadoEm = null;
-    saveDb(D); renderAll();
-    toast('Cliente ' + c.nome + ' — restaurado', 'ok');
-  }); });
-  $$('#listaClientes [data-delforever]').forEach(function (b) { b.addEventListener('click', function () {
-    var id = b.getAttribute('data-delforever');
-    var c = find(id);
-    confirmModal('Excluir <b>' + esc(c ? c.nome : '') + '</b> PARA SEMPRE? Não dá para desfazer.', function () {
-      var D2 = db();
-      D2.clientes = D2.clientes.filter(function (x) { return x.id !== id; });
-      saveDb(D2); renderAll();
-      toast('Cliente excluído definitivamente', 'ok');
-    }, { titulo: 'Excluir definitivo', okLabel: 'Excluir para sempre' });
-  }); });
-}
-/* ---------- ABA AJUDA / PIX COM FALHA ---------- */
-function renderAjudas() {
-  var lista = jget('negrets_ajudas', []) || [];
-  if (!lista.length) { $('#listaAjudas').innerHTML = '<div class="empty">Nenhum pedido de ajuda</div>'; return; }
-  $('#listaAjudas').innerHTML = lista.map(function (a) {
-    var chip = a.status === 'pendente' ? '<span class="chip warn">PENDENTE</span>' : a.status === 'ativado' ? '<span class="chip ok">ATIVADO</span>' : '<span class="chip bad">RECUSADO</span>';
-    var btns = '';
-    if (a.status === 'pendente') {
-      btns = '<button class="btn green" data-aman="' + a.id + '">ATIVAR MANUALMENTE</button>' +
-             '<button class="btn red" data-arec="' + a.id + '">RECUSAR</button>';
-    }
-    return '<div class="ajuda">' +
-      '<div class="top" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div class="nm no-cut" style="font-weight:800;font-size:15px">' + esc(a.nome) + '</div>' + chip + '</div>' +
-      '<div class="grid">' +
-      '<div style="grid-column:1/-1"><span>E-mail</span><b class="no-cut">' + esc(a.email) + '</b></div>' +
-      '<div><span>Valor pago</span><b>' + fmt(a.valor) + '</b></div>' +
-      '<div style="grid-column:1/-1"><span>Data/hora do pagamento</span><b>' + esc((function (s) { var d = new Date(s); return isNaN(d) ? String(s || '—') : fmtDate(d.toISOString(), true); })(a.dataPagamento)) + '</b></div>' +
-      '<div><span>Enviado em</span><b>' + fmtDate(a.criado, true) + '</b></div>' +
-      '</div>' +
-      (a.comprovante ? '<img class="comp" src="' + a.comprovante + '" alt="Comprovante" data-aver="' + a.id + '">' : '<div class="empty">Sem comprovante anexado</div>') +
-      (a.motivoRecusa ? '<div class="grid"><div style="grid-column:1/-1"><span>Motivo da recusa</span><b class="no-cut">' + esc(a.motivoRecusa) + '</b></div></div>' : '') +
-      '<div class="acts btn-row">' + btns + '</div>' +
-      '</div>';
-  }).join('');
-  $$('#listaAjudas [data-aver]').forEach(function (img) { img.addEventListener('click', function () {
-    var a = (jget('negrets_ajudas', []) || []).filter(function (x) { return x.id === img.getAttribute('data-aver'); })[0];
-    if (!a) return;
-    openModal('<h3 class="no-cut">Comprovante — ' + esc(a.nome) + '</h3><img src="' + a.comprovante + '" style="width:100%;border-radius:10px;background:#fff">' +
-      '<div class="box-actions"><div class="btn-row"><button class="btn" data-close>Fechar</button></div></div>');
-  }); });
-  $$('#listaAjudas [data-aman]').forEach(function (b) { b.addEventListener('click', function () {
-    var a = (jget('negrets_ajudas', []) || []).filter(function (x) { return x.id === b.getAttribute('data-aman'); })[0];
-    if (!a) return;
-    var m = openModal(
-      '<h3 class="no-cut">Ativar manualmente — ' + esc(a.nome) + '</h3>' +
-      '<p class="mut no-cut" style="font-size:12.5px">Confirme após conferir o Pix no banco. Valor informado: <b>' + fmt(a.valor) + '</b> • e-mail: <b>' + esc(a.email) + '</b></p>' +
-      '<label class="f">Plano</label>' +
-      '<select id="amPlano" class="inp"><option value="mensal">Ativar 30 dias (Mensal)</option><option value="semestral">6 Meses (180 dias)</option><option value="anual">1 Ano (365 dias)</option><option value="vitalicio">Ativar Vitalício (PRO MAX • VITALÍCIO)</option></select>' +
-      '<label class="f">Dias bônus (opcional)</label><input id="amBonus" class="inp" inputmode="numeric" placeholder="0">' +
-      '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn green" id="amOk">Confirmar ativação</button></div></div>',
-      { center: true });
-    m.ov.querySelector('#amOk').addEventListener('click', function () {
-      var plano = m.ov.querySelector('#amPlano').value;
-      var bonus = parseInt(m.ov.querySelector('#amBonus').value, 10) || 0;
-      var D = db(), c = null;
-      D.clientes.forEach(function (x) { if ((x.email || '').toLowerCase() === (a.email || '').toLowerCase()) c = x; });
-      if (!c) {
-        c = { id: uid('cli'), nome: a.nome, email: (a.email || '').toLowerCase(), whats: '', plano: 'trial', status: 'ativo', vencimento: new Date().toISOString(), pausaInicio: null, pausaTotal: 0, criado: new Date().toISOString(), historico: [] };
-        D.clientes.push(c);
-      }
-      var agora = new Date();
-      if (plano === 'vitalicio') {
-        c.plano = 'vitalicio'; c.status = 'ativo';
-        c.vencimento = new Date(agora.getTime() + VITALICIO_DIAS * 86400000).toISOString();
-      } else {
-        var dias = plano === 'semestral' ? 180 : plano === 'anual' ? 365 : 30;
-        c.plano = plano; c.status = 'ativo';
-        var base = Math.max(agora.getTime(), new Date(c.vencimento || agora).getTime());
-        c.vencimento = new Date(base + dias * 86400000).toISOString();
-      }
-      if (bonus > 0) c.vencimento = new Date(new Date(c.vencimento).getTime() + bonus * 86400000).toISOString();
-      historicoAdd(c, 'Ativação manual por ADM em ' + fmtDate(new Date().toISOString()) + ' - Pix comprovante anexo - Motivo: falha automática do Pix' + (bonus > 0 ? ' + ' + bonus + ' dias bônus' : ''), 'ativacao_manual');
-      var lista2 = jget('negrets_ajudas', []) || [];
-      lista2.forEach(function (x) { if (x.id === a.id) { x.status = 'ativado'; x.planoAtivado = plano; } });
-      jset('negrets_ajudas', lista2);
-      saveDb(D); m.close(); renderAll();
-      toast('Cliente ' + c.nome + ' — Ativado manualmente (' + (plano === 'vitalicio' ? 'Vitalício' : plano) + '). Cliente recebe aviso na hora.', 'ok');
-    });
-  }); });
-  $$('#listaAjudas [data-arec]').forEach(function (b) { b.addEventListener('click', function () {
-    var a = (jget('negrets_ajudas', []) || []).filter(function (x) { return x.id === b.getAttribute('data-arec'); })[0];
-    if (!a) return;
-    var m = openModal(
-      '<h3 class="no-cut">Recusar pedido — ' + esc(a.nome) + '</h3>' +
-      '<label class="f">Motivo</label><input id="rcMot" class="inp" placeholder="Ex: comprovante inválido">' +
-      '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn gold" id="rcOk">Recusar</button></div></div>',
-      { center: true });
-    m.ov.querySelector('#rcOk').addEventListener('click', function () {
-      var mot = (m.ov.querySelector('#rcMot').value || '').trim() || 'Sem motivo informado';
-      var lista2 = jget('negrets_ajudas', []) || [];
-      lista2.forEach(function (x) { if (x.id === a.id) { x.status = 'recusado'; x.motivoRecusa = mot; } });
-      jset('negrets_ajudas', lista2);
-      m.close(); renderAll();
-      toast('Pedido recusado — o cliente verá o motivo', 'ok');
-    });
-  }); });
+function histUserAdd(u, txt){
+  u.historico = u.historico || [];
+  u.historico.push(txt + ' por ADM em ' + NS.fmtDate(NS.today()));
 }
 
-/* ---------- ABA PREÇOS ---------- */
-function renderPrecosTab() {
-  var P = precos(), cfg = pixcfg();
-  $('#prMensal').value = P.mensal;
-  $('#prSemestral').value = P.semestral;
-  $('#prAnual').value = P.anual;
-  $('#prVitalicio').value = P.vitalicio;
-  $('#pxChave').value = cfg.chave || '';
-  $('#pxNome').value = cfg.nome || '';
-  $('#pxCidade').value = cfg.cidade || '';
-  $('#pxWhats').value = cfg.whats || '';
-}
-function renderCodigos() {
-  var D = db();
-  var rows = D.codigos.slice().reverse().slice(0, 20).map(function (cd) {
-    return '<div class="codrow"><code>' + esc(cd.codigo) + '</code><span class="mut" style="font-size:11.5px">' + esc(cd.plano) + '</span>' +
-      (cd.usado ? '<span class="chip gray" style="margin-left:auto">usado</span>' : '<button class="btn tiny" data-cod="' + esc(cd.codigo) + '" style="margin-left:auto">Copiar</button>') + '</div>';
-  }).join('') || '<div class="empty">Nenhum código gerado</div>';
-  $('#listaCodigos').innerHTML = rows;
-  $$('#listaCodigos [data-cod]').forEach(function (b) { b.addEventListener('click', function () {
-    var cod = b.getAttribute('data-cod');
-    var ok = false;
-    try { var ta = document.createElement('textarea'); ta.value = cod; document.body.appendChild(ta); ta.select(); ok = document.execCommand('copy'); ta.remove(); } catch (e) {}
-    if (!ok && navigator.clipboard) { navigator.clipboard.writeText(cod); ok = true; }
-    toast(ok ? 'Código copiado: ' + cod : 'Código: ' + cod, ok ? 'ok' : 'err');
-  }); });
-}
-function renderPixPend() {
-  var lista = (jget('negrets_pix', []) || []).filter(function (p) { return p.status === 'pendente'; }).slice(0, 15);
-  if (!lista.length) { $('#listaPixPend').innerHTML = '<div class="empty">Nenhum Pix pendente</div>'; return; }
-  $('#listaPixPend').innerHTML = lista.map(function (p) {
-    return '<div class="codrow"><div style="flex:1;min-width:140px"><b class="no-cut">' + esc(p.plano) + ' — ' + fmt(p.valor) + '</b><br><span class="mut" style="font-size:11px">' + fmtDate(p.criado, true) + ' • ' + esc(p.email || '') + '</span></div>' +
-      '<button class="btn tiny green" data-pixok="' + p.id + '">Confirmar pagamento</button>' +
-      '<button class="btn tiny red" data-pixno="' + p.id + '">Cancelar</button></div>';
-  }).join('');
-  $$('#listaPixPend [data-pixok]').forEach(function (b) { b.addEventListener('click', function () {
-    var id = b.getAttribute('data-pixok');
-    var lista2 = jget('negrets_pix', []) || [];
-    lista2.forEach(function (x) { if (x.id === id) x.status = 'pago'; });
-    jset('negrets_pix', lista2);
-    renderAll();
-    toast('Pix confirmado — o cliente ativa automaticamente em até 15 segundos', 'ok');
-  }); });
-  $$('#listaPixPend [data-pixno]').forEach(function (b) { b.addEventListener('click', function () {
-    var id = b.getAttribute('data-pixno');
-    var lista2 = jget('negrets_pix', []) || [];
-    lista2 = lista2.filter(function (x) { return x.id !== id; });
-    jset('negrets_pix', lista2);
-    renderAll();
-    toast('Pix cancelado', 'ok');
-  }); });
-}
-
-/* ---------- CSV ---------- */
-function exportCsv() {
-  var D = db();
-  var rows = [['Nome loja', 'WhatsApp', 'E-mail', 'Plano', 'Status', 'Vencimento', 'Dias restantes']];
-  D.clientes.filter(function (c) { return !c.apagado; }).forEach(function (c) {
-    var st = cliStatus(c);
-    rows.push([
-      (c.nome || '').replace(/;/g, ','), (c.whats || ''), (c.email || ''),
-      planoLabel(c).replace('👑 ', ''), st.label, fmtDate(c.vencimento),
-      String(c.plano === 'vitalicio' ? 3650 : Math.max(0, diasAte(c.vencimento)))
-    ]);
-  });
-  var csv = '\ufeff' + rows.map(function (r) { return r.join(';'); }).join('\r\n');
-  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'negrets-clientes-' + new Date().toISOString().substring(0, 10) + '.csv';
-  a.click();
-  toast('CSV exportado', 'ok');
-}
-
-/* ---------- NOVO CLIENTE ---------- */
-function modalNovoCliente() {
-  var m = openModal(
-    '<h3 class="no-cut">Novo cliente</h3>' +
-    '<label class="f">Nome da loja *</label><input id="ncNome" class="inp">' +
-    '<label class="f">E-mail *</label><input id="ncEmail" class="inp" type="email" inputmode="email">' +
-    '<label class="f">WhatsApp</label><input id="ncWhats" class="inp" type="tel" inputmode="tel">' +
-    '<label class="f">Plano</label><select id="ncPlano" class="inp"><option value="trial">Trial 30 dias grátis</option><option value="mensal">Mensal — 30 dias</option><option value="semestral">6 Meses — 180 dias</option><option value="anual">1 Ano — 365 dias</option><option value="vitalicio">Vitalício (PRO MAX • VITALÍCIO)</option></select>' +
-    '<div class="box-actions"><div class="btn-row"><button class="btn red" data-close>Cancelar</button><button class="btn gold" id="ncOk">Salvar</button></div></div>',
-    { center: true });
-  m.ov.querySelector('#ncOk').addEventListener('click', function () {
-    var nome = (m.ov.querySelector('#ncNome').value || '').trim();
-    var email = (m.ov.querySelector('#ncEmail').value || '').trim().toLowerCase();
-    if (!nome || !email) { toast('Nome e e-mail obrigatórios', 'err'); return; }
-    var D = db();
-    var dup = D.clientes.filter(function (x) { return (x.email || '').toLowerCase() === email; })[0];
-    if (dup) { toast('Já existe cliente com este e-mail', 'err'); return; }
-    var plano = m.ov.querySelector('#ncPlano').value;
-    var agora = new Date();
-    var venc = plano === 'vitalicio' ? new Date(agora.getTime() + VITALICIO_DIAS * 86400000).toISOString() : new Date(agora.getTime() + 30 * 86400000).toISOString();
-    var c = { id: uid('cli'), nome: nome, email: email, whats: (m.ov.querySelector('#ncWhats').value || '').trim(), plano: plano, status: 'ativo', vencimento: venc, pausaInicio: null, pausaTotal: 0, criado: agora.toISOString(), historico: [{ quando: agora.toISOString(), texto: 'Cliente criado pelo ADM — plano ' + plano + ' até ' + fmtDate(venc) }] };
-    D.clientes.unshift(c);
-    saveDb(D);
-    m.close(); renderAll();
-    toast('Cliente ' + nome + ' criado até ' + fmtDate(venc), 'ok');
-  });
-}
-
-/* ---------- INIT ---------- */
-function init() {
-  $('#btnEye').addEventListener('click', function () {
-    var p = $('#admPass');
-    p.type = p.type === 'password' ? 'text' : 'password';
-  });
-  $('#btnEntrar').addEventListener('click', tryLogin);
-  $('#admPass').addEventListener('keydown', function (e) { if (e.key === 'Enter') tryLogin(); });
-  $('#btnSairAdm').addEventListener('click', function () {
-    confirmModal('Sair do painel?', logout, { titulo: 'Sair', okLabel: 'Sair' });
-  });
-  $('#btnAtualizar').addEventListener('click', function () { renderAll(); toast('Lista atualizada', 'ok'); });
-  $$('#filtros .chipf').forEach(function (b) { b.addEventListener('click', function () {
-    $$('#filtros .chipf').forEach(function (x) { x.classList.remove('on'); });
-    b.classList.add('on');
-    filtro = b.getAttribute('data-f');
-    renderLista();
-  }); });
-  $('#busca').addEventListener('input', function () { buscaTxt = this.value; renderLista(); });
-  $$('.tab').forEach(function (b) { b.addEventListener('click', function () {
-    $$('.tab').forEach(function (x) { x.classList.remove('on'); });
-    b.classList.add('on');
-    tabAtual = b.getAttribute('data-tab');
-    $('#tabClientes').classList.toggle('hidden', tabAtual !== 'clientes');
-    $('#tabAjuda').classList.toggle('hidden', tabAtual !== 'ajuda');
-    $('#tabPrecos').classList.toggle('hidden', tabAtual !== 'precos');
-    renderAll();
-  }); });
-  $('#btnCsv').addEventListener('click', exportCsv);
-  $('#btnNovoCli').addEventListener('click', modalNovoCliente);
-  $('#btnEsvaziar').addEventListener('click', function () {
-    var D = db();
-    var lixeira = D.clientes.filter(function (c) { return c.apagado; });
-    if (!lixeira.length) { toast('Lixeira já está vazia', 'err'); return; }
-    confirmModal('Excluir <b>' + lixeira.length + '</b> cliente(s) da lixeira para sempre?', function () {
-      var D2 = db();
-      D2.clientes = D2.clientes.filter(function (c) { return !c.apagado; });
-      saveDb(D2); renderAll();
-      toast('Lixeira esvaziada', 'ok');
-    }, { titulo: 'Esvaziar lixeira', okLabel: 'Esvaziar' });
-  });
-  $('#btnSalvarPrecos').addEventListener('click', function () {
-    jset('negrets_precos', {
-      mensal: parseMoney($('#prMensal').value),
-      semestral: parseMoney($('#prSemestral').value),
-      anual: parseMoney($('#prAnual').value),
-      vitalicio: parseMoney($('#prVitalicio').value)
-    });
-    toast('Preços salvos', 'ok');
-    renderAll();
-  });
-  $('#btnSalvarPix').addEventListener('click', function () {
-    jset('negrets_pixcfg', {
-      chave: ($('#pxChave').value || '').trim(),
-      nome: ($('#pxNome').value || '').trim() || 'NEGRET\u2019S',
-      cidade: ($('#pxCidade').value || '').trim() || 'SAO PAULO',
-      whats: ($('#pxWhats').value || '').trim() || '5511999999999'
-    });
-    toast('Configuração Pix / Suporte salva', 'ok');
-  });
-  $('#btnGerarCod').addEventListener('click', function () {
-    var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    function bloco() { var s = ''; for (var i = 0; i < 4; i++) s += chars[Math.floor(Math.random() * chars.length)]; return s; }
-    var cod = 'NEG-' + bloco() + '-' + bloco();
-    var D = db();
-    D.codigos.push({ codigo: cod, plano: $('#codPlano').value, usado: false, criado: new Date().toISOString() });
-    saveDb(D);
-    renderCodigos();
-    toast('Código gerado: ' + cod + ' (' + $('#codPlano').value + ')', 'ok');
-  });
-  // seeds básicos do ADM (se abrir antes do cliente)
-  var D = db();
-  if (!D.clientes.length && !jget('negrets_adm_seed', false)) {
-    var agora = new Date().toISOString();
-    D.clientes = [
-      { id: uid('cli'), nome: 'João Celulares', email: 'joao@celulares.com', whats: '11988887777', plano: 'mensal', status: 'ativo', vencimento: new Date(Date.now() + 12 * 86400000).toISOString(), pausaInicio: null, pausaTotal: 0, criado: agora, historico: [{ quando: agora, texto: 'Cliente criado (demonstração) — plano Mensal' }] },
-      { id: uid('cli'), nome: 'Maria Acessórios', email: 'maria@acessorios.com', whats: '11977776666', plano: 'anual', status: 'pausado', vencimento: new Date(Date.now() + 45 * 86400000).toISOString(), pausaInicio: agora, pausaTotal: 0, criado: agora, historico: [{ quando: agora, texto: 'Cliente criado (demonstração) — plano 1 Ano' }, { quando: agora, texto: 'Pausado pelo administrador (demonstração)', tipo: 'pausa' }] },
-      { id: uid('cli'), nome: 'Pedro Tech', email: 'pedro@tech.com', whats: '11966665555', plano: 'vitalicio', status: 'ativo', vencimento: new Date(Date.now() + VITALICIO_DIAS * 86400000).toISOString(), pausaInicio: null, pausaTotal: 0, criado: agora, historico: [{ quando: agora, texto: 'Cliente criado (demonstração) — 👑 PRO MAX • VITALÍCIO' }] }
-    ];
-    if (!(jget('negrets_ajudas', []) || []).length) {
-      jset('negrets_ajudas', [{ id: uid('aj'), nome: 'Lucas Pereira', email: 'lucas@p.com', valor: 29.90, dataPagamento: new Date().toISOString(), comprovante: null, criado: agora, status: 'pendente' }]);
-    }
-    jset('negrets_adm_seed', true);
-    saveDb(D);
+/* ---------- Login ---------- */
+function login(){
+  var em = $('lg-email').value.trim().toLowerCase();
+  var sn = $('lg-senha').value;
+  if(em === EMAIL_ADM && sn === SENHA_ADM){
+    sessionStorage.setItem('negrets_adm', '1');
+    abrirPainel();
+  } else {
+    NS.toast('E-mail ou senha incorretos', 'err');
   }
-  if (logged()) showPanel();
-  // atualização ao vivo sem recarregar
-  window.addEventListener('storage', function (e) { if (e && e.key && e.key.indexOf('negrets') === 0) renderAll(); });
-  setInterval(function () { if (!$('.modal')) renderAll(); }, 10000);
 }
-document.addEventListener('DOMContentLoaded', init);
+function abrirPainel(){
+  hide($('login-wrap')); show($('painel'));
+  renderAll();
+}
+
+/* ---------- Render geral ---------- */
+function renderAll(){
+  purgarAntigos();
+  renderMetricas();
+  renderTab();
+}
+function renderTab(){
+  ['usuarios','pix','ajuda','precos','hist'].forEach(function(t){ $('tab-' + t).classList.toggle('hidden', TAB !== t); });
+  document.querySelectorAll('.tab').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-tab') === TAB); });
+  if(TAB === 'usuarios') renderUsuarios();
+  if(TAB === 'pix') renderPix();
+  if(TAB === 'ajuda') renderAjuda();
+  if(TAB === 'precos') renderPrecos();
+  if(TAB === 'hist') renderHist();
+  var pendPix = NS.load(K.pixReq, []).filter(function(r){ return r.status === 'AGUARDANDO'; }).length;
+  var pendAj = NS.load(K.ajuda, []).filter(function(r){ return r.status === 'PENDENTE'; }).length;
+  $('dot-pix').classList.toggle('hidden', pendPix === 0);
+  $('dot-ajuda').classList.toggle('hidden', pendAj === 0);
+}
+function renderMetricas(){
+  var list = users().filter(function(u){ return !u.deletado; });
+  var ativos = list.filter(function(u){ return statusDisplay(u).s === 'ATIVO'; }).length;
+  var venc7 = list.filter(function(u){
+    return !u.vitalicio && u.vencimento && statusDisplay(u).s === 'ATIVO' && NS.diffDays(NS.today(), u.vencimento) <= 7;
+  }).length;
+  var pixPend = NS.load(K.pixReq, []).filter(function(r){ return r.status === 'AGUARDANDO'; }).length;
+  var ajPend = NS.load(K.ajuda, []).filter(function(r){ return r.status === 'PENDENTE'; }).length;
+  $('metricas').innerHTML =
+    '<div class="stat"><div class="sn">' + list.length + '</div><div class="sl">Usuários totais</div></div>' +
+    '<div class="stat"><div class="sn">' + ativos + '</div><div class="sl">Ativos</div></div>' +
+    '<div class="stat"><div class="sn">' + venc7 + '</div><div class="sl">Vencendo em 7 dias</div></div>' +
+    '<div class="stat"><div class="sn">' + pixPend + '</div><div class="sl">Pix aguardando</div></div>' +
+    '<div class="stat"><div class="sn">' + ajPend + '</div><div class="sl">Ajuda pendente</div></div>';
+}
+
+/* ---------- Usuários ---------- */
+function filtroLista(){
+  var list = users();
+  if(FILTRO === 'lixeira') list = list.filter(function(u){ return u.deletado; });
+  else {
+    list = list.filter(function(u){ return !u.deletado; });
+    if(FILTRO === 'ativos') list = list.filter(function(u){ return statusDisplay(u).s === 'ATIVO'; });
+    if(FILTRO === 'pendentes') list = list.filter(function(u){ return statusDisplay(u).s !== 'ATIVO' || (!u.vitalicio && u.vencimento && NS.diffDays(NS.today(), u.vencimento) <= 7); });
+    if(FILTRO === 'vitalicio') list = list.filter(function(u){ return u.vitalicio; });
+  }
+  if(BUSCA){
+    var q = BUSCA.toLowerCase();
+    list = list.filter(function(u){ return (u.nome||'').toLowerCase().indexOf(q) >= 0 || (u.email||'').toLowerCase().indexOf(q) >= 0 || (u.whatsapp||'').indexOf(q) >= 0; });
+  }
+  return list;
+}
+function renderUsuarios(){
+  var list = filtroLista();
+  $('us-lista').innerHTML = list.length ? list.map(function(u){
+    var st = statusDisplay(u);
+    var dias = diasRestantes(u);
+    var plan = u.vitalicio ? 'Vitalício 👑' : (u.plano || '—');
+    return '<div class="ucard"><div class="uh">' +
+      '<span class="unome">' + NS.esc(u.nome) + '</span>' +
+      '<span class="chip ' + st.cor + '">' + st.txt + '</span>' +
+      (u.vitalicio ? '<span class="chip st-ATIVO">👑 PRO MAX</span>' : '') + '</div>' +
+      '<div class="ulinha"><span>WhatsApp:</span><b>' + NS.esc(u.whatsapp||'—') + '</b></div>' +
+      '<div class="ulinha"><span>E-mail:</span><b>' + NS.esc(u.email||'—') + '</b></div>' +
+      '<div class="ulinha"><span>Plano:</span><b>' + NS.esc(plan) + '</b></div>' +
+      '<div class="ulinha"><span>Vencimento:</span><b>' + (u.vitalicio ? '07/11/2036 (nunca expira)' : NS.fmtDate(u.vencimento)) + '</b></div>' +
+      '<div class="ulinha"><span>Dias restantes:</span><b>' + dias + '</b></div>' +
+      '<div class="btn-row mt8">' +
+      (u.deletado
+        ? '<button class="btn small green" data-act="restaurar:' + u.id + '">RESTAURAR</button><button class="btn small red" data-act="excluir-para-sempre:' + u.id + '">EXCLUIR PARA SEMPRE</button>'
+        : (u.status === 'PAUSADO'
+          ? '<button class="btn small" data-act="despausar:' + u.id + '">DESPAUSAR</button>'
+          : '<button class="btn small" data-act="pausar:' + u.id + '">PAUSAR</button>') +
+          '<button class="btn small red" data-act="cancelar:' + u.id + '">CANCELAR</button>' +
+          '<button class="btn small" data-act="venc:' + u.id + '">EDITAR VENCIMENTO</button>' +
+          '<button class="btn small gold" data-act="dias:' + u.id + '">+ DIAS</button>' +
+          '<button class="btn small teal" data-act="ativar:' + u.id + '">ATIVAR PLANO</button>' +
+          '<button class="btn small" data-act="renovar:' + u.id + '">RENOVAR</button>' +
+          '<button class="btn small" data-act="hist:' + u.id + '">VER HISTÓRICO</button>' +
+          (u.status === 'CANCELADO' ? '<button class="btn small green" data-act="reativar:' + u.id + '">REATIVAR</button>' : '') +
+          '<button class="btn small red" data-act="excluir:' + u.id + '">EXCLUIR</button>') +
+      '</div></div>';
+  }).join('') : '<p class="mut">Nenhum usuário neste filtro.</p>';
+  document.querySelectorAll('[data-act]').forEach(function(b){
+    b.addEventListener('click', function(){ acaoUsuario(b.getAttribute('data-act')); });
+  });
+}
+function acaoUsuario(acao){
+  var parts = acao.split(':');
+  var tipo = parts[0], id = parts[1];
+  var list = users();
+  var u = list.find(function(x){ return x.id === id; });
+  if(!u) return;
+  if(tipo === 'pausar'){
+    u.status = 'PAUSADO'; u.pausadoEm = NS.nowISO();
+    histUserAdd(u, 'Sistema pausado');
+    saveUsers(list); admLog('PAUSAR: ' + u.nome);
+    NS.toast('Cliente ' + u.nome + ' - Pausado com sucesso');
+    renderAll();
+  }
+  if(tipo === 'despausar'){
+    /* tempo NÃO conta durante a pausa: compensa vencimento */
+    var diasPausa = 0;
+    if(u.pausadoEm){
+      var dias = (Date.now() - new Date(u.pausadoEm).getTime()) / 86400000;
+      diasPausa = Math.ceil(dias);
+      u.vencimento = NS.addDays(u.vencimento || NS.today(), diasPausa);
+    }
+    u.status = 'ATIVO'; u.pausadoEm = '';
+    histUserAdd(u, 'Sistema despausado' + (diasPausa > 0 ? ' (+' + diasPausa + ' dias compensados)' : ''));
+    saveUsers(list); admLog('DESPAUSAR: ' + u.nome + (diasPausa > 0 ? ' (+' + diasPausa + 'd)' : ''));
+    NS.toast('Cliente ' + u.nome + ' - Ativado com sucesso' + (diasPausa > 0 ? ' (+' + diasPausa + ' dias compensados)' : ''));
+    renderAll();
+  }
+  if(tipo === 'cancelar'){
+    NS.confirm('Cancelar o acesso de ' + u.nome + '? Os dados ficam guardados por 30 dias.', function(){
+      u.status = 'CANCELADO'; u.canceladoEm = NS.nowISO();
+      histUserAdd(u, 'Acesso cancelado - dados guardados por 30 dias');
+      saveUsers(list); admLog('CANCELAR: ' + u.nome);
+      NS.toast('Cliente ' + u.nome + ' - Acesso cancelado (dados guardados por 30 dias)');
+      renderAll();
+    }, true);
+  }
+  if(tipo === 'reativar'){
+    u.status = 'ATIVO'; u.canceladoEm = '';
+    histUserAdd(u, 'Acesso reativado');
+    saveUsers(list); admLog('REATIVAR: ' + u.nome);
+    NS.toast('Cliente ' + u.nome + ' - Acesso reativado');
+    renderAll();
+  }
+  if(tipo === 'venc'){
+    _acaoUser = u;
+    $('venc-info').textContent = 'Vencimento atual: ' + (u.vencimento ? NS.fmtDate(u.vencimento) : '—');
+    $('venc-data').value = u.vencimento || NS.addDays(NS.today(), 30);
+    NS.openM('m-venc');
+  }
+  if(tipo === 'dias'){
+    _acaoUser = u;
+    $('dias-titulo').textContent = 'Adicionar dias grátis / bônus';
+    $('dias-info').textContent = 'Cliente: ' + u.nome + ' • Vence em ' + (u.vencimento ? NS.fmtDate(u.vencimento) : '—');
+    $('dias-qtd').value = '30'; $('dias-motivo').value = 'Bônus Sorteio';
+    NS.openM('m-dias');
+  }
+  if(tipo === 'ativar'){
+    _acaoUser = u;
+    $('ativar-info').textContent = 'Cliente: ' + u.nome + ' • E-mail: ' + u.email;
+    var planos = [['Trial|30|0','Trial — 30 dias grátis'],['Mensal|30','Mensal — 30 dias'],['6 Meses|180','6 Meses — 180 dias'],['1 Ano|365','1 Ano — 365 dias'],['Vitalício|3650','Vitalício — 3650 dias 👑 PRO MAX • VITALÍCIO']];
+    $('ativar-planos').innerHTML = planos.map(function(p, i){
+      return '<button class="plano-opt' + (i===1 ? ' on' : '') + '" data-pl="' + p[0] + '"><span class="pnome" style="flex:1">' + p[1] + '</span></button>';
+    }).join('');
+    document.querySelectorAll('[data-pl]').forEach(function(b){
+      b.addEventListener('click', function(){
+        document.querySelectorAll('[data-pl]').forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+        var v = b.getAttribute('data-pl').split('|');
+        ativarPlanoUser(u, v[0], +v[1], v.length > 2 && +v[2] > 0 ? true : false, v[0] === 'Vitalício', v.length > 2 && +v[2] > 0 ? 'Plano ' + v[0] + ' ativado por ADM (pago R$ ' + v[2] + ')' : 'Plano ativado por ADM');
+        NS.closeM('m-ativar');
+      });
+    });
+    NS.openM('m-ativar');
+  }
+  if(tipo === 'renovar'){
+    var base = u.vencimento && NS.diffDays(NS.today(), u.vencimento) > 0 ? u.vencimento : NS.today();
+    u.vencimento = NS.addDays(base, 30);
+    if(u.status !== 'ATIVO' && u.status !== 'PAUSADO') u.status = 'ATIVO';
+    histUserAdd(u, 'Renovação: +30 dias em ' + NS.fmtDate(NS.today()) + ' por ADM');
+    saveUsers(list); admLog('RENOVAR: ' + u.nome + ' → ' + NS.fmtDate(u.vencimento));
+    NS.toast('Cliente ' + u.nome + ' - +30 dias adicionados');
+    renderAll();
+  }
+  if(tipo === 'hist'){
+    $('hist-user-titulo').textContent = 'Histórico — ' + u.nome;
+    var h = (u.historico || []).slice().reverse();
+    $('hist-user-lista').innerHTML = h.length ? h.map(function(x){ return '<div class="hline">' + NS.esc(x) + '</div>'; }).join('') : '<p class="mut">Sem eventos.</p>';
+    NS.openM('m-hist-user');
+  }
+  if(tipo === 'excluir'){
+    NS.confirm('Mover ' + u.nome + ' para a Lixeira?', function(){
+      u.deletado = true; u.deletedEm = NS.nowISO();
+      saveUsers(list); admLog('EXCLUIR (lixeira): ' + u.nome);
+      NS.toast('Cliente ' + u.nome + ' - movido para a Lixeira');
+      renderAll();
+    }, true);
+  }
+  if(tipo === 'restaurar'){
+    u.deletado = false; u.deletedEm = '';
+    if(u.status === 'CANCELADO') u.status = 'ATIVO';
+    histUserAdd(u, 'Usuário restaurado da Lixeira');
+    saveUsers(list); admLog('RESTAURAR: ' + u.nome);
+    NS.toast('Cliente ' + u.nome + ' - restaurado');
+    renderAll();
+  }
+  if(tipo === 'excluir-para-sempre'){
+    NS.confirm('Excluir PERMANENTEMENTE ' + u.nome + '? Esta ação não pode ser desfeita.', function(){
+      saveUsers(list.filter(function(x){ return x.id !== u.id; }));
+      admLog('EXCLUIR PERMANENTE: ' + u.nome);
+      NS.toast('Usuário excluído para sempre');
+      renderAll();
+    }, true);
+  }
+}
+function ativarPlanoUser(u, plano, dias, pago, vitalicio, motivo){
+  /* reencontra na lista atual para não perder mutações (o modal pode demorar) */
+  var list = users();
+  var alvo = list.find(function(x){ return x.id === u.id; }) || u;
+  if(list.indexOf(alvo) < 0){ list.push(alvo); }
+  alvo.plano = vitalicio ? 'Vitalício' : plano;
+  alvo.vitalicio = !!vitalicio;
+  alvo.vencimento = NS.addDays(NS.today(), dias);
+  alvo.status = 'ATIVO';
+  alvo.canceladoEm = ''; alvo.deletado = false;
+  histUserAdd(alvo, motivo + ' - ' + (vitalicio ? 'Vitalício (3650 dias)' : plano + ' (' + dias + ' dias)'));
+  saveUsers(list);
+  admLog('ATIVAR PLANO: ' + alvo.nome + ' → ' + plano + ' ' + dias + ' dias');
+  NS.toast('Cliente ' + alvo.nome + ' - Plano ' + (vitalicio ? 'Vitalício 👑 PRO MAX • VITALÍCIO' : plano) + ' ativado!');
+  renderAll();
+}
+/* ================= PAGAMENTOS PIX ================= */
+function renderPix(){
+  var list = NS.load(K.pixReq, []).slice().reverse();
+  $('pix-lista').innerHTML = list.length ? list.map(function(r){
+    var st = r.status === 'AGUARDANDO' ? 'st-AGUARDANDO' : r.status === 'CONFIRMADO' ? 'st-CONFIRMADO' : 'st-FALHOU';
+    return '<div class="ucard"><div class="uh"><span class="unome">' + NS.esc(r.email || '—') + '</span>' +
+      '<span class="chip ' + st + '">' + r.status + '</span></div>' +
+      '<div class="ulinha"><span>Plano:</span><b>' + NS.esc(r.plano) + ' (' + r.dias + ' dias)</b></div>' +
+      '<div class="ulinha"><span>Valor:</span><b>' + NS.fmtMoney(r.valor) + '</b></div>' +
+      '<div class="ulinha"><span>TxID:</span><b>' + NS.esc(r.txid) + '</b></div>' +
+      '<div class="ulinha"><span>Criado:</span><b>' + NS.fmtDT(r.criado) + '</b></div>' +
+      (r.confirmadoEm ? '<div class="ulinha"><span>Confirmado:</span><b>' + NS.fmtDT(r.confirmadoEm) + '</b></div>' : '') +
+      (r.comprovante ? '<div class="mt8"><img src="' + r.comprovante + '" class="foto-prev" alt="comprovante"></div>' : '') +
+      '<div class="btn-row mt8">' +
+      (r.status === 'AGUARDANDO' ? '<button class="btn small green" data-px="conf:' + r.id + '">CONFIRMAR PAGAMENTO</button><button class="btn small red" data-px="falha:' + r.id + '">MARCAR FALHOU</button>' : '') +
+      (r.status === 'FALHOU' ? '<button class="btn small gold" data-px="manual:' + r.id + '">ATIVAR MANUALMENTE</button>' : '') +
+      (r.status === 'CONFIRMADO' ? '<button class="btn small" data-px="manual:' + r.id + '">ATIVAR MANUALMENTE</button>' : '') +
+      '</div></div>';
+  }).join('') : '<p class="mut">Nenhuma solicitação de PIX.</p>';
+  document.querySelectorAll('[data-px]').forEach(function(b){
+    b.addEventListener('click', function(){ acaoPix(b.getAttribute('data-px')); });
+  });
+}
+function acaoPix(acao){
+  var parts = acao.split(':');
+  var tipo = parts[0], id = parts[1];
+  var reqs = NS.load(K.pixReq, []);
+  var r = reqs.find(function(x){ return x.id === id; });
+  if(!r) return;
+  if(tipo === 'conf'){
+    r.status = 'CONFIRMADO'; r.confirmadoEm = NS.nowISO();
+    NS.save(K.pixReq, reqs);
+    /* ativa o cliente na hora */
+    var list = users();
+    var u = list.find(function(x){ return x.email && x.email.toLowerCase() === (r.email||'').toLowerCase(); });
+    if(!u){
+      u = {id:NS.uid(), nome:r.email, whatsapp:'', email:r.email, plano:'', vitalicio:false, status:'ATIVO', vencimento:'', pausadoEm:'', canceladoEm:'', deletado:false, deletedEm:'', criado:NS.today(), historico:[]};
+      list.push(u);
+    }
+    u.plano = r.vitalicio ? 'Vitalício' : r.plano;
+    u.vitalicio = !!r.vitalicio;
+    u.vencimento = NS.addDays(NS.today(), r.dias);
+    u.status = 'ATIVO';
+    histUserAdd(u, 'Pagamento Pix confirmado por ADM - Plano ' + (r.vitalicio ? 'Vitalício (3650 dias)' : r.plano + ' (' + r.dias + ' dias)'));
+    NS.save(K.users, list);
+    admLog('PIX CONFIRMADO: ' + r.email + ' — ' + NS.fmtMoney(r.valor));
+    NS.toast('Pagamento confirmado! ' + (u.nome || r.email) + ' ativado — Plano ' + r.plano);
+    renderAll();
+  }
+  if(tipo === 'falha'){
+    NS.confirm('Marcar o PIX de ' + r.email + ' (' + NS.fmtMoney(r.valor) + ') como FALHOU?', function(){
+      r.status = 'FALHOU';
+      NS.save(K.pixReq, reqs);
+      admLog('PIX FALHOU: ' + r.email);
+      NS.toast('PIX marcado como FALHOU — use ATIVAR MANUALMENTE se necessário');
+      renderPix(); renderMetricas();
+    }, true);
+  }
+  if(tipo === 'manual'){
+    abrirAtivacaoManual('PIX ' + NS.fmtMoney(r.valor) + ' • ' + r.email + ' • status ' + r.status, r.email);
+  }
+}
+
+/* ================= AJUDA / PIX COM FALHA ================= */
+function renderAjuda(){
+  var list = NS.load(K.ajuda, []).slice().reverse();
+  var nomes = {pix_nao_ativou:'Paguei via Pix e não ativou', sistema_travado:'Sistema travou/pausado', suporte:'Suporte'};
+  $('ajuda-lista').innerHTML = list.length ? list.map(function(r){
+    return '<div class="ucard"><div class="uh"><span class="unome">' + NS.esc(r.nome) + '</span>' +
+      '<span class="chip st-' + r.status + '">' + r.status + '</span></div>' +
+      '<div class="ulinha"><span>E-mail:</span><b>' + NS.esc(r.email || '—') + '</b></div>' +
+      '<div class="ulinha"><span>Tipo:</span><b>' + (nomes[r.tipo] || r.tipo) + '</b></div>' +
+      (r.valor ? '<div class="ulinha"><span>Valor pago:</span><b>' + NS.fmtMoney(r.valor) + '</b></div>' : '') +
+      (r.dataHora ? '<div class="ulinha"><span>Data/hora do pagamento:</span><b>' + NS.esc(r.dataHora) + '</b></div>' : '') +
+      '<div class="ulinha"><span>Enviado:</span><b>' + NS.fmtDT(r.criado) + '</b></div>' +
+      (r.comprovante ? '<div class="mt8"><img src="' + r.comprovante + '" class="foto-prev" alt="comprovante"></div>' : '<div class="mut small mt8">Sem comprovante anexo</div>') +
+      (r.resposta ? '<div class="hline">Resposta: ' + NS.esc(r.resposta) + '</div>' : '') +
+      '<div class="btn-row mt8">' +
+      (r.status === 'PENDENTE' ? '<button class="btn small gold" data-aj="manual:' + r.id + '">ATIVAR MANUALMENTE</button><button class="btn small red" data-aj="rec:' + r.id + '">RECUSAR</button>' : '') +
+      '</div></div>';
+  }).join('') : '<p class="mut">Nenhuma solicitação de ajuda.</p>';
+  document.querySelectorAll('[data-aj]').forEach(function(b){
+    b.addEventListener('click', function(){ acaoAjuda(b.getAttribute('data-aj')); });
+  });
+}
+function acaoAjuda(acao){
+  var parts = acao.split(':');
+  var tipo = parts[0], id = parts[1];
+  var reqs = NS.load(K.ajuda, []);
+  var r = reqs.find(function(x){ return x.id === id; });
+  if(!r) return;
+  if(tipo === 'manual'){
+    abrirAtivacaoManual('Solicitação de ' + r.nome + ' (' + (r.email||'—') + ') — valor pago: ' + (r.valor ? NS.fmtMoney(r.valor) : 'não informado'), r.email, r.id);
+  }
+  if(tipo === 'rec'){
+    _acaoUser = {ajudaId:id};
+    $('rec-motivo').value = '';
+    NS.openM('m-recusar');
+  }
+}
+function abrirAtivacaoManual(info, email, ajudaId){
+  _acaoUser = {email:email, ajudaId:ajudaId || null};
+  $('manual-info').textContent = info;
+  $('manual-plano').value = 'Mensal|30';
+  $('manual-extras').value = '0';
+  NS.openM('m-manual');
+}
+function confirmarAtivacaoManual(){
+  var email = _acaoUser.email;
+  var pv = $('manual-plano').value.split('|');
+  var plano = pv[0], dias = +pv[1];
+  var extras = parseInt($('manual-extras').value || '0', 10) || 0;
+  var vitalicio = plano === 'Vitalício';
+  var list = users();
+  var u = list.find(function(x){ return x.email && x.email.toLowerCase() === (email||'').toLowerCase(); });
+  if(!u){
+    u = {id:NS.uid(), nome:email, whatsapp:'', email:email, plano:'', vitalicio:false, status:'ATIVO', vencimento:'', pausadoEm:'', canceladoEm:'', deletado:false, deletedEm:'', criado:NS.today(), historico:[]};
+    list.push(u);
+  }
+  u.plano = vitalicio ? 'Vitalício' : plano;
+  u.vitalicio = vitalicio;
+  u.vencimento = NS.addDays(NS.today(), dias + extras);
+  u.status = 'ATIVO'; u.canceladoEm = '';
+  u.historico = u.historico || [];
+  u.historico.push('Ativação manual por ADM em ' + NS.fmtDate(NS.today()) + ' - Pix comprovante anexo - Motivo: falha automática do Pix' + (extras ? ' (+' + extras + ' dias extras)' : ''));
+  NS.save(K.users, list);
+  /* marca ajuda como ATIVADO */
+  if(_acaoUser.ajudaId){
+    var reqs = NS.load(K.ajuda, []);
+    var r = reqs.find(function(x){ return x.id === _acaoUser.ajudaId; });
+    if(r){ r.status = 'ATIVADO'; r.resposta = 'Ativado manualmente — Plano ' + plano; }
+    NS.save(K.ajuda, reqs);
+  }
+  /* escreve licença direta para o cliente ver na hora (mesmo navegador) */
+  NS.save(K.lic, {
+    plano: vitalicio ? 'Vitalício' : plano, dias:dias + extras, vitalicio:vitalicio,
+    vencimento:u.vencimento, status:'ATIVO', manual:true, manualNotified:false,
+    historico:['Ativação manual por ADM em ' + NS.fmtDate(NS.today()) + ' - Pix comprovante anexo - Motivo: falha automática do Pix']
+  });
+  admLog('ATIVAÇÃO MANUAL: ' + email + ' → ' + plano + ' + ' + extras + ' dias extras');
+  NS.closeM('m-manual');
+  NS.toast('Ativação manual enviada! ' + email + ' → ' + plano + (extras ? ' (+' + extras + ' dias)' : ''));
+  renderAll();
+}
+function recusarAjuda(){
+  var reqs = NS.load(K.ajuda, []);
+  var r = reqs.find(function(x){ return x.id === _acaoUser.ajudaId; });
+  if(r){ r.status = 'RECUSADO'; r.resposta = $('rec-motivo').value.trim() || 'Sem motivo informado'; NS.save(K.ajuda, reqs); admLog('AJUDA RECUSADA: ' + r.email + ' — ' + r.resposta); }
+  NS.closeM('m-recusar');
+  NS.toast('Solicitação recusada');
+  renderAjuda(); renderMetricas();
+}
+
+/* ================= PREÇOS · PIX ================= */
+function renderPrecos(){
+  var p = NS.load(K.precos, {mensal:49.90, semestral:249.90, anual:399.90, vitalicio:997.00});
+  $('pc-mensal').value = NS.fmtNum(p.mensal);
+  $('pc-semestral').value = NS.fmtNum(p.semestral);
+  $('pc-anual').value = NS.fmtNum(p.anual);
+  $('pc-vitalicio').value = NS.fmtNum(p.vitalicio);
+  var s = NS.load(K.sup, {wa:'5511999999999'});
+  $('pc-pixkey').value = p.pixKey || 'onegretth@gmail.com';
+  $('pc-receb').value = p.recebedor || "NEGRET'S SISTEMAS";
+  $('pc-cidade').value = p.cidade || 'SAO PAULO';
+  $('pc-suporte').value = s.wa || '5511999999999';
+  renderCodigos();
+}
+function salvarPrecos(){
+  NS.save(K.precos, {
+    mensal:parseNum($('pc-mensal').value), semestral:parseNum($('pc-semestral').value),
+    anual:parseNum($('pc-anual').value), vitalicio:parseNum($('pc-vitalicio').value),
+    pixKey:$('pc-pixkey').value.trim(), recebedor:$('pc-receb').value.trim(), cidade:$('pc-cidade').value.trim()
+  });
+  var s = NS.load(K.sup, {});
+  s.wa = $('pc-suporte').value.trim();
+  NS.save(K.sup, s);
+  admLog('PREÇOS/PIX atualizados');
+  NS.toast('Preços e PIX salvos!');
+}
+function renderCodigos(){
+  var cods = NS.load(K.codigos, []).slice().reverse();
+  $('cg-lista').innerHTML = cods.length ? cods.map(function(c){
+    return '<div class="hline"><b>' + c.codigo + '</b> — ' + NS.esc(c.plano) + ' (' + c.dias + ' dias) • ' +
+      (c.usado ? '<span class="chip st-CONFIRMADO">usado por ' + NS.esc(c.usadoPor||'—') + '</span>' : '<span class="chip st-AGUARDANDO">disponível</span>') + '</div>';
+  }).join('') : '<p class="mut">Nenhum código gerado.</p>';
+}
+function gerarCodigo(){
+  var pv = $('cg-plano').value.split('|');
+  var segs = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var cod = 'NEG-';
+  for(var i=0;i<4;i++) cod += segs[Math.floor(Math.random()*segs.length)];
+  cod += '-';
+  for(var j=0;j<4;j++) cod += segs[Math.floor(Math.random()*segs.length)];
+  var cods = NS.load(K.codigos, []);
+  cods.push({codigo:cod, plano:pv[0], dias:+pv[1], vitalicio:pv[0]==='Vitalício', usado:false, usadoPor:'', usadoEm:''});
+  NS.save(K.codigos, cods);
+  admLog('CÓDIGO GERADO: ' + cod + ' (' + pv[0] + ')');
+  NS.toast('Código gerado: ' + cod);
+  renderCodigos();
+}
+
+/* ================= HISTÓRICO ================= */
+function renderHist(){
+  var h = NS.load(K.hist, []).slice().reverse();
+  $('hist-lista').innerHTML = h.length ? h.slice(0,150).map(function(x){
+    return '<div class="hline"><b style="color:var(--gold2)">' + NS.fmtDT(x.quando) + '</b> — ' + NS.esc(x.txt) + '</div>';
+  }).join('') : '<p class="mut">Sem ações registradas.</p>';
+}
+
+/* ================= CSV ================= */
+function exportarCSV(){
+  var linhas = ['nome;whatsapp;email;plano;status;vencimento;dias restantes'];
+  users().forEach(function(u){
+    var st = statusDisplay(u);
+    linhas.push([u.nome, u.whatsapp, u.email, u.vitalicio ? 'Vitalício' : (u.plano||''), st.txt, u.vencimento||'', diasRestantes(u)].join(';'));
+  });
+  NS.downloadFile('negrets-usuarios.csv', linhas.join('\n'), 'text/csv');
+  NS.toast('CSV exportado!');
+}
+
+/* ================= NOVO USUÁRIO ================= */
+function salvarNovoUsuario(){
+  var nome = $('un-nome').value.trim();
+  var email = $('un-email').value.trim().toLowerCase();
+  if(!nome || !email){ NS.toast('Preencha nome e e-mail', 'warn'); return; }
+  var pv = $('un-plano').value.split('|');
+  var plano = pv[0], dias = +pv[1];
+  var list = users();
+  if(list.find(function(x){ return x.email && x.email.toLowerCase() === email; })){ NS.toast('E-mail já cadastrado', 'err'); return; }
+  var vitalicio = plano === 'Vitalício';
+  list.push({
+    id:NS.uid(), nome:nome, whatsapp:$('un-wa').value.trim(), email:email,
+    plano: vitalicio ? 'Vitalício' : plano, vitalicio:vitalicio, status:'ATIVO',
+    vencimento: NS.addDays(NS.today(), dias),
+    pausadoEm:'', canceladoEm:'', deletado:false, deletedEm:'', criado:NS.today(),
+    historico:[(plano === 'Trial' ? 'Trial 30 dias ativado por ADM' : 'Plano ' + plano + ' (' + dias + ' dias) criado por ADM') + ' em ' + NS.fmtDate(NS.today())]
+  });
+  saveUsers(list);
+  admLog('NOVO USUÁRIO: ' + nome + ' (' + email + ') — ' + plano);
+  NS.closeM('m-us-novo');
+  NS.toast('Usuário ' + nome + ' criado!');
+  renderAll();
+}
+
+/* ================= INIT ================= */
+function initAdm(){
+  seedCore();
+  NS.bindModals();
+  document.querySelectorAll('.tab').forEach(function(b){
+    b.addEventListener('click', function(){ TAB = b.getAttribute('data-tab'); renderTab(); });
+  });
+  document.querySelectorAll('[data-uf]').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('[data-uf]').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on'); FILTRO = b.getAttribute('data-uf'); renderUsuarios();
+    });
+  });
+  $('us-busca').addEventListener('input', function(){ BUSCA = this.value; renderUsuarios(); });
+  $('btn-us-novo').addEventListener('click', function(){ $('un-nome').value=''; $('un-wa').value=''; $('un-email').value=''; NS.openM('m-us-novo'); });
+  $('un-salvar').addEventListener('click', salvarNovoUsuario);
+  $('btn-us-csv').addEventListener('click', exportarCSV);
+  /* modais de usuário */
+  $('venc-ok').addEventListener('click', function(){
+    var list = users();
+    var u = list.find(function(x){ return x.id === _acaoUser.id; });
+    if(u){
+      u.vencimento = $('venc-data').value;
+      histUserAdd(u, 'Vencimento editado por ADM → ' + NS.fmtDate(u.vencimento));
+      saveUsers(list); admLog('EDITAR VENCIMENTO: ' + u.nome + ' → ' + NS.fmtDate(u.vencimento));
+      NS.toast('Cliente ' + u.nome + ' - vencimento salvo');
+      renderAll();
+    }
+    NS.closeM('m-venc');
+  });
+  $('dias-ok').addEventListener('click', function(){
+    var list = users();
+    var u = list.find(function(x){ return x.id === _acaoUser.id; });
+    if(u){
+      var n = parseInt($('dias-qtd').value || '0', 10) || 0;
+      if(n > 0){
+        var base = u.vencimento && NS.diffDays(NS.today(), u.vencimento) > 0 ? u.vencimento : NS.today();
+        u.vencimento = NS.addDays(base, n);
+        if(u.status !== 'ATIVO' && u.status !== 'PAUSADO') u.status = 'ATIVO';
+        u.historico = u.historico || [];
+        u.historico.push(($('dias-motivo').value.trim() || 'Bônus') + ': +' + n + ' dias em ' + NS.fmtDate(NS.today()) + ' por ADM');
+        saveUsers(list); admLog('+DIAS: ' + u.nome + ' +' + n + ' dias');
+        NS.toast('+' + n + ' dias adicionados');
+        renderAll();
+      }
+    }
+    NS.closeM('m-dias');
+  });
+  $('manual-ok').addEventListener('click', confirmarAtivacaoManual);
+  $('rec-ok').addEventListener('click', recusarAjuda);
+  /* preços */
+  $('pc-salvar').addEventListener('click', salvarPrecos);
+  $('pc-salvar2').addEventListener('click', salvarPrecos);
+  $('cg-gerar').addEventListener('click', gerarCodigo);
+  /* login / sair */
+  $('lg-entrar').addEventListener('click', login);
+  $('lg-senha').addEventListener('keydown', function(e){ if(e.key === 'Enter') login(); });
+  $('btn-sair').addEventListener('click', function(){ sessionStorage.removeItem('negrets_adm'); hide($('painel')); show($('login-wrap')); });
+  /* atualização em tempo real (cliente ativa pix → lista atualiza sozinha) */
+  window.addEventListener('storage', function(e){
+    if([K.users, K.pixReq, K.ajuda, K.hist, K.lic].indexOf(e.key) >= 0) renderAll();
+  });
+  setInterval(renderMetricas, 10000);
+  if(sessionStorage.getItem('negrets_adm')) abrirPainel();
+}
+document.addEventListener('DOMContentLoaded', initAdm);
 </script>
-
-
-
 </body>
 </html>
